@@ -6,24 +6,24 @@ begin Function {}
 	if GetUIFloatAlt "HUDMainMenu\IC\visible" > 0
 		if GetVariable "ShowUITweaks" (Goo1.AuxVarGetRef "*MAPMOQuest") == 1
 			if GetUIFloatAlt "HUDMainMenu\IC\CleanBackground\visible" < 1
-				if GetUIFloatAlt "HUDMainMenu\IC\CleanBackground\visible" == -999
+				if GetUIFloatAlt "HUDMainMenu\IC\CleanBackground\visible" == -999 && FileExists "menus\prefabs\mapmo\clean_background.xml" > 0
 					InjectUIXML "HUDMainMenu\IC" "data\menus\prefabs\mapmo\clean_background.xml"
 					SetUIFloatAlt "HUDMainMenu\IC\CleanBackground\LineT1\systemcolor" 1
-				else
-					SetUIFloatAlt "HUDMainMenu\IC\CleanBackground\visible" 1
 				endif
-			else
 				LineThickness = GetUIFloatAlt "HUDMainMenu\_MAPMOLineThickness"
 				SetUIFloatAlt "HUDMainMenu\IC\BG\visible" 0
+				SetUIFloatAlt "HUDMainMenu\IC\CleanBackground\visible" 1
 				SetUIFloatAlt "HUDMainMenu\IC\CleanBackground\_colorized" (GetUIFloatAlt "HUDMainMenu\_MAPMOCleanMenuBackgroundsColorized")
-				SetUIFloatAlt "HUDMainMenu\IC\CleanBackground\width" (((GetUIFloatAlt "HUDMainMenu\IC\VAL\x") + (GetUIFloatAlt "HUDMainMenu\IC\VAL\width")) - (LineThickness * 2))
-				SetUIFloatAlt "HUDMainMenu\IC\CleanBackground\height" ((GetUIFloatAlt "HUDMainMenu\IC\_height") - (LineThickness * 2))
 				SetUIFloatAlt "HUDMainMenu\IC\CleanBackground\x" LineThickness
+				SetUIFloatAlt "HUDMainMenu\IC\CleanBackground\width" (((GetUIFloatAlt "HUDMainMenu\IC\VAL\x") + (GetUIFloatAlt "HUDMainMenu\IC\VAL\width")) - (LineThickness * 2))
+			else
+				LineThickness = GetUIFloatAlt "HUDMainMenu\_MAPMOLineThickness"
 				SetUIFloatAlt "HUDMainMenu\IC\CleanBackground\y" ((GetUIFloatAlt "HUDMainMenu\IC\_y") + LineThickness)
+				SetUIFloatAlt "HUDMainMenu\IC\CleanBackground\height" ((GetUIFloatAlt "HUDMainMenu\IC\_height") - (LineThickness * 2))
 			endif
 		else
-			SetUIFloatAlt "HUDMainMenu\IC\CleanBackground\visible" 0
 			SetUIFloatAlt "HUDMainMenu\IC\BG\visible" 1
+			SetUIFloatAlt "HUDMainMenu\IC\CleanBackground\visible" 0
 		endif
 	endif
 
