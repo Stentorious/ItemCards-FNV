@@ -109,6 +109,7 @@ begin Function {rItem}
 
 		; Get item weights
 		fItemWg = rItem.GetWeight
+		fItemRof = rItem.GetFireRate
 		if eval IsFormValid rEquipped != 1
 			rEquipped = rItem
 			fEquipWg = fItemWg
@@ -121,7 +122,6 @@ begin Function {rItem}
 		if iBitMask > 0
 			iCount = 0
 			iIndex = 0
-			fItemRof = rItem.GetFireRate
 			while 4 > (iIndex += 1)
 				if GetBit iBitMask (iIndex - 1) == 1
 					iCount += 1
@@ -207,7 +207,7 @@ begin Function {rItem}
 			Call (CompileScript "ItemCards\stUDFItemCardsStat.gek") fItemStat fEquipStat "HUDMainMenu\IC\DAM\" 0
 		endif
 
-		; Display critical hit damage
+		; Display critical hit chance/damage
 		if fItemStat > 0
 			fItemStat += Player.GetPerkModifier 2 (rItem.GetCritDam) rItem Player
 			if fItemPrj > 1
@@ -219,10 +219,17 @@ begin Function {rItem}
 			SetUIStringAlt "HUDMainMenu\IC\CHD\_Value" "--"
 		endif
 
-		; Display critical hit chance
 		fItemStat = Floor (Player.GetAV CritChance)
 		if eval rItem.GetIsAutomatic
 			fItemStat /= fItemRof
+		;	SetUIStringAlt "HUDMainMenu\IC\ROF\_Value" "%.1f" fItemRof
+		;else
+		;	iType = rItem.GetWeapType
+		;	if iType > 2 && iType < 10
+		;		SetUIStringAlt "HUDMainMenu\IC\ROF\_Value" "%.1f" (rItem.GetAnimShotsPerSec * rItem.GetWeaponAnimAttackMult)
+		;	else
+		;		SetUIStringAlt "HUDMainMenu\IC\ROF\_Value" "--"
+		;	endif
 		endif
 		fItemStat *= rItem.GetCritPerc
 		fItemStat = Player.GetPerkModifier 1 fItemStat rItem Player
