@@ -132,7 +132,6 @@ if Goo1.AuxVarGetFlt "*ItemCard_Init" != 1
 
 	; MAPMO Support
 	if eval IsModLoaded "Main And Pause Menus Overhaul.esm"
-		;InjectUIXML "HUDMainMenu\IC" "data\menus\prefabs\mapmo\clean_background.xml"
 		Goo1.AuxVarSetRef "*MAPMOQuest" (EditorIDToFormID "MAPMOMainQUEST")
 		SetGameMainLoopCallBack (CompileScript "ItemCards\stUDFItemCardsMAPMOCallback.gek") 1 1 1
 	endif
