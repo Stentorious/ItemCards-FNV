@@ -124,14 +124,17 @@ if Goo1.AuxVarGetFlt "*ItemCard_Init" != 1
 
 	; JLM support
 	if eval IsModLoaded "JustAssortedMods.esp" || IsModLoaded "JustLootMenu.esp"
-		if eval IsModLoaded "JustAssortedMods.esp"
-			Goo1.AuxVarSetRef "*JLMQuest" (StringToRef "JustAssortedMods.esp:05800")
-		elseif eval IsModLoaded "JustLootMenu.esp"
-			Goo1.AuxVarSetRef "*JLMQuest" (StringToRef "JustLootMenu.esp:05800")
-		endif
+		Goo1.AuxVarSetRef "*JLMQuest" (EditorIDToFormID "JLM")
 		SetOnKeyDownEventHandler (CompileScript "ItemCards\stUDFItemCardsOnKeyDown264265.gek") 1 264
 		SetOnKeyDownEventHandler (CompileScript "ItemCards\stUDFItemCardsOnKeyDown264265.gek") 1 265
 		SetEventHandler "OnButtonDown:3" (CompileScript "ItemCards\stUDFItemCardsOnKeyDown264265.gek")
+	endif
+
+	; MAPMO Support
+	if eval IsModLoaded "Main And Pause Menus Overhaul.esm"
+		;InjectUIXML "HUDMainMenu\IC" "data\menus\prefabs\mapmo\clean_background.xml"
+		Goo1.AuxVarSetRef "*MAPMOQuest" (EditorIDToFormID "MAPMOMainQUEST")
+		SetGameMainLoopCallBack (CompileScript "ItemCards\stUDFItemCardsMAPMOCallback.gek") 1 1 1
 	endif
 
 endif

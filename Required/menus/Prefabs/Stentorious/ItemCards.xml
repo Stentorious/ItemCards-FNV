@@ -28,6 +28,63 @@
 	</user1>
 	<_BGOffset> 4 </_BGOffset>
 	<_ModOffset> 8 </_ModOffset>
+	<_y>
+		<copy src="child(VW)" trait="y" />
+		<sub>
+			<copy src="child(CHC)" trait="height" />
+			<onlyif src="child(CHC)" trait="visible" />
+		</sub>
+	</_y>
+	<_height>
+		<copy> 0 </copy>
+		<add>
+			<copy src="child(VAL)" trait="height" />
+			<onlyif>
+				<copy src="io()" trait="_IC+M" />
+				<gt> 40 </gt>
+			</onlyif>
+		</add>
+		<add>
+			<copy src="child(DPS)" trait="height" />
+			<onlyif src="child(DPS)" trait="visible" />
+		</add>
+		<add>
+			<copy src="child(DAM)" trait="height" />
+			<onlyif src="child(DAM)" trait="visible" />
+		</add>
+		<add>
+			<copy src="child(CHC)" trait="height" />
+			<onlyif src="child(CHC)" trait="visible" />
+		</add>
+		<add>
+			<copy src="child(DR)" trait="height" />
+			<onlyif src="child(DR)" trait="visible" />
+		</add>
+		<add>
+			<copy src="child(DT)" trait="height" />
+			<onlyif src="child(DT)" trait="visible" />
+		</add>
+		<add>
+			<copy src="child(CND)" trait="height" />
+			<onlyif src="child(CND)" trait="visible" />
+		</add>
+		<add>
+			<copy src="child(EI)" trait="_height" />
+			<onlyif src="child(EI)" trait="visible" />
+		</add>
+		<add>
+			<copy src="child(MI1)" trait="height" />
+			<onlyif src="child(MI1)" trait="visible" />
+		</add>
+		<add>
+			<copy src="child(MI2)" trait="height" />
+			<onlyif src="child(MI2)" trait="visible" />
+		</add>
+		<add>
+			<copy src="child(MI3)" trait="height" />
+			<onlyif src="child(MI3)" trait="visible" />
+		</add>
+	</_height>
 
 	<rect name="CHD">
 		<include src="card_info.xml" />
@@ -251,6 +308,10 @@
 			<sub src="child(CI_TitleText)" trait="height" />
 			<add src="parent()" trait="_BGOffset" />
 		</_h>
+		<_height>
+			<copy src="me()" trait="_h" />
+			<sub src="parent()" trait="_BGOffset" />
+		</_height>
 	</rect>
 
 	<rect name="MI1">
