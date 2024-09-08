@@ -1,0 +1,465 @@
+<_IC+V> 0 </_IC+V>
+<_IC+M> 0 </_IC+M>
+
+<rect name="IC">
+
+	<visible>
+		<copy src="io()" trait="_IC+V" />
+		<mul> <copy src="HitPoints" trait="visible" /> </mul>
+	</visible>
+	<locus> 1 </locus>
+	<depth> 2 </depth>
+	<x> 250 </x>
+	<y> 458 </y>
+	<width> 530 </width>
+	<height> 120 </height>
+	<font>
+		<copy> 2 </copy>
+		<onlyifnot src="io()" trait="font" />
+		<add src="io()" trait="font" />
+	</font>
+	<user0>
+		<copy src="me()" trait="width" />
+		<div> 3 </div>
+	</user0>
+	<user1>
+		<copy src="me()" trait="height" />
+		<div> 3 </div>
+	</user1>
+	<_BGOffset> 4 </_BGOffset>
+	<_ModOffset> 8 </_ModOffset>
+
+	<rect name="CHD">
+		<include src="card_info.xml" />
+		<visible> <copy src="sibling(DAM)" trait="visible" /> </visible>
+		<y>
+			<copy> 0 <copy>
+			<add>
+				<copy src="sibling(DAM)" trait="y" />
+				<onlyifnot src="sibling(DPS)" trait="visible" />
+			</add>
+			<add>
+				<copy src="sibling(DPS)" trait="y" />
+				<onlyif src="sibling(DPS)" trait="visible" />
+			</add>
+			<sub src="sibling(DAM)" trait="height" />
+		</y>
+		<width> <copy src="parent()" trait="user0" /> </width>
+		<height> <copy src="parent()" trait="user1" /> </height>
+		<font> <copy src="parent()" trait="font" /> </font>
+		<_title> CHD </_title>
+	</rect>
+
+	<rect name="CHC">
+		<include src="card_info.xml" />
+		<visible> <copy src="sibling(CHD)" trait="visible" /> </visible>
+		<x> <copy src="sibling(WG)" trait="x" /> </x>
+		<y> <copy src="sibling(CHD)" trait="y" /> </y>
+		<width> <copy src="parent()" trait="user0" /> </width>
+		<height> <copy src="parent()" trait="user1" /> </height>
+		<font> <copy src="parent()" trait="font" /> </font>
+		<_title> CHC </_title>
+	</rect>
+
+	<rect name="DPS">
+		<include src="card_info.xml" />
+		<visible> <copy src="sibling(DAM)" trait="visible" /> </visible>
+		<y>
+			<copy src="sibling(DAM)" trait="y" />
+			<sub src="sibling(DAM)" trait="height" />
+		</y>
+		<width> <copy src="parent()" trait="user0" /> </width>
+		<height> <copy src="parent()" trait="user1" /> </height>
+		<font> <copy src="parent()" trait="font" /> </font>
+		<_title> &-sInventoryDamagePerSecond; </_title>
+	</rect>
+
+	<rect name="DAM">
+		<include src="card_info.xml" />
+		<visible> <copy src="io()" trait="_IC+M" /> <eq> 40 </eq> </visible>
+		<width> <copy src="parent()" trait="user0" /> </width>
+		<height> <copy src="parent()" trait="user1" /> </height>
+		<font> <copy src="parent()" trait="font" /> </font>
+		<_title> &-sInventoryDamage; </_title>
+	</rect>
+
+	<rect name="DR">
+		<include src="card_info.xml" />
+		<visible> <copy src="sibling(DT)" trait="visible" /> </visible>
+		<y>
+			<copy src="sibling(DT)" trait="y" />
+			<sub src="sibling(DT)" trait="height" />
+			<onlyif src="sibling(DT)" trait="visible" />
+		</y>
+		<width> <copy src="parent()" trait="user0" /> </width>
+		<height> <copy src="parent()" trait="user1" /> </height>
+		<font> <copy src="parent()" trait="font" /> </font>
+		<_title> &-sInventoryDamageResistance; </_title>
+	</rect>
+
+	<rect name="DT">
+		<include src="card_info.xml" />
+		<visible> <copy src="io()" trait="_IC+M" /> <eq> 24 </eq> </visible>
+		<width> <copy src="parent()" trait="user0" /> </width>
+		<height> <copy src="parent()" trait="user1" /> </height>
+		<font> <copy src="parent()" trait="font" /> </font>
+		<_title> &-sInventoryDamageThreshold; </_title>
+	</rect>
+
+	<rect name="WG">
+		<include src="card_info.xml" />
+		<visible> 1 </visible>
+		<x>
+			<copy src="parent()" trait="user0" />
+			<add> 10 </add>
+		</x>
+		<y>
+			<copy> 0 </copy>
+			<sub src="parent()" trait="user1" />
+			<onlyif>
+				<copy src="io()" trait="_IC+M" />
+				<gt> 40 </gt>
+			</onlyif>
+		</y>
+		<width> <copy src="parent()" trait="user0" /> </width>
+		<height> <copy src="parent()" trait="user1" /> </height>
+		<font> <copy src="parent()" trait="font" /> </font>
+		<_title> &-sInventoryWeightUpper; </_title>
+	</rect>
+
+	<rect name="VAL">
+		<include src="card_info.xml" />
+		<visible> 1 </visible>
+		<x>
+			<copy src="parent()" trait="user0" />
+			<add> 10 </add>
+			<mul> 2 </mul>
+		</x>
+		<y>
+			<copy> 0 </copy>
+			<sub src="parent()" trait="user1" />
+			<onlyif>
+				<copy src="io()" trait="_IC+M" />
+				<gt> 40 </gt>
+			</onlyif>
+		</y>
+		<width> <copy src="parent()" trait="user0" /> </width>
+		<height> <copy src="parent()" trait="user1" /> </height>
+		<font> <copy src="parent()" trait="font" /> </font>
+		<_title> &-sInventoryValue; </_title>
+	</rect>
+
+	<rect name="CND">
+
+		<include src="card_info.xml" />
+		<visible>
+			<copy src="io()" trait="_IC+M" />
+			<lte> 40 </lte>
+		</visible>
+		<y> <copy src="parent()" trait="user1" /> </y>
+		<width> <copy src="parent()" trait="user0" /> </width>
+		<height> <copy src="parent()" trait="user1" /> </height>
+		<font> <copy src="parent()" trait="font" /> </font>
+		<user6> <not src="sibling(DR)" trait="visible" /> </user6>
+		<_title> &-sInventoryCondition; </_title>
+
+		<rect name="ConditionMeter">
+			<include src="meter.xml" />
+			<visible> <copy src="parent()" trait="visible" /> </visible>
+			<_SolidMeter> 1 </_SolidMeter>
+			<_ShowBackground> 1 </_ShowBackground>
+			<_Value> 0 </_Value>
+			<height> 19.6 </height>
+			<width> 72.63 </width>
+			<justify> &right; </justify>
+			<x> 140 </x>
+			<y> 11.25 </y>
+		</rect>
+
+		<image name="CNDArrows">
+			<id></id>
+			<alpha> 255 </alpha>
+			<locus> 1 </locus>
+			<depth> 10 </depth>
+			<x>
+				<copy src="sibling(ConditionMeter)" trait="x" />
+				<sub>
+					<copy src="sibling(ConditionMeter)" trait="width" />
+					<div> 2 </div>
+				</sub>
+				<add>
+					<copy src="sibling(ConditionMeter)" trait="width" />
+					<div> 4 </div>
+					<onlyif src="parent()" trait="user6" />
+				</add>
+				<sub>
+					<copy src="me()" trait="width" />
+					<mul> 0.2 </mul>
+				</sub>
+			</x>
+			<y> <copy src="sibling(ConditionMeter)" trait="y" /> </y>
+			<width> 18 </width>
+			<height> 19.6 </height>
+			<zoom> &scale; </zoom>
+			<filename> interface\shared\arrow\repair_meter_pips.dds </filename>
+		</image>
+
+	</rect>
+
+	<rect name="AMMO">
+		<include src="card_info.xml" />
+		<visible> <copy src="sibling(CND)" trait="visible" /> </visible>
+		<x>
+			<copy src="parent()" trait="user0" />
+			<add> 10 </add>
+		</x>
+		<y> <copy src="parent()" trait="user1" /> </y>
+		<width>
+			<copy src="parent()" trait="user0" />
+			<mul> 2 </mul>
+			<add> 10 </add>
+		</width>
+		<height> <copy src="parent()" trait="user1" /> </height>
+		<font> <copy src="parent()" trait="font" /> </font>
+	</rect>
+
+	<rect name="EI">
+		<include src="card_info.xml" />
+		<visible> 0 </visible>
+		<y>
+			<copy> 0 </copy>
+			<add>
+				<copy src="parent()" trait="user1" />
+				<add src="me()" trait="height" />
+				<onlyif>
+					<copy src="io()" trait="_IC+M" />
+					<lte> 40 </lte>
+				</onlyif>
+			</add>
+		</y>
+		<width>
+			<copy src="parent()" trait="user0" />
+			<mul> 3 </mul>
+			<add> 20 </add>
+		</width>
+		<height> <copy src="parent()" trait="user1" /> </height>
+		<font> <copy src="parent()" trait="font" /> </font>
+		<_title> &-sInventoryEffects; </_title>
+		<_h>
+			<copy src="me()" trait="height" />
+			<add src="child(CI_ValueText)" trait="height" />
+			<sub src="child(CI_TitleText)" trait="height" />
+			<add src="parent()" trait="_BGOffset" />
+		</_h>
+	</rect>
+
+	<rect name="MI1">
+		<include src="card_info.xml" />
+		<visible> 0 </visible>
+		<y> <copy src="parent()" trait="user1" /> </y>
+		<width>
+			<copy src="parent()" trait="user0" />
+			<mul> 3 </mul>
+			<add> 20 </add>
+		</width>
+		<height> <copy src="parent()" trait="user1" /> </height>
+		<font> <copy src="parent()" trait="font" /> </font>
+		<_title> &-sModEffects; </_title>
+	</rect>
+
+	<rect name="MI2">
+		<include src="card_info.xml" />
+		<visible> 0 </visible>
+		<y> <copy src="parent()" trait="user1" /> </y>
+		<width>
+			<copy src="parent()" trait="user0" />
+			<mul> 3 </mul>
+			<add> 20 </add>
+		</width>
+		<height>
+			<copy src="parent()" trait="user1" />
+			<sub>
+				<copy src="parent()" trait="_ModOffset" />
+				<onlyif src="sibling(MI1)" trait="visible" />
+			</sub>
+		</height>
+		<font> <copy src="parent()" trait="font" /> </font>
+		<_title> </_title>
+	</rect>
+
+	<rect name="MI3">
+		<include src="card_info.xml" />
+		<visible> 0 </visible>
+		<y> <copy src="parent()" trait="user1" /> </y>
+		<width>
+			<copy src="parent()" trait="user0" />
+			<mul> 3 </mul>
+			<add> 20 </add>
+		</width>
+		<height>
+			<copy src="parent()" trait="user1" />
+			<sub>
+				<copy src="parent()" trait="_ModOffset" />
+				<onlyif src="sibling(MI1)" trait="visible" />
+			</sub>
+			<sub>
+				<copy src="parent()" trait="_ModOffset" />
+				<onlyif src="sibling(MI2)" trait="visible" />
+			</sub>
+		</height>
+		<font> <copy src="parent()" trait="font" /> </font>
+		<_title> </_title>
+	</rect>
+
+	<rect name="STR">
+		<include src="card_info.xml" />
+		<visible> <copy src="sibling(DAM)" trait="visible" /> </visible>
+		<x> <copy src="sibling(VAL)" trait="x" /> </x>
+		<y>
+			<copy src="sibling(DAM)" trait="y" />
+			<sub src="sibling(DAM)" trait="height" />
+		</y>
+		<width> <copy src="parent()" trait="user0" /> </width>
+		<height> <copy src="parent()" trait="user1" /> </height>
+		<font> <copy src="parent()" trait="font" /> </font>
+		<_title> &-sInventoryStrReq; </_title>
+	</rect>
+
+	<rect name="VW">
+		<include src="card_info.xml" />
+		<visible> 1 </visible>
+		<x>
+			<copy> 0 </copy>
+			<add>
+				<copy src="sibling(WG)" trait="x" />
+				<onlyif>
+					<copy src="io()" trait="_IC+M" />
+					<lte> 40 </lte>
+				</onlyif>
+			</add>
+			<add>
+				<copy src="sibling(DAM)" trait="x" />
+				<onlyif>
+					<copy src="io()" trait="_IC+M" />
+					<gt> 40 </gt>
+				</onlyif>
+			</add>
+		</x>
+		<y> <copy src="sibling(STR)" trait="y" /> </y>
+		<width> <copy src="parent()" trait="user0" /> </width>
+		<height> <copy src="parent()" trait="user1" /> </height>
+		<font> <copy src="parent()" trait="font" /> </font>
+		<_title> V/W </_title>
+	</rect>
+
+	<rect name="SKL">
+
+		<include src="card_info.xml" />
+		<visible> <copy src="sibling(CHD)" trait="visible" /> </visible>
+		<x> <copy src="sibling(STR)" trait="x" /> </x>
+		<y>
+			<copy src="sibling(STR)" trait="y" />
+			<sub src="sibling(STR)" trait="height" />
+		</y>
+		<width> <copy src="parent()" trait="user0" /> </width>
+		<height> <copy src="parent()" trait="user1" /> </height>
+		<font> <copy src="parent()" trait="font" /> </font>
+		<_title> </_title>
+
+		<image name="Icon">
+			<visible> 1 </visible>
+			<alpha> <copy src="sibling(CI_ValueText)" trait="alpha" /> </alpha>
+			<x> 5 </x>
+			<y> -4 </y>
+			<width> <copy src="parent()" trait="height" /> </width>
+			<height> <copy src="parent()" trait="height" /> </height>
+			<zoom> &scale; </zoom>
+			<brightness> <copy src="sibling(CI_ValueText)" trait="brightness" /> </alpha>
+			<filename> Interface\Icons\TypeIcons\weap_skill_icon_sm_arms.dds </filename>
+		</image>
+
+	</rect>
+
+	<image name="BG">
+		<visible> 1 </visible>
+		<alpha> 204 </alpha>
+		<depth> -1 </depth>
+		<x> -164 </x>
+		<y>
+			<copy> -70 </copy>
+			<sub>
+				<copy> 4 </copy>
+				<onlyif>
+					<copy src="sibling(EI)" trait="visible" />
+					<and>
+						<copy src="io()" trait="_IC+M" />
+						<lte> 40 </lte>
+					</and>
+				</onlyif>
+			</sub>
+			<sub>
+				<copy src="me()" trait="_h" />
+				<onlyif src="sibling(CHD)" trait="visible" />
+			</sub>
+			<sub>
+				<copy> 4 </copy>
+				<onlyif src="sibling(MI1)" trait="visible" />
+			</sub>
+			<sub>
+				<copy> 4 </copy>
+				<onlyif src="sibling(MI2)" trait="visible" />
+			</sub>
+			<sub>
+				<copy> 4 </copy>
+				<onlyif src="sibling(MI3)" trait="visible" />
+			</sub>
+		</y>
+		<width>
+			<copy src="parent()" trait="width" />
+			<add> 350 </add>
+		</width>
+		<height>
+			<copy src="parent()" trait="height" />
+			<add> 50 </add>
+			<add>
+				<copy src="me()" trait="_h" />
+				<onlyif src="sibling(CHD)" trait="visible" />
+			</add>
+			<add>
+				<copy src="sibling(EI)" trait="_h" />
+				<onlyif src="sibling(EI)" trait="visible" />
+			</add>
+			<add>
+				<copy src="me()" trait="_h" />
+				<onlyif src="sibling(MI1)" trait="visible" />
+			</add>
+			<add>
+				<copy src="me()" trait="_h" />
+				<onlyif src="sibling(MI2)" trait="visible" />
+			</add>
+			<add>
+				<copy src="me()" trait="_h" />
+				<onlyif src="sibling(MI3)" trait="visible" />
+			</add>
+			<sub>
+				<copy src="me()" trait="_h" />
+				<mul> 2 </mul>
+				<onlyif>
+					<copy src="sibling(EI)" trait="visible" />
+					<and>
+						<copy src="io()" trait="_IC+M" />
+						<gt> 40 </gt>
+					</and>
+				</onlyif>
+			</sub>
+		</height>
+		<zoom> &scale; </zoom>
+		<brightness> 128 </brightness>
+		<filename> Stentorious\Interface\ItemCard\solid_black.dds </filename>
+		<_h>
+			<copy src="sibling(EI)" trait="height" />
+			<add src="parent()" trait="_BGOffset" />
+		</_h>
+	</image>
+
+</rect>

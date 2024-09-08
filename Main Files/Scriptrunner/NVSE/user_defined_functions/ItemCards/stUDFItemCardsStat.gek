@@ -1,0 +1,28 @@
+int iColor
+int iSigFig
+float fStatItem
+float fStatEquip
+string_var sSign
+string_var sUIPath
+
+begin Function {fStatItem, fStatEquip, sUIPath, iSigFig}
+
+	; Compare item stats and update UI tile with color and sign
+	iColor = 1
+	if fStatItem > fStatEquip
+		iColor = 3
+		sSign = "+"
+	elseif fStatItem < fStatEquip
+		iColor = 2
+		sSign = "-"
+	endif
+	if fStatItem > 0
+		SetUIStringAlt (sUIPath + "_value") ("%." + $iSigFig + "f%z") fStatItem sSign
+	else
+		SetUIStringAlt (sUIPath + "_value") "--"
+	endif
+	SetUIFloatAlt (sUIPath + "CI_ValueText\systemcolor") iColor
+
+	Sv_Destruct sSign sUIPath
+
+end

@@ -1,0 +1,16 @@
+int	iKeyID
+ref rCrosshair
+
+begin Function {iKeyID}
+
+	; Pass crosshair ref to main function
+	rCrosshair = GetCrosshairRef
+	if eval (IsFormValid rCrosshair && IsReference rCrosshair && rCrosshair.GetIsItem == 1)
+		Call (CompileScript "ItemCards\stUDFItemCardsMain.gek") rCrosshair
+
+	; Pass container ref to JLM function
+	elseif GetUIFloatAlt "HUDMainMenu\JLM\_JLMVisible" > 0
+		Call (CompileScript "ItemCards\stUDFItemCardsJLM.gek") (GetRefVariable "rContainer" (Goo1.AuxVarGetRef "*JLMQuest"))
+	endif
+
+end

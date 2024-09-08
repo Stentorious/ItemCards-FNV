@@ -1,0 +1,376 @@
+int iBitMask
+int iArmorClass
+int iType
+int iIndex
+int iCount
+int iColor
+int iShowCard
+float fItemWg
+float fItemVal
+float fItemPrj
+float fItemRof
+float fItemAmmo
+float fItemStat
+float fEquipWg
+float fEquipStat
+ref	rItem
+ref	rEquipped
+ref rAmmo
+ref rObjectEffect
+ref rBaseEffect
+array_var aTemp
+array_var aOperation
+string_var sSign
+string_var sEffect
+
+begin Function {rItem}
+
+	iType = rItem.GetType
+	SetUIFloatAlt "HUDMainMenu\_IC+M" iType
+
+	; Armor
+	if iType == 24
+
+		; Get armor ref to be compared
+		iBitMask = rItem.GetESM
+		if GetBit iBitMask 2 == 1
+			rEquipped = Player.GetEquippedItemRef 2
+		elseif iBitMask == 18432
+			rEquipped = Player.GetEquippedItemRef 11
+		elseif rItem.GetEquipType == 8
+			rEquipped = Player.GetEquippedItemRef 10
+		endif
+
+		; Get item weights
+		fItemWg = rItem.GetWeight
+		if eval IsFormValid rEquipped != 1
+			rEquipped = rItem
+			fEquipWg = fItemWg
+		else
+			fEquipWg = rEquipped.GetWeight
+		endif
+
+		; Display DR
+		Call (CompileScript "ItemCards\stUDFItemCardsStat.gek") (rItem.GetArmorEffectiveDR) (rEquipped.GetArmorEffectiveDR) "HUDMainMenu\IC\DR\" 0
+
+		; Display DT
+		Call (CompileScript "ItemCards\stUDFItemCardsStat.gek") (rItem.GetArmorEffectiveDT) (rEquipped.GetArmorEffectiveDT) "HUDMainMenu\IC\DT\" 0
+
+		; Display condition
+		SetUIFloatAlt "HUDMainMenu\IC\CND\ConditionMeter\_value" (rItem.GetItemRefCurrentHealth 1)
+
+		; Display armor class string/icon
+		iArmorClass = GetAC (rItem.gbo)
+		if iArmorClass == 1
+			SetUIStringAlt "HUDMainMenu\IC\AMMO\_title" "Light"
+			SetUIStringAlt "HUDMainMenu\IC\AMMO\ySIImage\filename" "interface\icons\Apparel_ArmorA_Light.dds"
+		elseif iArmorClass == 2
+			SetUIStringAlt "HUDMainMenu\IC\AMMO\_title" "Medium"
+			SetUIStringAlt "HUDMainMenu\IC\AMMO\ySIImage\filename" "interface\icons\Apparel_ArmorB_Medium.dds"
+		elseif iArmorClass == 3
+			SetUIStringAlt "HUDMainMenu\IC\AMMO\_title" "Heavy"
+			SetUIStringAlt "HUDMainMenu\IC\AMMO\ySIImage\filename" "interface\icons\Apparel_ArmorC_Heavy.dds"
+		endif
+
+		; Display armor effect string
+		if Goo1.AuxVarGetFlt "*ItemCard_INI" 1 == 1
+			rObjectEffect = rItem.GetObjectEffect
+			iCount = GetNumEffects rObjectEffect
+			if iCount > 0
+				sEffect = ""
+				iIndex = -1
+				while iCount > (iIndex += 1)
+					rBaseEffect = GetNthEffectBase rObjectEffect iIndex
+					if eval GetBaseEffectFlag rBaseEffect 13
+						Sv_Insert ((LNGetName rBaseEffect) + ", ") sEffect 0
+					elseif GetBaseEffectArchetype rBaseEffect == 0
+						if eval GetBaseEffectFlag rBaseEffect 2
+							Sv_Insert "%z %z%g, " (ActorValueToStringC (GetBaseEffectAV rBaseEffect) 2) ("-") (GetNthEffectTraitNumeric rObjectEffect iIndex 0) sEffect 0
+						else
+							Sv_Insert "%z %z%g, " (ActorValueToStringC (GetBaseEffectAV rBaseEffect) 2) ("+") (GetNthEffectTraitNumeric rObjectEffect iIndex 0) sEffect 0
+						endif
+					endif
+				loop
+				if Sv_Length sEffect > 0
+					Sv_Erase sEffect (sv_Length sEffect -2) 2
+					SetUIStringAlt "HUDMainMenu\IC\EI\_value" (sEffect)
+					SetUIFloatAlt "HUDMainMenu\IC\EI\visible" 1
+				endif
+			endif
+		endif
+
+		iShowCard = 1
+
+	; Weapon
+	elseif iType == 40
+
+		; Get weapon ref to be compared
+		rEquipped = Player.GetEquippedItemRef 5
+
+		; Get item weights
+		fItemWg = rItem.GetWeight
+		if eval IsFormValid rEquipped != 1
+			rEquipped = rItem
+			fEquipWg = fItemWg
+		else
+			fEquipWg = Player.GetCalculatedEquippedWeight 0 32
+		endif
+
+		; Display weapon mod names
+		iBitMask = rItem.GetWeaponRefModFlags
+		if iBitMask > 0
+			iCount = 0
+			iIndex = 0
+			fItemRof = rItem.GetFireRate
+			while 4 > (iIndex += 1)
+				if GetBit iBitMask (iIndex - 1) == 1
+					iCount += 1
+					if iCount == 1
+						SetUIStringAlt "HUDMainMenu\IC\MI1\_value" (LNGetName (rItem.GetWeaponItemMod iIndex))
+						SetUIFloatAlt ("HUDMainMenu\IC\MI1\visible") 1
+					elseif iCount == 2
+						SetUIStringAlt "HUDMainMenu\IC\MI2\_value" (LNGetName (rItem.GetWeaponItemMod iIndex))
+						SetUIFloatAlt ("HUDMainMenu\IC\MI2\visible") 1
+					else
+						SetUIStringAlt "HUDMainMenu\IC\MI3\_value" (LNGetName (rItem.GetWeaponItemMod iIndex))
+						SetUIFloatAlt ("HUDMainMenu\IC\MI3\visible") 1
+					endif
+					iType = rItem.GetWeaponItemModEffect iIndex
+					if iType == 2
+						fItemAmmo = rItem.GetWeaponItemModValue1 iIndex
+					elseif iType == 4
+						fItemWg -= rItem.GetWeaponItemModValue1 iIndex
+					elseif iType == 8
+						fItemRof *= (1 + (rItem.GetWeaponItemModValue1 iIndex))
+					elseif iType == 12
+						fItemPrj += rItem.GetWeaponItemModValue1 iIndex
+					endif
+				endif
+			loop
+
+		; Display weapon effect string
+		else
+			rObjectEffect = rItem.GetObjectEffect
+			iCount = GetNumEffects rObjectEffect
+			if iCount > 0
+				sEffect = ""
+				iIndex = -1
+				while iCount > (iIndex += 1)
+					rBaseEffect = GetNthEffectBase rObjectEffect iIndex
+					if eval GetBaseEffectFlag rBaseEffect 13
+						Sv_Insert ((LNGetName rBaseEffect) + ", ") sEffect 0
+					endif
+				loop
+				if Sv_Length sEffect > 0
+					Sv_Erase sEffect (sv_Length sEffect -2) 2
+					SetUIStringAlt "HUDMainMenu\IC\EI\_value" (sEffect)
+					SetUIFloatAlt "HUDMainMenu\IC\EI\visible" 1
+				endif
+			endif
+		endif
+
+		; Display damage per second
+		if eval (Goo1.AuxVarGetFlt "*ItemCard_INI" 0 == 42 && Goo1.AuxVarGetFlt "*ItemCard_INI" 4 != 1)
+			if GetUIFloatAlt "HUDMainMenu\InfoWrap\visible" != -999
+				fItemStat = #(GetUIString "HUDMainMenu\InfoWrap\Info\justify_right_text:0\string")
+			else
+				fItemStat = #(GetUIString "HUDMainMenu\Info\justify_right_text:0\string")
+			endif
+			if rItem == rEquipped
+				Call (CompileScript "ItemCards\stUDFItemCardsStat.gek") fItemStat fItemStat "HUDMainMenu\IC\DPS\" 0
+			else
+				Call (CompileScript "ItemCards\stUDFItemCardsStat.gek") fItemStat (rEquipped.GetCalculatedWeaponDPS) "HUDMainMenu\IC\DPS\" 0
+			endif
+		endif
+
+		; Display damage
+		fItemPrj += rItem.GetNumProj
+		fItemStat = rItem.GetCalculatedWeaponDamage
+		fEquipStat = rEquipped.GetCalculatedWeaponDamage
+		sSign = ""
+		if fItemPrj > 1
+			iColor = 1
+			if fItemStat > fEquipStat
+				iColor = 3
+				sSign = "+"
+			elseif fItemStat < fEquipStat
+				iColor = 2
+				sSign = "-"
+			endif
+			if fItemStat > 0
+				SetUIStringAlt "HUDMainMenu\IC\DAM\_value" "%.1fx%g%z" (fItemStat / fItemPrj) fItemPrj sSign
+			else
+				SetUIStringAlt "HUDMainMenu\IC\DAM\_value" "--"
+			endif
+			SetUIFloatAlt "HUDMainMenu\IC\DAM\CI_ValueText\systemcolor" iColor
+		else
+			Call (CompileScript "ItemCards\stUDFItemCardsStat.gek") fItemStat fEquipStat "HUDMainMenu\IC\DAM\" 0
+		endif
+
+		; Display critical hit damage
+		if fItemStat > 0
+			fItemStat += Player.GetPerkModifier 2 (rItem.GetCritDam) rItem Player
+			if fItemPrj > 1
+				SetUIStringAlt "HUDMainMenu\IC\CHD\_Value" "%.1fx%g" (fItemStat / fItemPrj) fItemPrj
+			else
+				SetUIStringAlt "HUDMainMenu\IC\CHD\_Value" "%.0f" fItemStat
+			endif
+		else
+			SetUIStringAlt "HUDMainMenu\IC\CHD\_Value" "--"
+		endif
+
+		; Display critical hit chance
+		fItemStat = Floor (Player.GetAV CritChance)
+		if eval rItem.GetIsAutomatic
+			fItemStat /= fItemRof
+		endif
+		fItemStat *= rItem.GetCritPerc
+		fItemStat = Player.GetPerkModifier 1 fItemStat rItem Player
+		if fItemStat > 0
+			SetUIStringAlt "HUDMainMenu\IC\CHC\_Value" "%.2f%%" fItemStat
+		else
+			SetUIStringAlt "HUDMainMenu\IC\CHD\_Value" "--"
+			SetUIStringAlt "HUDMainMenu\IC\CHC\_Value" "--"
+		endif
+
+		; Display strength requirement
+		fItemStat = rItem.GetReqStr
+		if fItemStat > (Player.GetAV Strength)
+			SetUIFloatAlt "HUDMainMenu\IC\STR\CI_TitleText\brightness" 128
+			SetUIFloatAlt "HUDMainMenu\IC\STR\CI_ValueText\brightness" 128
+		else
+			SetUIFloatAlt "HUDMainMenu\IC\STR\CI_TitleText\brightness" 255
+			SetUIFloatAlt "HUDMainMenu\IC\STR\CI_ValueText\brightness" 255
+		endif
+		Call (CompileScript "ItemCards\stUDFItemCardsStat.gek") fItemStat (rEquipped.GetReqStr) "HUDMainMenu\IC\STR\" 0
+
+		; Display skill requirement
+		aTemp = Ar_Map 34::"energy", 35::"explosives", 38::"melee", 41::"sm_arms", 45::"unarmed"
+		iCount = rItem.GetReqSkill
+		fItemStat = rItem.GetWeaponSkill
+		if Player.GetAV (fItemStat) < iCount
+			SetUIFloatAlt "HUDMainMenu\IC\SKL\CI_ValueText\brightness" 128
+		else
+			SetUIFloatAlt "HUDMainMenu\IC\SKL\CI_ValueText\brightness" 255
+		endif
+		SetUIStringAlt "HUDMainMenu\IC\SKL\Icon\filename" "Interface\Icons\TypeIcons\weap_skill_icon_%z.dds" (aTemp[fItemStat])
+		SetUIStringAlt "HUDMainMenu\IC\SKL\_value" "%g" iCount
+
+		; Display ammo name
+		rAmmo = rItem.GetWeaponAmmo
+		if eval IsFormValid rAmmo && rAmmo != RockItLauncherAmmo
+			if GetType rAmmo == 85
+				rAmmo = ListGetNthForm rAmmo 0
+			endif
+			fItemAmmo += rItem.GetClipSize
+			iCount = Player.GetItemCount rAmmo
+			SetUIStringAlt "HUDMainMenu\IC\AMMO\_title" "%z (%g/%g)" (GetAmmoName 1 rAmmo) (GetMinOf fItemAmmo iCount) (GetMaxOf 0 (iCount - fItemAmmo))
+		else
+			rAmmo = rItem.gbo
+			SetUIStringAlt "HUDMainMenu\IC\AMMO\_title" "--"
+		endif
+		SetUIStringAlt "HUDMainMenu\IC\AMMO\ySIImage\filename" (ySIGetTrait "filename" rAmmo)
+
+		; Display condition
+		SetUIFloatAlt "HUDMainMenu\IC\CND\ConditionMeter\_value" (rItem.GetItemRefCurrentHealth 1)
+
+		iShowCard = 1
+
+	; Ammo
+	elseif eval (iType == 41 && Goo1.AuxVarGetFlt "*ItemCard_INI" 2 == 1)
+
+		rEquipped = rItem
+		fItemWg = fEquipWg = rItem.GetWeight
+
+		; Build ammo effect string
+		rAmmo = rItem.GBO
+		iIndex = GetNumAmmoEffects rAmmo
+		if iIndex > 0
+			sEffect = ""
+			aTemp = Ar_List "DAM", "Target DR", "Target DT", "Gun Spread", "Gun CND", "Target K.O."
+			aOperation = Ar_List "+", "x", "-"
+			while -1 < (iIndex -= 1)
+				rObjectEffect = GetNthAmmoEffect rAmmo iIndex
+				Sv_Insert "%z %z %.2f%r" (aTemp[(GetAmmoEffectTraitNumeric rObjectEffect 0)]) (aOperation[(GetAmmoEffectTraitNumeric rObjectEffect 1)]) (GetAmmoEffectTraitNumeric rObjectEffect 2) sEffect 0
+			loop
+			if Sv_Length sEffect > 0
+				Sv_Erase sEffect (sv_Length sEffect -1) 1
+				SetUIStringAlt "HUDMainMenu\IC\EI\_value" (sEffect)
+				SetUIFloatAlt "HUDMainMenu\IC\EI\visible" 1
+				iShowCard = 1
+			endif
+		endif
+
+	; Weapon mod
+	elseif eval (iType == 103 && Goo1.AuxVarGetFlt "*ItemCard_INI" 3 == 1)
+
+		rEquipped = rItem
+		fItemWg = fEquipWg = rItem.GetWeight
+
+		; Get weapon mod description
+		SetUIStringAlt "HUDMainMenu\IC\EI\_value" "%z" (GetFormDescription (rItem.gbo))
+		SetUIFloatAlt "HUDMainMenu\IC\EI\visible" 1
+
+		iShowCard = 1
+
+	; Miscellaneous
+	;elseif eval (iType == 31 && Goo1.AuxVarGetFlt "*ICXMI" == 1)
+	;
+	;	rEquipped = rItem
+	;	fItemWg = fEquipWg = rItem.GetWeight
+	;
+	;	sEffect = ""
+	;	aTemp = GetFormRecipes (rItem.gbo)
+	;	aForE = Ar_Null
+	;	foreach aForE <- aTemp
+	;		rRecipe = *aForE
+	;		Sv_Insert "%z%r" (LNGetName rRecipe) sEffect 0
+	;	loop
+	;	if Sv_Length sEffect > 0
+	;		Sv_Erase sEffect (sv_Length sEffect -1) 1
+	;		SetUIStringAlt "HUDMainMenu\IC\EI\_value" (sEffect)
+	;		SetUIFloatAlt "HUDMainMenu\IC\EI\visible" 1
+	;		SetUIFloatAlt "HUDMainMenu\_IC+V" 1
+	;	endif
+
+	endif
+
+	if iShowCard == 1
+
+		; Set value
+		fItemVal = rItem.GetCalculatedItemValue
+		Call (CompileScript "ItemCards\stUDFItemCardsStat.gek") fItemVal (rEquipped.GetCalculatedItemValue) "HUDMainMenu\IC\VAL\" 0
+
+		; Set weight
+		iColor = 1
+		sSign = ""
+		if fItemWg < fEquipWg
+			iColor = 3
+			sSign = "+"
+		elseif fEquipWg > fItemWg
+			iColor = 2
+			sSign = "-"
+		endif
+		if fItemWg > 0
+			SetUIStringAlt "HUDMainMenu\IC\WG\_value" "%.2f%z" fItemWg sSign
+		else
+			SetUIStringAlt "HUDMainMenu\IC\WG\_value" "--"
+		endif
+		SetUIFloatAlt "HUDMainMenu\IC\WG\CI_ValueText\systemcolor" iColor
+
+		; Set value/weight
+		if fItemWg > 0
+			SetUIStringAlt "HUDMainMenu\IC\VW\_value" "%.1f" (fItemVal / fItemWg)
+		else
+			SetUIStringAlt "HUDMainMenu\IC\VW\_value" "--"
+		endif
+
+		; Show item card
+		SetUIFloatAlt "HUDMainMenu\_IC+V" 1
+
+	endIf
+
+	aTemp = aOperation = Ar_Null
+	Sv_Destruct sSign sEffect
+
+end

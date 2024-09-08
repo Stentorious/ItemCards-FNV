@@ -1,0 +1,140 @@
+; Item Cards 2.2 - Stentorious
+
+; On game restart
+if Goo1.AuxVarGetFlt "*ItemCard_Init" != 1
+	Goo1.AuxVarSetFlt "*ItemCard_Init" 1
+
+	; Check for requirements
+	if GetNVSEVersion > 5 && GetNVSERevision > 2 && GetNVSEBeta > 2
+	else
+	   MessageBoxEx "Item Cards missing requirement!%rInstall xNVSE 6.3.3+."
+	   return
+	endif
+	if GetPluginVersion "JohnnyGuitarNVSE" < 200
+		MessageBoxEx "Item Cards missing requirement!%rInstall latest JohnnyGuitar NVSE plugin."
+		return
+	endif
+	if GetPluginVersion "ShowOffNVSE Plugin" < 145
+		MessageBoxEx "Item Cards missing requirement!%rInstall latest ShowOff NVSE plugin."
+		return
+	endif
+	if GetPluginVersion "lStewieAl's Tweaks" < 906
+		MessageBoxEx "Item Cards missing requirement!%rInstall latest lStewieAl's Tweaks."
+		return
+	endif
+
+	; Load INI config
+	Goo1.AuxVarSetFlt "*ItemCard_INI" (GetINIFloat "General:iKeybind" "ItemCards.ini") 0
+	Goo1.AuxVarSetFlt "*ItemCard_INI" (GetINIFloat "General:bRebuildArmorEffects" "ItemCards.ini") 1
+	Goo1.AuxVarSetFlt "*ItemCard_INI" (GetINIFloat "General:bAmmoItemCards" "ItemCards.ini") 2
+	Goo1.AuxVarSetFlt "*ItemCard_INI" (GetINIFloat "General:bWeaponModItemCards" "ItemCards.ini") 3
+	Goo1.AuxVarSetFlt "*ItemCard_INI" (GetINIFloat "General:bShowAlways" "ItemCards.ini") 4
+
+	; Inject item card
+	InjectUIXML "HUDMainMenu" "data\menus\prefabs\Stentorious\ItemCards.xml"
+	SetUIFloatAlt "HUDMainMenu\IC\x" (GetINIFloat "Interface:fCardPosHorizontal" "ItemCards.ini")
+	SetUIFloatAlt "HUDMainMenu\IC\y" (GetINIFloat "Interface:fCardPosVertical" "ItemCards.ini")
+	SetUIFloatAlt "HUDMainMenu\IC\BG\alpha" ((GetMaxOf 0 (GetMinOf 1 (GetINIFloat "Interface:fBackgroundOpacity" "ItemCards.ini"))) * 255)
+	SetUIFloatAlt "HUDMainMenu\IC\width" (GetUIFloatAlt "InventoryMenu\GLOW_BRANCH\IM_MainRect\IM_ItemInfoRect\width")
+	SetUIFloatAlt "HUDMainMenu\IC\height" (GetUIFloatAlt "InventoryMenu\GLOW_BRANCH\IM_MainRect\IM_ItemInfoRect\height")
+	SetUIFloatAlt "HUDMainMenu\IC\MI1\y" (GetUIFloatAlt "HUDMainMenu\IC\CND\y" * 2)
+	SetUIFloatAlt "HUDMainMenu\IC\MI2\y" (GetUIFloatAlt "HUDMainMenu\IC\CND\y" * 3)
+	SetUIFloatAlt "HUDMainMenu\IC\MI3\y" (GetUIFloatAlt "HUDMainMenu\IC\CND\y" * 4)
+	SetUIFloatAlt "HUDMainMenu\IC\DAM\CI_ValueText\wrapwidth" 100
+	SetUIFloatAlt "HUDMainMenu\IC\CHD\CI_ValueText\wrapwidth" 100
+	SetUIFloatAlt "HUDMainMenu\IC\CHC\CI_ValueText\wrapwidth" 100
+	SetUIFloatAlt "HUDMainMenu\IC\MI1\CI_ValueText\wrapwidth" 500
+	SetUIFloatAlt "HUDMainMenu\IC\MI2\CI_ValueText\wrapwidth" 500
+	SetUIFloatAlt "HUDMainMenu\IC\MI3\CI_ValueText\wrapwidth" 500
+	SetUIFloatAlt "HUDMainMenu\IC\MI2\CI_TopLine\visible" 0
+	SetUIFloatAlt "HUDMainMenu\IC\MI3\CI_TopLine\visible" 0
+	SetUIFloatAlt "HUDMainMenu\IC\MI2\CI_RightVert\visible" 0
+	SetUIFloatAlt "HUDMainMenu\IC\MI3\CI_RightVert\visible" 0
+	SetUIStringAlt "HUDMainMenu\IC\DPS\_value" "--"
+
+	; Modded HUD support
+	if eval IsModLoaded "DarNifiedUINV.esp"
+		SetUIFloatAlt "HUDMainMenu\IC\_BGOffset" 0
+		SetUIFloatAlt "HUDMainMenu\IC\_ModOffset" 24
+		SetUIFloatAlt "HUDMainMenu\IC\CND\ConditionMeter\height" 15
+		SetUIFloatAlt "HUDMainMenu\IC\CND\CNDArrows\height" 15
+		SetUIFloatAlt "HUDMainMenu\IC\CND\CNDArrows\width" 15
+		SetUIFloatAlt "HUDMainMenu\IC\EI\CI_ValueText\y" 9.5
+	elseif eval IsModLoaded "Vanilla UI Plus.esp"
+		SetUIFloatAlt "HUDMainMenu\IC\DAM\_VUI+NoLabel" 1
+		SetUIFloatAlt "HUDMainMenu\IC\MI1\_VUI+NoLabel" 1
+		if eval FileExists "textures\VUIE\Brackets\Bracket.dds"
+			SetUIFloatAlt "HUDMainMenu\IC\_BGOffset" -2
+			SetUIFloatAlt "HUDMainMenu\IC\_ModOffset" 24
+			SetUIFloatAlt "HUDMainMenu\IC\CND\ConditionMeter\height" 18
+			SetUIFloatAlt "HUDMainMenu\IC\CND\CNDArrows\width" 17
+			SetUIFloatAlt "HUDMainMenu\IC\CND\CNDArrows\height" 18
+			ModUIFloat "HUDMainMenu\IC\CND\ConditionMeter\y" -2.25
+		endif
+	else
+		SetUIFloatAlt "HUDMainMenu\IC\_BGOffset" 5
+		ModUIFloat "HUDMainMenu\IC\CND\ConditionMeter\y" 3.75
+		SetUIFloatAlt "HUDMainMenu\IC\MI1\CI_ValueText\wrapwidth" 400
+		ModUIFloat "HUDMainMenu\IC\SKL\Icon\y" -2
+	endif
+
+	; Enable extra weapon stat info
+	if GetINIFloat "General:bExtraWeaponStats" "ItemCards.ini" != 1
+		SetUIFloatAlt "HUDMainMenu\IC\CHD\visible" 0
+	endif
+
+	; Enable ySI icons (WeightInfo)
+	if GetINIFloat "ySI:bWeightInfoIcon" "PipBoyUITweaks.ini" == 1
+		InjectUIXML "HUDMainMenu\IC\WG" "data\menus\prefabs\Stentorious\ySICapIcon.xml"
+		SetUIFloatAlt "HUDMainMenu\IC\WG\CI_TitleText\visible" 0
+		SetUIFloatAlt "HUDMainMenu\IC\WG\ySIImage\x" (GetUIFloatAlt "HUDMainMenu\IC\WG\CI_TitleText\x")
+		SetUIStringAlt "HUDMainMenu\IC\WG\ySIImage\filename" "interface\icons\Apparel_Other_Backpack.dds"
+		if eval IsModLoaded "Vanilla UI Plus.esp"
+			ModUIFloat "HUDMainMenu\IC\WG\ySIImage\y" -4
+		endif
+	endif
+
+	; Enable ySI icons (ValueInfo)
+	if GetINIFloat "ySI:bValueInfoIcon" "PipBoyUITweaks.ini" == 1
+		InjectUIXML "HUDMainMenu\IC\VAL" "data\menus\prefabs\Stentorious\ySICapIcon.xml"
+		SetUIFloatAlt "HUDMainMenu\IC\VAL\CI_TitleText\visible" 0
+		SetUIFloatAlt "HUDMainMenu\IC\VAL\ySIImage\x" (GetUIFloatAlt "HUDMainMenu\IC\VAL\CI_TitleText\x")
+		if eval IsModLoaded "Vanilla UI Plus.esp"
+			ModUIFloat "HUDMainMenu\IC\VAL\ySIImage\y" -4
+		endif
+	endif
+
+	; Enable ySI icons (AmmoInfo)
+	if GetINIFloat "ySI:bAmmoInfoIcon" "PipBoyUITweaks.ini" == 1
+		InjectUIXML "HUDMainMenu\IC\AMMO" "data\menus\prefabs\Stentorious\ySIAmmoIcon.xml"
+		ModUIFloat "HUDMainMenu\IC\AMMO\CI_TitleText\x" ((GetUIFloatAlt "HUDMainMenu\IC\AMMO\ySIImage\width") + 8)
+		if eval IsModLoaded "Vanilla UI Plus.esp"
+			ModUIFloat "HUDMainMenu\IC\AMMO\ySIImage\y" -4
+		endif
+	endif
+
+	; Item card update event handlers
+	SetEventHandler "OnCrosshairOn" (CompileScript "ItemCards\stUDFItemCardsOnCrosshairOn.gek")
+	SetEventHandler "OnCrosshairOff" (CompileScript "ItemCards\stUDFItemCardsOnCrosshairOff.gek")
+	SetEventHandler "ShowOff:OnAdd" (CompileScript "ItemCards\stUDFItemCardsOnAdd.gek") "second"::player
+	if eval Goo1.AuxVarGetFlt "*ItemCard_INI" 4 != 1
+		SetOnKeyDownEventHandler (CompileScript "ItemCards\stUDFItemCardsOnKeyDown42.gek") 1 (Goo1.AuxVarGetFlt "*ItemCard_INI" 0)
+		SetOnKeyUpEventHandler (CompileScript "ItemCards\stUDFItemCardsOnKeyUp42.gek") 1 (Goo1.AuxVarGetFlt "*ItemCard_INI" 0)
+	endif
+
+	; JLM support
+	if eval IsModLoaded "JustAssortedMods.esp" || IsModLoaded "JustLootMenu.esp"
+		if eval IsModLoaded "JustAssortedMods.esp"
+			Goo1.AuxVarSetRef "*JLMQuest" (StringToRef "JustAssortedMods.esp:05800")
+		elseif eval IsModLoaded "JustLootMenu.esp"
+			Goo1.AuxVarSetRef "*JLMQuest" (StringToRef "JustLootMenu.esp:05800")
+		endif
+		SetOnKeyDownEventHandler (CompileScript "ItemCards\stUDFItemCardsOnKeyDown264265.gek") 1 264
+		SetOnKeyDownEventHandler (CompileScript "ItemCards\stUDFItemCardsOnKeyDown264265.gek") 1 265
+		SetEventHandler "OnButtonDown:3" (CompileScript "ItemCards\stUDFItemCardsOnKeyDown264265.gek")
+	endif
+
+endif
+
+; On game load
+SetUIFloatAlt "HUDMainMenu\_IC+V" 0

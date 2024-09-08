@@ -1,0 +1,14 @@
+int	iKeyID
+
+begin Function {iKeyID}
+
+	; Hide item card on key bind release
+	if GetUIFloatAlt "HUDMainMenu\_IC+V" == 1
+		SetUIFloatAlt "HUDMainMenu\_IC+V" 0
+		SetUIFloatAlt "HUDMainMenu\IC\EI\visible" 0
+		SetUIFloatAlt "HUDMainMenu\IC\MI1\visible" 0
+		SetUIFloatAlt "HUDMainMenu\IC\MI2\visible" 0
+		SetUIFloatAlt "HUDMainMenu\IC\MI3\visible" 0
+	endif
+
+end
