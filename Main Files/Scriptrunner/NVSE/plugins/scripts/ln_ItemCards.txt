@@ -30,34 +30,40 @@ if Goo1.AuxVarGetFlt "*ItemCard_Init" != 1
 	Goo1.AuxVarSetFlt "*ItemCard_INI" (GetINIFloat "General:bWeaponModItemCards" "ItemCards.ini") 3
 	Goo1.AuxVarSetFlt "*ItemCard_INI" (GetINIFloat "General:bShowAlways" "ItemCards.ini") 4
 
+	; B42 Inspect compatibility
+	if eval IsModLoaded "B42Inspect.esp" && GetINIFloat "General:bB42Inspect" "ItemCards.ini" == 1
+		Goo1.AuxVarSetRef "*B42IQuest" (EditorIDToFormID "B42InspectQ")
+		SetGameMainLoopCallBack (CompileScript "ItemCards\stUDFItemCardsB42Callback.gek") 1 1 1
+	endif
+
 	; lStewieAl's Tweaks Auxiliary-Variables
 	if eval FileExists "nvse\plugins\scripts\gr_StentoriousFunctionLibrary.txt" == 0
 
 		; "bCritChanceIgnoresFireRate"
-		Goo1.AuxVarSetFlt "*Tweaks:bCritChanceIgnoresFireRate" (Call (CompileScript "ItemCards\GetNumericStewieSetting_Cached.gek") "Tweaks:bCritChanceIgnoresFireRate")
+		Goo1.AuxVarSetFlt "*_Tweaks:bCritChanceIgnoresFireRate" (Call (CompileScript "ItemCards\stUDFItemCardsGetStewie.gek") "Tweaks:bCritChanceIgnoresFireRate")
 
 		; "bScaleCriticalDamage"
-		Goo1.AuxVarSetFlt "*Tweaks:bScaleCriticalDamage" (Call (CompileScript "ItemCards\GetNumericStewieSetting_Cached.gek") "Tweaks:bScaleCriticalDamage") 0
-		if Goo1.AuxVarSetFlt "*Tweaks:bScaleCriticalDamage" 0 == 1
-			Goo1.AuxVarSetFlt "*Tweaks:bScaleCriticalDamage" (Call (CompileScript "ItemCards\GetNumericStewieSetting_Cached.gek") "Critical Hits:fCriticalDamageMult") 1
+		Goo1.AuxVarSetFlt "*_Tweaks:bScaleCriticalDamage" (Call (CompileScript "ItemCards\stUDFItemCardsGetStewie.gek") "Tweaks:bScaleCriticalDamage") 0
+		if Goo1.AuxVarSetFlt "*_Tweaks:bScaleCriticalDamage" 0 == 1
+			Goo1.AuxVarSetFlt "*_Tweaks:bScaleCriticalDamage" (Call (CompileScript "ItemCards\stUDFItemCardsGetStewie.gek") "Critical Hits:fCriticalDamageMult") 1
 		else
-			Goo1.AuxVarSetFlt "*Tweaks:bScaleCriticalDamage" 1 1
+			Goo1.AuxVarSetFlt "*_Tweaks:bScaleCriticalDamage" 1 1
 		endif
 
 		; "bHardcoreTweaks"
-		if eval (Call (CompileScript "ItemCards\GetNumericStewieSetting_Cached.gek") "Tweaks:bHardcoreTweaks") == 1
-			Goo1.AuxVarSetFlt "*Tweaks:bHardcoreTweaks" 1 0
-			Goo1.AuxVarSetFlt "*Tweaks:bHardcoreTweaks" (Call (CompileScript "ItemCards\GetNumericStewieSetting_Cached.gek") "Hardcore Tweaks:bAmmoWeight") 1
+		if eval (Call (CompileScript "ItemCards\stUDFItemCardsGetStewie.gek") "Tweaks:bHardcoreTweaks") == 1
+			Goo1.AuxVarSetFlt "*_Tweaks:bHardcoreTweaks" 1 0
+			Goo1.AuxVarSetFlt "*_Tweaks:bHardcoreTweaks" (Call (CompileScript "ItemCards\stUDFItemCardsGetStewie.gek") "Hardcore Tweaks:bAmmoWeight") 1
 		endif
 
 		; "bWeightlessItems"
-		if eval (Call (CompileScript "ItemCards\GetNumericStewieSetting_Cached.gek") "Tweaks:bWeightlessItems") == 1
-			Goo1.AuxVarSetFlt "*Tweaks:bWeightlessItems" 1 0
-			Goo1.AuxVarSetFlt "*Tweaks:bWeightlessItems" (1 - (Call (CompileScript "ItemCards\GetNumericStewieSetting_Cached.gek") "Weightless Items:bAid")) 1
-			Goo1.AuxVarSetFlt "*Tweaks:bWeightlessItems" (1 - (Call (CompileScript "ItemCards\GetNumericStewieSetting_Cached.gek") "Weightless Items:bAmmo")) 2
-			Goo1.AuxVarSetFlt "*Tweaks:bWeightlessItems" (1 - (Call (CompileScript "ItemCards\GetNumericStewieSetting_Cached.gek") "Weightless Items:bArmor")) 3
-			Goo1.AuxVarSetFlt "*Tweaks:bWeightlessItems" (1 - (Call (CompileScript "ItemCards\GetNumericStewieSetting_Cached.gek") "Weightless Items:bMisc")) 4
-			Goo1.AuxVarSetFlt "*Tweaks:bWeightlessItems" (1 - (Call (CompileScript "ItemCards\GetNumericStewieSetting_Cached.gek") "Weightless Items:bWeapons")) 5
+		if eval (Call (CompileScript "ItemCards\stUDFItemCardsGetStewie.gek") "Tweaks:bWeightlessItems") == 1
+			Goo1.AuxVarSetFlt "*_Tweaks:bWeightlessItems" 1 0
+			Goo1.AuxVarSetFlt "*_Tweaks:bWeightlessItems" (1 - (Call (CompileScript "ItemCards\stUDFItemCardsGetStewie.gek") "Weightless Items:bAid")) 1
+			Goo1.AuxVarSetFlt "*_Tweaks:bWeightlessItems" (1 - (Call (CompileScript "ItemCards\stUDFItemCardsGetStewie.gek") "Weightless Items:bAmmo")) 2
+			Goo1.AuxVarSetFlt "*_Tweaks:bWeightlessItems" (1 - (Call (CompileScript "ItemCards\stUDFItemCardsGetStewie.gek") "Weightless Items:bArmor")) 3
+			Goo1.AuxVarSetFlt "*_Tweaks:bWeightlessItems" (1 - (Call (CompileScript "ItemCards\stUDFItemCardsGetStewie.gek") "Weightless Items:bMisc")) 4
+			Goo1.AuxVarSetFlt "*_Tweaks:bWeightlessItems" (1 - (Call (CompileScript "ItemCards\stUDFItemCardsGetStewie.gek") "Weightless Items:bWeapons")) 5
 		endif
 
 		; Clear nvse_stewie_tweaks.ini cached data
@@ -78,7 +84,7 @@ if Goo1.AuxVarGetFlt "*ItemCard_Init" != 1
 	InjectUIXML "HUDMainMenu" "data\menus\prefabs\Stentorious\ItemCards.xml"
 	SetUIFloatAlt "HUDMainMenu\IC\x" (GetINIFloat "Interface:fCardPosHorizontal" "ItemCards.ini")
 	SetUIFloatAlt "HUDMainMenu\IC\y" (GetINIFloat "Interface:fCardPosVertical" "ItemCards.ini")
-	SetUIFloatAlt "HUDMainMenu\IC\BG\alpha" ((GetMaxOf 0 (GetMinOf 1 (GetINIFloat "Interface:fBackgroundOpacity" "ItemCards.ini"))) * 255)
+	SetUIFloatAlt "HUDMainMenu\IC\_BGAlpha" (GetMaxOf 0 (GetMinOf 1 (GetINIFloat "Interface:fBackgroundOpacity" "ItemCards.ini")))
 	SetUIFloatAlt "HUDMainMenu\IC\width" (GetUIFloatAlt "InventoryMenu\GLOW_BRANCH\IM_MainRect\IM_ItemInfoRect\width")
 	SetUIFloatAlt "HUDMainMenu\IC\height" (GetUIFloatAlt "InventoryMenu\GLOW_BRANCH\IM_MainRect\IM_ItemInfoRect\height")
 	SetUIFloatAlt "HUDMainMenu\IC\MI1\y" (GetUIFloatAlt "HUDMainMenu\IC\CND\y" * 2)
@@ -183,4 +189,5 @@ if Goo1.AuxVarGetFlt "*ItemCard_Init" != 1
 endif
 
 ; On game load
-SetUIFloatAlt "HUDMainMenu\_IC+V" 0
+SetUIFloatGradual "HUDMainMenu\IC\_alpha" 0
+SetUIFloatGradual "HUDMainMenu\IC\CleanBackground\alpha" 0
