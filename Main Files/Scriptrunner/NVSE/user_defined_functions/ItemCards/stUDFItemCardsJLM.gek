@@ -29,7 +29,7 @@ begin Function {rContainer}
 
 		SetUIFloatAlt "HUDMainMenu\IC\DPS\CI_ValueText\systemcolor" 1
 
-		aDropped = aForE =  ar_null
+		aDropped = aForE = ar_null
 
 	endif
 

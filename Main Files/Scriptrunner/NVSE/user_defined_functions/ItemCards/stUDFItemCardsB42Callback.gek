@@ -1,0 +1,31 @@
+float fAlpha
+ref rQuest
+ref rCrosshair
+
+begin Function {}
+
+	; B42 Inspect support
+	rQuest = Goo1.AuxVarGetRef "*B42IQuest"
+	if eval GetVariable "fTimeline" rQuest > 0
+		if eval GetVariable "iAction" rQuest == 2 && GetVariable "iImmersive" rQuest == 0
+			if GetUIFloatAlt "HUDMainMenu\IC\_B42" == 0
+				SetUIFloatAlt "HUDMainMenu\B42InsText\visible" 0
+				SetUIFloatAlt "HUDMainMenu\IC\_B42" 1
+				rCrosshair = Player.GetEquippedWeaponRef
+				if eval IsFormValid rCrosshair && IsReference rCrosshair
+					Call (CompileScript "ItemCards\stUDFItemCardsMain.gek") rCrosshair
+				endif
+			endif
+			fAlpha = GetVariable "fAlpha" rQuest
+			SetUIFloatAlt "HUDMainMenu\IC\_alpha" fAlpha
+			SetUIFloatAlt "HUDMainMenu\IC\CleanBackground\alpha" fAlpha
+		endif
+	elseif GetUIFloatAlt "HUDMainMenu\IC\_B42" == 1
+		SetUIFloatAlt "HUDMainMenu\B42InsText\visible" 1
+		SetUIFloatAlt "HUDMainMenu\IC\_B42" 0
+		SetUIFloatAlt "HUDMainMenu\IC\_alpha" 0
+		SetUIFloatAlt "HUDMainMenu\IC\CleanBackground\alpha" 0
+		Call (CompileScript "ItemCards\stUDFItemCardsOnCrosshairOn.gek") (GetCrosshairRef)
+	endif
+
+end

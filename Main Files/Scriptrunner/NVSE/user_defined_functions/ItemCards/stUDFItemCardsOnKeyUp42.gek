@@ -1,14 +1,16 @@
 int	iKeyID
 
+float fAlpha
+float fSec
+
 begin Function {iKeyID}
 
 	; Hide item card on key bind release
-	if GetUIFloatAlt "HUDMainMenu\_IC+V" == 1
-		SetUIFloatAlt "HUDMainMenu\_IC+V" 0
-		SetUIFloatAlt "HUDMainMenu\IC\EI\visible" 0
-		SetUIFloatAlt "HUDMainMenu\IC\MI1\visible" 0
-		SetUIFloatAlt "HUDMainMenu\IC\MI2\visible" 0
-		SetUIFloatAlt "HUDMainMenu\IC\MI3\visible" 0
+	fAlpha = GetUIFloatAlt "HUDMainMenu\IC\_alpha"
+	if eval fAlpha > 0 && GetUIFloatAlt "HUDMainMenu\IC\_B42" == 0
+		fSec = (fAlpha / 255) * 0.20
+		SetUIFloatGradual "HUDMainMenu\IC\_alpha" fAlpha 0 fSec
+		SetUIFloatGradual "HUDMainMenu\IC\CleanBackground\alpha" fAlpha 0 fSec
 	endif
 
 end

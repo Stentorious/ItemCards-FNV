@@ -1,11 +1,17 @@
+float fAlpha
+float fSec
+
 begin Function {}
 
 	; Update item card on JLM item take
-	SetUIFloatAlt "HUDMainMenu\_IC+V" 0
-	SetUIFloatAlt "HUDMainMenu\IC\EI\visible" 0
-	SetUIFloatAlt "HUDMainMenu\IC\MI1\visible" 0
-	SetUIFloatAlt "HUDMainMenu\IC\MI2\visible" 0
-	SetUIFloatAlt "HUDMainMenu\IC\MI3\visible" 0
-	Call (CompileScript "ItemCards\stUDFItemCardsJLM.gek") (GetRefVariable "rContainer" (Goo1.AuxVarGetRef "*JLMQuest"))
+	if eval GetUIFloatAlt "HUDMainMenu\IC\_B42" == 0
+		fAlpha = GetUIFloatAlt "HUDMainMenu\IC\_alpha"
+		if eval fAlpha > 0
+			fSec = (fAlpha / 255) * 0.20
+			SetUIFloatGradual "HUDMainMenu\IC\_alpha" fAlpha 0 fSec
+			SetUIFloatGradual "HUDMainMenu\IC\CleanBackground\alpha" fAlpha 0 fSec
+		endif
+		Call (CompileScript "ItemCards\stUDFItemCardsJLM.gek") (GetRefVariable "rContainer" (Goo1.AuxVarGetRef "*JLMQuest"))
+	endif
 
 end

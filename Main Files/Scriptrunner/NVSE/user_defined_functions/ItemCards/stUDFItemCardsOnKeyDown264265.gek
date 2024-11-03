@@ -1,14 +1,16 @@
 int iKeyID
 
+float fAlpha
+float fSec
+
 begin Function {iKeyID}
 
 	; Update JLM item card on menu scroll
-	if eval (GetUIFloatAlt "HUDMainMenu\JLM\_JLMVisible" > 0 && (IsKeyPressed (Goo1.AuxVarGetFlt "*ItemCard_INI" 0) || Goo1.AuxVarGetFlt "*ItemCard_INI" 4 == 1))
-		SetUIFloatAlt "HUDMainMenu\_IC+V" 0
-		SetUIFloatAlt "HUDMainMenu\IC\EI\visible" 0
-		SetUIFloatAlt "HUDMainMenu\IC\MI1\visible" 0
-		SetUIFloatAlt "HUDMainMenu\IC\MI2\visible" 0
-		SetUIFloatAlt "HUDMainMenu\IC\MI3\visible" 0
+	if eval GetUIFloatAlt "HUDMainMenu\JLM\_JLMVisible" > 0 && GetUIFloatAlt "HUDMainMenu\IC\_B42" == 0 && (IsKeyPressed (Goo1.AuxVarGetFlt "*ItemCard_INI" 0) || Goo1.AuxVarGetFlt "*ItemCard_INI" 4 == 1)
+		fAlpha = GetUIFloatAlt "HUDMainMenu\IC\_alpha"
+		fSec = (fAlpha / 255) * 0.20
+		SetUIFloatGradual "HUDMainMenu\IC\_alpha" fAlpha 0 fSec
+		SetUIFloatGradual "HUDMainMenu\IC\CleanBackground\alpha" fAlpha 0 fSec
 		Call (CompileScript "ItemCards\stUDFItemCardsJLM.gek") (GetRefVariable "rContainer" (Goo1.AuxVarGetRef "*JLMQuest"))
 	endif
 

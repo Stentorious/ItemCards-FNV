@@ -9,6 +9,7 @@ begin Function {}
 				if GetUIFloatAlt "HUDMainMenu\IC\CleanBackground\visible" == -999 && FileExists "menus\prefabs\mapmo\clean_background.xml" > 0
 					InjectUIXML "HUDMainMenu\IC" "data\menus\prefabs\mapmo\clean_background.xml"
 					SetUIFloatAlt "HUDMainMenu\IC\CleanBackground\LineT1\systemcolor" 1
+					SetUIFloatAlt "HUDMainMenu\IC\CleanBackground\alpha" 0
 				endif
 				LineThickness = GetUIFloatAlt "HUDMainMenu\_MAPMOLineThickness"
 				SetUIFloatAlt "HUDMainMenu\IC\BG\visible" 0

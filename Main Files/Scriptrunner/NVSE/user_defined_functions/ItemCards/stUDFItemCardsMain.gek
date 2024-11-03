@@ -1,3 +1,5 @@
+ref	rItem
+
 int iBitMask
 int iArmorClass
 int iType
@@ -6,6 +8,11 @@ int iIndex
 int iCount
 int iColor
 int iShowCard
+int iEI
+int iMI1
+int iMI2
+int iMI3
+float fAlpha
 float fItemWg
 float fItemVal
 float fItemPrj
@@ -14,7 +21,6 @@ float fItemAmmo
 float fItemStat
 float fEquipWg
 float fEquipStat
-ref	rItem
 ref	rEquipped
 ref rAmmo
 ref rObjectEffect
@@ -27,7 +33,6 @@ string_var sEffect
 begin Function {rItem}
 
 	iType = rItem.GetType
-	SetUIFloatAlt "HUDMainMenu\_IC+M" iType
 
 	; Armor
 	if iType == 24
@@ -101,7 +106,7 @@ begin Function {rItem}
 				if Sv_Length sEffect > 0
 					Sv_Erase sEffect (sv_Length sEffect -2) 2
 					SetUIStringAlt "HUDMainMenu\IC\EI\_value" (sEffect)
-					SetUIFloatAlt "HUDMainMenu\IC\EI\visible" 1
+					iEI = 1
 				endif
 			endif
 		endif
@@ -128,13 +133,13 @@ begin Function {rItem}
 					iCount += 1
 					if iCount == 1
 						SetUIStringAlt "HUDMainMenu\IC\MI1\_value" (LNGetName (rItem.GetWeaponItemMod iIndex))
-						SetUIFloatAlt "HUDMainMenu\IC\MI1\visible" 1
+						iMI1 = 1
 					elseif iCount == 2
 						SetUIStringAlt "HUDMainMenu\IC\MI2\_value" (LNGetName (rItem.GetWeaponItemMod iIndex))
-						SetUIFloatAlt "HUDMainMenu\IC\MI2\visible" 1
+						iMI2 = 1
 					else
 						SetUIStringAlt "HUDMainMenu\IC\MI3\_value" (LNGetName (rItem.GetWeaponItemMod iIndex))
-						SetUIFloatAlt "HUDMainMenu\IC\MI3\visible" 1
+						iMI3 = 1
 					endif
 					iModType = rItem.GetWeaponItemModEffect iIndex
 					if iModType == 2
@@ -165,7 +170,7 @@ begin Function {rItem}
 				if Sv_Length sEffect > 0
 					Sv_Erase sEffect (sv_Length sEffect -2) 2
 					SetUIStringAlt "HUDMainMenu\IC\EI\_value" (sEffect)
-					SetUIFloatAlt "HUDMainMenu\IC\EI\visible" 1
+					iEI = 1
 				endif
 			endif
 		endif
@@ -189,7 +194,9 @@ begin Function {rItem}
 
 		; Display damage per second
 		if eval (Goo1.AuxVarGetFlt "*ItemCard_INI" 0 == 42 && Goo1.AuxVarGetFlt "*ItemCard_INI" 4 != 1)
-			if GetUIFloatAlt "HUDMainMenu\InfoWrap\visible" != -999
+			if eval GetUIFloatAlt "HUDMainMenu\IC\_B42" == 1
+				fItemStat = rEquipped.GetCalculatedWeaponDPS
+			elseif GetUIFloatAlt "HUDMainMenu\InfoWrap\visible" != -999
 				fItemStat = #(GetUIString "HUDMainMenu\InfoWrap\Info\justify_right_text:0\string")
 			else
 				fItemStat = #(GetUIString "HUDMainMenu\Info\justify_right_text:0\string")
@@ -227,7 +234,7 @@ begin Function {rItem}
 
 		; Display critical hit damage
 		if fItemStat > 0
-			fItemStat += Player.GetPerkModifier 2 (rItem.GetCritDam * Goo1.AuxVarGetFlt "*Tweaks:bScaleCriticalDamage" 1) rItem Player
+			fItemStat += Player.GetPerkModifier 2 (rItem.GetCritDam * Goo1.AuxVarGetFlt "*_Tweaks:bScaleCriticalDamage" 1) rItem Player
 			if fItemPrj > 1
 				SetUIStringAlt "HUDMainMenu\IC\CHD\_Value" "%.1fx%g" (fItemStat / fItemPrj) fItemPrj
 			else
@@ -239,7 +246,7 @@ begin Function {rItem}
 
 		; Display critical hit chance
 		fItemStat = Floor (Player.GetAV CritChance)
-		if eval rItem.GetIsAutomatic && Goo1.AuxVarGetFlt "*Tweaks:bCritChanceIgnoresFireRate" == 0
+		if eval rItem.GetIsAutomatic && Goo1.AuxVarGetFlt "*_Tweaks:bCritChanceIgnoresFireRate" == 0
 			fItemStat /= fItemRof
 		endif
 		fItemStat *= rItem.GetCritPerc
@@ -280,7 +287,11 @@ begin Function {rItem}
 			endif
 			fItemAmmo += rItem.GetClipSize
 			iCount = Player.GetItemCount rAmmo
-			SetUIStringAlt "HUDMainMenu\IC\AMMO\_title" "%z (%g/%g)" (GetAmmoName 1 rAmmo) (GetMinOf fItemAmmo iCount) (GetMaxOf 0 (iCount - fItemAmmo))
+			if eval GetUIFloatAlt "HUDMainMenu\IC\_B42" == 1
+				SetUIStringAlt "HUDMainMenu\IC\AMMO\_title" "%z (%g/%g)" (GetAmmoName 1 rAmmo) (Player.GetPlayerCurrentAmmoRounds) (GetMaxOf 0 (iCount - fItemAmmo))
+			else
+				SetUIStringAlt "HUDMainMenu\IC\AMMO\_title" "%z (%g/%g)" (GetAmmoName 1 rAmmo) (GetMinOf fItemAmmo iCount) (GetMaxOf 0 (iCount - fItemAmmo))
+			endif
 		else
 			rAmmo = rItem.GBO
 			SetUIStringAlt "HUDMainMenu\IC\AMMO\_title" "--"
@@ -302,7 +313,7 @@ begin Function {rItem}
 		endif
 
 		; Hardcore ammo weight
-		if eval Player.IsHardcore == 0 && Goo1.AuxVarGetFlt "*Tweaks:bHardcoreTweaks" 1 == 0
+		if eval Player.IsHardcore == 0 && Goo1.AuxVarGetFlt "*_Tweaks:bHardcoreTweaks" 1 == 0
 			fEquipWg = fItemWg = 0
 		endif
 
@@ -320,7 +331,7 @@ begin Function {rItem}
 			if Sv_Length sEffect > 0
 				Sv_Erase sEffect (sv_Length sEffect -1) 1
 				SetUIStringAlt "HUDMainMenu\IC\EI\_value" (sEffect)
-				SetUIFloatAlt "HUDMainMenu\IC\EI\visible" 1
+				iEI = 1
 				iShowCard = 1
 			endif
 		endif
@@ -336,29 +347,9 @@ begin Function {rItem}
 
 		; Get weapon mod description
 		SetUIStringAlt "HUDMainMenu\IC\EI\_value" "%z" (GetFormDescription (rItem.GBO))
-		SetUIFloatAlt "HUDMainMenu\IC\EI\visible" 1
+		iEI = 1
 
 		iShowCard = 1
-
-	; Miscellaneous
-	;elseif eval (iType == 31 && Goo1.AuxVarGetFlt "*ICXMI" == 1)
-	;
-	;	rEquipped = rItem
-	;	fItemWg = fEquipWg = rItem.GetWeight
-	;
-	;	sEffect = ""
-	;	aTemp = GetFormRecipes (rItem.GBO)
-	;	aForE = Ar_Null
-	;	foreach aForE <- aTemp
-	;		rRecipe = *aForE
-	;		Sv_Insert "%z%r" (LNGetName rRecipe) sEffect 0
-	;	loop
-	;	if Sv_Length sEffect > 0
-	;		Sv_Erase sEffect (sv_Length sEffect -1) 1
-	;		SetUIStringAlt "HUDMainMenu\IC\EI\_value" (sEffect)
-	;		SetUIFloatAlt "HUDMainMenu\IC\EI\visible" 1
-	;		SetUIFloatAlt "HUDMainMenu\_IC+V" 1
-	;	endif
 
 	endif
 
@@ -369,15 +360,17 @@ begin Function {rItem}
 		Call (CompileScript "ItemCards\stUDFItemCardsStat.gek") fItemVal (rEquipped.GetCalculatedItemValue) "HUDMainMenu\IC\VAL\" 0
 
 		; "bWeightlessItems" lStewieAl Tweak
-		if eval Goo1.AuxVarGetFlt "*Tweaks:bWeightlessItems" 0 == 1
+		if eval Goo1.AuxVarGetFlt "*_Tweaks:bWeightlessItems" 0 == 1
 			if eval iType == 40 ; Weapon
-				fItemWg *= Goo1.AuxVarGetFlt "*Tweaks:bWeightlessItems" 5
+				fItemWg *= Goo1.AuxVarGetFlt "*_Tweaks:bWeightlessItems" 5
+				fEquipWg *= Goo1.AuxVarGetFlt "*_Tweaks:bWeightlessItems" 5
 			elseif eval iType == 41 ; Ammo
-				fEquipWg = fItemWg *= Goo1.AuxVarGetFlt "*Tweaks:bWeightlessItems" 2
+				fEquipWg = fItemWg *= Goo1.AuxVarGetFlt "*_Tweaks:bWeightlessItems" 2
 			elseif eval iType == 24 ; Armor
-				fItemWg *= Goo1.AuxVarGetFlt "*Tweaks:bWeightlessItems" 3
+				fItemWg *= Goo1.AuxVarGetFlt "*_Tweaks:bWeightlessItems" 3
+				fEquipWg *= Goo1.AuxVarGetFlt "*_Tweaks:bWeightlessItems" 3
 			elseif eval iType == 103 ; WeaponMods
-				fEquipWg = fItemWg *= Goo1.AuxVarGetFlt "*Tweaks:bWeightlessItems" 4
+				fEquipWg = fItemWg *= Goo1.AuxVarGetFlt "*_Tweaks:bWeightlessItems" 4
 			endif
 		endif
 
@@ -405,7 +398,17 @@ begin Function {rItem}
 		endif
 
 		; Show item card
-		SetUIFloatAlt "HUDMainMenu\_IC+V" 1
+		SetUIFloatAlt "HUDMainMenu\_IC+M" iType
+		SetUIFloatAlt "HUDMainMenu\IC\EI\visible" iEI
+		SetUIFloatAlt "HUDMainMenu\IC\MI1\visible" iMI1
+		SetUIFloatAlt "HUDMainMenu\IC\MI2\visible" iMI2
+		SetUIFloatAlt "HUDMainMenu\IC\MI3\visible" iMI3
+		fAlpha = GetUIFloatAlt "HUDMainMenu\IC\_alpha"
+		SetUIFloatGradual "HUDMainMenu\IC\_alpha"
+		SetUIFloatGradual "HUDMainMenu\IC\CleanBackground\alpha"
+		fItemStat = ((255 - fAlpha) / 255) * 0.20
+		SetUIFloatGradual "HUDMainMenu\IC\_alpha" fAlpha 255 fItemStat
+		SetUIFloatGradual "HUDMainMenu\IC\CleanBackground\alpha" fAlpha 255 fItemStat
 
 	endIf
 
