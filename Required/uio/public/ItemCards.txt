@@ -1,0 +1,9 @@
+Stentorious\ItemCards\InjectTrait\CardInfoDarn.xml::@Prefabs\card_info.xml
+darnui
+true
+Stentorious\ItemCards\InjectTrait\CardInfoTextDarn.xml::@Prefabs\card_info.xml::CI_ValueText
+darnui
+true
+Stentorious\ItemCards\InjectTrait\CardInfoTextDarn.xml::@Prefabs\card_info.xml::CI_TitleText
+darnui
+true

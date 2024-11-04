@@ -109,6 +109,7 @@
 		<height> <copy src="parent()" trait="user1" /> </height>
 		<font> <copy src="parent()" trait="font" /> </font>
 		<_title> CHD </_title>
+		<_ICDarNFix> 0 </_ICDarNFix>
 	</rect>
 
 	<rect name="CHC">
@@ -122,6 +123,7 @@
 		<height> <copy src="parent()" trait="user1" /> </height>
 		<font> <copy src="parent()" trait="font" /> </font>
 		<_title> CHC </_title>
+		<_ICDarNFix> 0 </_ICDarNFix>
 	</rect>
 
 	<rect name="DPS">
@@ -137,6 +139,7 @@
 		<height> <copy src="parent()" trait="user1" /> </height>
 		<font> <copy src="parent()" trait="font" /> </font>
 		<_title> &-sInventoryDamagePerSecond; </_title>
+		<_ICDarNFix> 0 </_ICDarNFix>
 	</rect>
 
 	<rect name="DAM">
@@ -148,6 +151,7 @@
 		<height> <copy src="parent()" trait="user1" /> </height>
 		<font> <copy src="parent()" trait="font" /> </font>
 		<_title> &-sInventoryDamage; </_title>
+		<_ICDarNFix> 0 </_ICDarNFix>
 	</rect>
 
 	<rect name="DR">
@@ -164,6 +168,7 @@
 		<height> <copy src="parent()" trait="user1" /> </height>
 		<font> <copy src="parent()" trait="font" /> </font>
 		<_title> &-sInventoryDamageResistance; </_title>
+		<_ICDarNFix> 0 </_ICDarNFix>
 	</rect>
 
 	<rect name="DT">
@@ -175,6 +180,7 @@
 		<height> <copy src="parent()" trait="user1" /> </height>
 		<font> <copy src="parent()" trait="font" /> </font>
 		<_title> &-sInventoryDamageThreshold; </_title>
+		<_ICDarNFix> 0 </_ICDarNFix>
 	</rect>
 
 	<rect name="WG">
@@ -198,6 +204,7 @@
 		<height> <copy src="parent()" trait="user1" /> </height>
 		<font> <copy src="parent()" trait="font" /> </font>
 		<_title> &-sInventoryWeightUpper; </_title>
+		<_ICDarNFix> 0 </_ICDarNFix>
 	</rect>
 
 	<rect name="VAL">
@@ -222,6 +229,7 @@
 		<height> <copy src="parent()" trait="user1" /> </height>
 		<font> <copy src="parent()" trait="font" /> </font>
 		<_title> &-sInventoryValue; </_title>
+		<_ICDarNFix> 0 </_ICDarNFix>
 	</rect>
 
 	<rect name="CND">
@@ -239,6 +247,7 @@
 		<font> <copy src="parent()" trait="font" /> </font>
 		<user6> <not src="sibling(DR)" trait="visible" /> </user6>
 		<_title> &-sInventoryCondition; </_title>
+		<_ICDarNFix> 0 </_ICDarNFix>
 
 		<rect name="ConditionMeter">
 			<include src="meter.xml" />
@@ -301,6 +310,7 @@
 		</width>
 		<height> <copy src="parent()" trait="user1" /> </height>
 		<font> <copy src="parent()" trait="font" /> </font>
+		<_ICDarNFix> 0 </_ICDarNFix>
 	</rect>
 
 	<rect name="EI">
@@ -337,6 +347,7 @@
 			<copy src="me()" trait="_h" />
 			<sub src="parent()" trait="_BGOffset" />
 		</_height>
+		<_ICDarNFix> 0 </_ICDarNFix>
 	</rect>
 
 	<rect name="MI1">
@@ -353,6 +364,7 @@
 		<height> <copy src="parent()" trait="user1" /> </height>
 		<font> <copy src="parent()" trait="font" /> </font>
 		<_title> &-sModEffects; </_title>
+		<_ICDarNFix> 0 </_ICDarNFix>
 	</rect>
 
 	<rect name="MI2">
@@ -375,6 +387,7 @@
 		</height>
 		<font> <copy src="parent()" trait="font" /> </font>
 		<_title> </_title>
+		<_ICDarNFix> 0 </_ICDarNFix>
 	</rect>
 
 	<rect name="MI3">
@@ -401,6 +414,7 @@
 		</height>
 		<font> <copy src="parent()" trait="font" /> </font>
 		<_title> </_title>
+		<_ICDarNFix> 0 </_ICDarNFix>
 	</rect>
 
 	<rect name="STR">
@@ -417,6 +431,7 @@
 		<height> <copy src="parent()" trait="user1" /> </height>
 		<font> <copy src="parent()" trait="font" /> </font>
 		<_title> &-sInventoryStrReq; </_title>
+		<_ICDarNFix> 0 </_ICDarNFix>
 	</rect>
 
 	<rect name="VW">
@@ -446,6 +461,7 @@
 		<height> <copy src="parent()" trait="user1" /> </height>
 		<font> <copy src="parent()" trait="font" /> </font>
 		<_title> V/W </_title>
+		<_ICDarNFix> 0 </_ICDarNFix>
 	</rect>
 
 	<rect name="SKL">
@@ -463,6 +479,7 @@
 		<height> <copy src="parent()" trait="user1" /> </height>
 		<font> <copy src="parent()" trait="font" /> </font>
 		<_title> </_title>
+		<_ICDarNFix> 0 </_ICDarNFix>
 
 		<image name="Icon">
 			<visible> 1 </visible>

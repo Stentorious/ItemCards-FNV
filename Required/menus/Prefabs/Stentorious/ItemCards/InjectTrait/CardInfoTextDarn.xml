@@ -1,0 +1,4 @@
+<alpha>
+	<copy src="parent()" trait="alpha"/>
+	<max> <copy> 255 </copy> <onlyif src="parent" trait="_ICDarNFix" /> </max>
+</alpha>
