@@ -163,6 +163,12 @@ if Goo1.AuxVarGetFlt "*ItemCard_Init" != 1
 		endif
 	endif
 
+	; Enable colorful CND
+	if GetINIFloat "Color:iCNDMeter" "PipBoyUITweaks.ini" > 0
+		InjectUIXML "HUDMainMenu\IC\CND\ConditionMeter" "data\menus\prefabs\Stentorious\PipBoyUITweaks\ColorCNDMeterIC.xml"
+		SetUIFloatAlt "HUDMainMenu\IC\CND\ConditionMeter\MeterImage\visible" 0
+	endif
+
 	; Item card update event handlers
 	SetEventHandler "OnCrosshairOn" (CompileScript "ItemCards\stUDFItemCardsOnCrosshairOn.gek")
 	SetEventHandler "OnCrosshairOff" (CompileScript "ItemCards\stUDFItemCardsOnCrosshairOff.gek")
