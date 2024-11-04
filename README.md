@@ -28,6 +28,7 @@
 - [Consistent Weapon Mod Descriptions](https://www.nexusmods.com/newvegas/mods/85957)
 
 ## Requirements
+- [xNVSE](https://www.nexusmods.com/newvegas/mods/67883) (6.3.3+)
 - [JIP LN NVSE](https://www.nexusmods.com/newvegas/mods/58277)
 - [JohnnyGuitar NVSE](https://www.nexusmods.com/newvegas/mods/66927)
 - [ShowOff xNVSE](https://www.nexusmods.com/newvegas/mods/72541)
