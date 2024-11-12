@@ -3,7 +3,10 @@
 <rect name="IC">
 
 	<visible>
-		<copy src="HitPoints" trait="visible" />
+		<copy src="ReticleCenter" trait="visible" />
+		<or src="AmmoTypeLabel" trait="visible" />
+		<or src="ActionPoints" trait="visible" />
+		<or src="HitPoints" trait="visible" />
 	</visible>
 	<locus> 1 </locus>
 	<depth> 2 </depth>
