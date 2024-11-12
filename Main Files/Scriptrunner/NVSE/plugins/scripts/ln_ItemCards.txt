@@ -1,4 +1,4 @@
-; Item Cards 2.3 - Stentorious
+; Item Cards - Stentorious
 
 ; On game restart
 if Goo1.AuxVarGetFlt "*ItemCard_Init" != 1

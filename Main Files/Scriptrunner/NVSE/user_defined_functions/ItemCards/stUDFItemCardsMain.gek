@@ -250,7 +250,7 @@ begin Function {rItem}
 			fItemStat /= fItemRof
 		endif
 		fItemStat *= rItem.GetCritPerc
-		fItemStat = GetMinOf (Player.GetPerkModifier 1 fItemStat rItem Player) 100
+		fItemStat = GetMaxOf 0 (GetMinOf 100 (Player.GetPerkModifier 1 fItemStat rItem Goo1))
 		SetUIStringAlt "HUDMainMenu\IC\CHC\_Value" "%.2f%%" fItemStat
 		if fItemStat == 0
 			SetUIStringAlt "HUDMainMenu\IC\CHD\_Value" "--"
