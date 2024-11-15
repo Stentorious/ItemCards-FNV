@@ -73,14 +73,17 @@ begin Function {rItem}
 
 		; Display armor class string/icon
 		iArmorClass = GetAC (rItem.GBO)
-		if iArmorClass == 1
-			SetUIStringAlt "HUDMainMenu\IC\AMMO\_title" "Light"
+		if eval rItem.IsPA
+			SetUIStringAlt "HUDMainMenu\IC\AMMO\_title" (GetStringSetting "sKBPower")
+			SetUIStringAlt "HUDMainMenu\IC\AMMO\ySIImage\filename" "interface\icons\Apparel_ArmorD_Power.dds"
+		elseif iArmorClass == 1
+			SetUIStringAlt "HUDMainMenu\IC\AMMO\_title" (GetStringSetting "sArmorWeightLight")
 			SetUIStringAlt "HUDMainMenu\IC\AMMO\ySIImage\filename" "interface\icons\Apparel_ArmorA_Light.dds"
 		elseif iArmorClass == 2
-			SetUIStringAlt "HUDMainMenu\IC\AMMO\_title" "Medium"
+			SetUIStringAlt "HUDMainMenu\IC\AMMO\_title" (GetStringSetting "sArmorWeightMedium")
 			SetUIStringAlt "HUDMainMenu\IC\AMMO\ySIImage\filename" "interface\icons\Apparel_ArmorB_Medium.dds"
 		elseif iArmorClass == 3
-			SetUIStringAlt "HUDMainMenu\IC\AMMO\_title" "Heavy"
+			SetUIStringAlt "HUDMainMenu\IC\AMMO\_title" (GetStringSetting "sArmorWeightHeavy")
 			SetUIStringAlt "HUDMainMenu\IC\AMMO\ySIImage\filename" "interface\icons\Apparel_ArmorC_Heavy.dds"
 		endif
 
