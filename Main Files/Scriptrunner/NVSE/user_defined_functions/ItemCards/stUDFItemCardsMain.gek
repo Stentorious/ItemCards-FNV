@@ -88,7 +88,7 @@ begin Function {rItem}
 		endif
 
 		; Display armor effect string
-		if Goo1.AuxVarGetFlt "*ItemCard_INI" 1 == 1
+		if eval Goo1.AuxVarGetFlt "*ItemCard_INI" 1
 			rObjectEffect = rItem.GetObjectEffect
 			iCount = GetNumEffects rObjectEffect
 			if iCount > 0
@@ -132,7 +132,7 @@ begin Function {rItem}
 			iCount = 0
 			iIndex = 0
 			while 4 > (iIndex += 1)
-				if GetBit iBitMask (iIndex - 1) == 1
+				if eval GetBit iBitMask (iIndex - 1)
 					iCount += 1
 					if iCount == 1
 						SetUIStringAlt "HUDMainMenu\IC\MI1\_value" (LNGetName (rItem.GetWeaponItemMod iIndex))
@@ -299,7 +299,9 @@ begin Function {rItem}
 			rAmmo = rItem.GBO
 			SetUIStringAlt "HUDMainMenu\IC\AMMO\_title" "--"
 		endif
-		SetUIStringAlt "HUDMainMenu\IC\AMMO\ySIImage\filename" (ySIGetTrait "filename" rAmmo)
+		if eval Goo1.AuxVarGetFlt "*_ySI-SortingIcons"
+			RunScriptSnippet 0 "SetUIStringAlt %qHUDMainMenu\IC\AMMO\ySIImage\filename%q (ySIGetTrait %qicon%q %q%i%q)" rAmmo
+		endif
 
 		; Display condition
 		SetUIFloatAlt "HUDMainMenu\IC\CND\ConditionMeter\_value" (rItem.GetItemRefCurrentHealth 1)
@@ -307,7 +309,7 @@ begin Function {rItem}
 		iShowCard = 1
 
 	; Ammo
-	elseif eval (iType == 41 && Goo1.AuxVarGetFlt "*ItemCard_INI" 2 == 1)
+	elseif eval iType == 41 && Goo1.AuxVarGetFlt "*ItemCard_INI" 2
 
 		rEquipped = rItem
 		fItemWg = fEquipWg = rItem.GetWeight
@@ -340,7 +342,7 @@ begin Function {rItem}
 		endif
 
 	; Weapon mod
-	elseif eval (iType == 103 && Goo1.AuxVarGetFlt "*ItemCard_INI" 3 == 1)
+	elseif eval iType == 103 && Goo1.AuxVarGetFlt "*ItemCard_INI" 3
 
 		rEquipped = rItem
 		fItemWg = fEquipWg = rItem.GetWeight
@@ -356,14 +358,14 @@ begin Function {rItem}
 
 	endif
 
-	if iShowCard == 1
+	if eval iShowCard
 
 		; Set value
 		fItemVal = rItem.GetCalculatedItemValue
 		Call (CompileScript "ItemCards\stUDFItemCardsStat.gek") fItemVal (rEquipped.GetCalculatedItemValue) "HUDMainMenu\IC\VAL\" 0
 
 		; "bWeightlessItems" lStewieAl Tweak
-		if eval Goo1.AuxVarGetFlt "*_Tweaks:bWeightlessItems" 0 == 1
+		if eval Goo1.AuxVarGetFlt "*_Tweaks:bWeightlessItems" 0
 			if eval iType == 40 ; Weapon
 				fItemWg *= Goo1.AuxVarGetFlt "*_Tweaks:bWeightlessItems" 5
 				fEquipWg *= Goo1.AuxVarGetFlt "*_Tweaks:bWeightlessItems" 5
