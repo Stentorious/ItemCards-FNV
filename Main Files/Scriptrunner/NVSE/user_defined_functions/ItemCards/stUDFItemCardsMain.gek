@@ -271,7 +271,7 @@ begin Function {rItem}
 		Call (CompileScript "ItemCards\stUDFItemCardsStat.gek") fItemStat (GetMaxOf 0 ((rEquipped.GetReqStr) - (Player.GetPerkModifier 53 0 rEquipped))) "HUDMainMenu\IC\STR\" 0
 
 		; Display skill requirement
-		aTemp = Ar_Map 34::"energy", 35::"explosives", 38::"melee", 41::"sm_arms", 45::"unarmed"
+		aTemp = Ar_Map 33::"big_guns", 34::"energy", 35::"explosives", 38::"melee", 41::"sm_arms", 45::"unarmed"
 		iCount = rItem.GetReqSkill
 		fItemStat = rItem.GetWeaponSkill
 		if Player.GetAV (fItemStat) < iCount
