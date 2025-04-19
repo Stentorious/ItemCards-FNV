@@ -1,5 +1,6 @@
 ref	rItem
 
+int iModLight
 int iBitMask
 int iArmorClass
 int iType
@@ -33,13 +34,14 @@ string_var sEffect
 begin Function {rItem}
 
 	iType = rItem.GetType
+	iModLight = Player.GetPerkModifier 55 0
 
 	; Armor
 	if iType == 24
 
 		; Get armor ref to be compared
 		iBitMask = rItem.GetESM
-		if GetBit iBitMask 2 == 1
+		if eval GetBit iBitMask 2
 			rEquipped = Player.GetEquippedItemRef 2
 		elseif iBitMask == 18432
 			rEquipped = Player.GetEquippedItemRef 11
@@ -49,7 +51,7 @@ begin Function {rItem}
 
 		; Get item weights
 		fItemWg = rItem.GetWeight
-		if eval fItemWg <= 2 && Player.GetPerkModifier 55 0 == 1
+		if eval fItemWg <= 2 && iModLight
 			fItemWg /= 2
 		endif
 		if eval IsFormValid rEquipped != 1
@@ -57,7 +59,7 @@ begin Function {rItem}
 			fEquipWg = fItemWg
 		else
 			fEquipWg = rEquipped.GetWeight
-			if eval fEquipWg <= 2 && Player.GetPerkModifier 55 0 == 1
+			if eval fEquipWg <= 2 && iModLight
 				fEquipWg /= 2
 			endif
 		endif
@@ -184,7 +186,7 @@ begin Function {rItem}
 		endif
 
 		; "Modify Light Items" perk modifier
-		if eval fItemWg <= 2 && Player.GetPerkModifier 55 0 == 1
+		if eval fItemWg <= 2 && iModLight
 			fItemWg /= 2
 		endif
 
@@ -197,7 +199,7 @@ begin Function {rItem}
 
 		; Display damage per second
 		if eval (Goo1.AuxVarGetFlt "*ItemCard_INI" 0 == 42 && Goo1.AuxVarGetFlt "*ItemCard_INI" 4 != 1)
-			if eval GetUIFloatAlt "HUDMainMenu\IC\_B42" == 1
+			if eval GetUIFloatAlt "HUDMainMenu\IC\_B42"
 				fItemStat = rEquipped.GetCalculatedWeaponDPS
 			elseif GetUIFloatAlt "HUDMainMenu\InfoWrap\visible" != -999
 				fItemStat = #(GetUIString "HUDMainMenu\InfoWrap\Info\justify_right_text:0\string")
@@ -290,7 +292,7 @@ begin Function {rItem}
 			endif
 			fItemAmmo += rItem.GetClipSize
 			iCount = Player.GetItemCount rAmmo
-			if eval GetUIFloatAlt "HUDMainMenu\IC\_B42" == 1
+			if eval GetUIFloatAlt "HUDMainMenu\IC\_B42"
 				SetUIStringAlt "HUDMainMenu\IC\AMMO\_title" "%z (%g/%g)" (GetAmmoName 1 rAmmo) (Player.GetPlayerCurrentAmmoRounds) (GetMaxOf 0 (iCount - fItemAmmo))
 			else
 				SetUIStringAlt "HUDMainMenu\IC\AMMO\_title" "%z (%g/%g)" (GetAmmoName 1 rAmmo) (GetMinOf fItemAmmo iCount) (GetMaxOf 0 (iCount - fItemAmmo))
@@ -313,7 +315,7 @@ begin Function {rItem}
 
 		rEquipped = rItem
 		fItemWg = fEquipWg = rItem.GetWeight
-		if eval fItemWg <= 2 && Player.GetPerkModifier 55 0 == 1
+		if eval fItemWg <= 2 && iModLight
 			fEquipWg = fItemWg /= 2
 		endif
 
@@ -346,7 +348,7 @@ begin Function {rItem}
 
 		rEquipped = rItem
 		fItemWg = fEquipWg = rItem.GetWeight
-		if eval fItemWg <= 2 && Player.GetPerkModifier 55 0 == 1
+		if eval fItemWg <= 2 && iModLight
 			fEquipWg = fItemWg /= 2
 		endif
 

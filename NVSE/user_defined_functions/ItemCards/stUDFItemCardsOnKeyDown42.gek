@@ -8,7 +8,7 @@ begin Function {iKeyID}
 
 		; Pass crosshair ref to main function
 		rCrosshair = GetCrosshairRef
-		if eval IsFormValid rCrosshair && IsReference rCrosshair && rCrosshair.GetIsItem == 1 && !GetCrosshairWater
+		if eval IsFormValid rCrosshair && IsReference rCrosshair && rCrosshair.GetIsItem && !GetCrosshairWater
 			Call (CompileScript "ItemCards\stUDFItemCardsMain.gek") rCrosshair
 
 		; Pass container ref to JLM function

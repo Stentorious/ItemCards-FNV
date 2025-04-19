@@ -5,7 +5,7 @@ ref	rCrosshair
 begin Function {rCrosshair}
 
 	; Pass crosshair ref to main function
-	if eval (Goo1.AuxVarGetFlt "*ItemCard_INI" 4 == 1 || IsKeyPressed (Goo1.AuxVarGetFlt "*ItemCard_INI" 0)) && IsFormValid rCrosshair && IsReference rCrosshair && !GetCrosshairWater && GetUIFloatAlt "HUDMainMenu\IC\_B42" == 0
+	if eval (Goo1.AuxVarGetFlt "*ItemCard_INI" 4 || IsKeyPressed (Goo1.AuxVarGetFlt "*ItemCard_INI" 0)) && IsFormValid rCrosshair && IsReference rCrosshair && !GetCrosshairWater && GetUIFloatAlt "HUDMainMenu\IC\_B42" == 0
 		iType = rCrosshair.GetType
 
 		; Pass crosshair ref to main function

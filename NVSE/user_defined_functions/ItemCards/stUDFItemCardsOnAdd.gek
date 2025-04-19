@@ -9,7 +9,7 @@ begin Function {rItem, rContainer}
 	if eval GetUIFloatAlt "HUDMainMenu\IC\_B42" == 0
 
 		; Update item card on JLM item take
-		if eval (GetUIFloatAlt "HUDMainMenu\JLM\_JLMVisible" > 0 && (IsKeyPressed (Goo1.AuxVarGetFlt "*ItemCard_INI" 0) || Goo1.AuxVarGetFlt "*ItemCard_INI" 4 == 1))
+		if eval (GetUIFloatAlt "HUDMainMenu\JLM\_JLMVisible" > 0 && (IsKeyPressed (Goo1.AuxVarGetFlt "*ItemCard_INI" 0) || Goo1.AuxVarGetFlt "*ItemCard_INI" 4))
 			CallAfterFrames 3 (CompileScript "ItemCards\stUDFItemCardsOnAddJLM.gek")
 
 		; Update item card on crosshair item take

@@ -20,7 +20,7 @@ begin Function {}
 			SetUIFloatAlt "HUDMainMenu\IC\_alpha" fAlpha
 			SetUIFloatAlt "HUDMainMenu\IC\CleanBackground\alpha" fAlpha
 		endif
-	elseif GetUIFloatAlt "HUDMainMenu\IC\_B42" == 1
+	elseif eval GetUIFloatAlt "HUDMainMenu\IC\_B42"
 		SetUIFloatAlt "HUDMainMenu\B42InsText\visible" 1
 		SetUIFloatAlt "HUDMainMenu\IC\_B42" 0
 		SetUIFloatAlt "HUDMainMenu\IC\_alpha" 0

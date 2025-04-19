@@ -1,5 +1,13 @@
 ; Item Cards - Stentorious
 
+; Aux Var
+; "*ItemCard_INI"
+; 0 = Keybind code
+; 1 = Rebuild armor effect description
+; 2 = Show ammo item cards
+; 3 = Show weapon mod item cards
+; 4 = Always show item cards
+
 ; On game restart
 if Goo1.AuxVarGetFlt "*ItemCard_Init" != 1
 	Goo1.AuxVarSetFlt "*ItemCard_Init" 1
@@ -52,13 +60,13 @@ if Goo1.AuxVarGetFlt "*ItemCard_Init" != 1
 	endif
 
 	; "bHardcoreTweaks"
-	if eval (StewVal "bHardcoreTweaks:Tweaks") == 1
+	if eval StewVal "bHardcoreTweaks:Tweaks"
 		Goo1.AuxVarSetFlt "*_Tweaks:bHardcoreTweaks" 1 0
 		Goo1.AuxVarSetFlt "*_Tweaks:bHardcoreTweaks" (StewVal "bAmmoWeight:Hardcore Tweaks") 1
 	endif
 
 	; "bWeightlessItems"
-	if eval (StewVal "bWeightlessItems:Tweaks") == 1
+	if eval StewVal "bWeightlessItems:Tweaks"
 		Goo1.AuxVarSetFlt "*_Tweaks:bWeightlessItems" 1 0
 		Goo1.AuxVarSetFlt "*_Tweaks:bWeightlessItems" (1 - (StewVal "bAid:Weightless Items")) 1
 		Goo1.AuxVarSetFlt "*_Tweaks:bWeightlessItems" (1 - (StewVal "bAmmo:Weightless Items")) 2
