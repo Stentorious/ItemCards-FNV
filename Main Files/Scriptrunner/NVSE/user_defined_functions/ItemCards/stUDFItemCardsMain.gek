@@ -248,7 +248,7 @@ begin Function {rItem}
 		endif
 
 		; Display critical hit chance
-		fItemStat = Floor (Player.GetAV CritChance)
+		fItemStat = Flr (Player.GetAV CritChance)
 		if eval rItem.GetIsAutomatic && Goo1.AuxVarGetFlt "*_Tweaks:bCritChanceIgnoresFireRate" == 0
 			fItemStat /= fItemRof
 		endif
