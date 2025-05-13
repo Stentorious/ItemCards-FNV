@@ -5,21 +5,22 @@ ref	rCrosshair
 begin Function {rCrosshair}
 
 	; Pass crosshair ref to main function
-	if eval (Goo1.AuxVarGetFlt "*ItemCard_INI" 4 || IsKeyPressed (Goo1.AuxVarGetFlt "*ItemCard_INI" 0)) && IsFormValid rCrosshair && IsReference rCrosshair && !GetCrosshairWater && GetUIFloatAlt "HUDMainMenu\IC\_B42" == 0
-		iType = rCrosshair.GetType
+	if eval (Goo1.AuxVarGetFlt "*ItemCard_INI" 4 || IsKeyPressed (Goo1.AuxVarGetFlt "*ItemCard_INI" 0)) && IsReference rCrosshair && !GetCrosshairWater && GetUIFloatAlt "HUDMainMenu\IC\_B42" == 0
+	else
+		return
+	endif
 
-		; Pass crosshair ref to main function
-		if eval rCrosshair.GetIsItem
-			Call (CompileScript "ItemCards\stUDFItemCardsMain.gek") rCrosshair
+	; Pass crosshair ref to main function
+	if eval rCrosshair.GetIsItem
+		Call (CompileScript "ItemCards\stUDFItemCardsMain.gek") rCrosshair
 
-		; Pass container ref to JLM function
-		elseif eval iType == 21 || iType == 27 || iType == 42 || iType == 43
-			CallAfterFrames 2 (begin function {}
-				if eval (rContainer = GetRefVariable "rContainer" (Goo1.AuxVarGetRef "*JLMQuest"))
-					Call (CompileScript "ItemCards\stUDFItemCardsJLM.gek") rContainer
-				endif
-			end)
-		endif
+	; Pass container ref to JLM function
+	elseif eval (iType = rCrosshair.GetType) == 21 || iType == 27 || iType == 42 || iType == 43
+		CallAfterFrames 2 (begin function {}
+			if eval (rContainer = GetRefVariable "rContainer" (Goo1.AuxVarGetRef "*JLMQuest"))
+				Call (CompileScript "ItemCards\stUDFItemCardsJLM.gek") rContainer
+			endif
+		end)
 	endif
 
 end

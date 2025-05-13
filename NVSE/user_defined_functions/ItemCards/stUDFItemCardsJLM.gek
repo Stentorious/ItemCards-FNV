@@ -1,36 +1,42 @@
+ref	rContainer
+
+int iSize
 float fItemCND
 ref rItem
-ref	rContainer
 array_var aDropped
-array_var aForE
+array_var aRefs
 
 begin Function {rContainer}
 
+	if eval IsFormValid rContainer == 0
+		return
+	endif
+
 	; Pass JLM ref to main function
-	if IsFormValid rContainer
-		rItem = Player.AuxVarGetRef "*_JAMCurrentItem" 0
+	rItem = Player.AuxVarGetRef "*_JAMCurrentItem" 0
 
-		; Dropped refs
-		aDropped = GetArrayVar "aDropped" (Goo1.AuxVarGetRef "*JLMQuest")
-		if eval ((Ar_Find rItem aDropped) != Ar_BadNumericIndex)
-			Call (CompileScript "ItemCards\stUDFItemCardsMain.gek") rItem
+	; Dropped refs
+	aDropped = GetArrayVar "aDropped" (Goo1.AuxVarGetRef "*JLMQuest")
+	if eval ((Ar_Find rItem aDropped) != Ar_BadNumericIndex)
+		Call (CompileScript "ItemCards\stUDFItemCardsMain.gek") rItem
 
-		; Container refs
-		else
+	; Container refs
+	else
+		aRefs = rContainer.GetInvRefsForItem rItem
+		if eval (iSize = Ar_Size aRefs) > 0
 			fItemCND = Player.AuxVarGetFlt "*_JAMCurrentItem" 3
-			foreach aForE <- (rContainer.GetInvRefsForItem rItem)
-				rItem = *aForE
+			while (iSize -= 1) > -1
+				rItem = aRefs[iSize]
 				if fItemCND == rItem.GetCurrentHealth
 					Call (CompileScript "ItemCards\stUDFItemCardsMain.gek") rItem
 					break
 				endif
 			loop
 		endif
-
-		SetUIFloatAlt "HUDMainMenu\IC\DPS\CI_ValueText\systemcolor" 1
-
-		aDropped = aForE = ar_null
-
 	endif
+
+	SetUIFloatAlt "HUDMainMenu\IC\DPS\CI_ValueText\systemcolor" 1
+
+	aDropped = aRefs = ar_null
 
 end

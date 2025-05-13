@@ -1,17 +1,20 @@
 float fAlpha
-float fSec
+float fTime
 
 begin Function {}
 
-	; Update item card on JLM item take
-	if eval GetUIFloatAlt "HUDMainMenu\IC\_B42" == 0
-		fAlpha = GetUIFloatAlt "HUDMainMenu\IC\_alpha"
-		if eval fAlpha > 0
-			fSec = (fAlpha / 255) * 0.20
-			SetUIFloatGradual "HUDMainMenu\IC\_alpha" fAlpha 0 fSec
-			SetUIFloatGradual "HUDMainMenu\IC\CleanBackground\alpha" fAlpha 0 fSec
-		endif
-		Call (CompileScript "ItemCards\stUDFItemCardsJLM.gek") (GetRefVariable "rContainer" (Goo1.AuxVarGetRef "*JLMQuest"))
+	; Not in inspect animation
+	if eval GetUIFloatAlt "HUDMainMenu\IC\_B42"
+		return
 	endif
+
+	; Update item card on JLM item take
+	fAlpha = GetUIFloatAlt "HUDMainMenu\IC\_alpha"
+	if eval fAlpha > 0
+		fTime = (fAlpha / 255) * 0.20
+		SetUIFloatGradual "HUDMainMenu\IC\_alpha" fAlpha 0 fTime
+		SetUIFloatGradual "HUDMainMenu\IC\CleanBackground\alpha" fAlpha 0 fTime
+	endif
+	Call (CompileScript "ItemCards\stUDFItemCardsJLM.gek") (GetRefVariable "rContainer" (Goo1.AuxVarGetRef "*JLMQuest"))
 
 end

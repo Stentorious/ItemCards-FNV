@@ -4,17 +4,17 @@ ref rCrosshair
 begin Function {iKeyID}
 
 	; Not in inspect animation
-	if eval GetUIFloatAlt "HUDMainMenu\IC\_B42" == 0
+	if eval GetUIFloatAlt "HUDMainMenu\IC\_B42"
+		return
+	endif
 
-		; Pass crosshair ref to main function
-		rCrosshair = GetCrosshairRef
-		if eval IsFormValid rCrosshair && IsReference rCrosshair && rCrosshair.GetIsItem && !GetCrosshairWater
-			Call (CompileScript "ItemCards\stUDFItemCardsMain.gek") rCrosshair
+	; Pass crosshair ref to main function
+	if eval IsReference (rCrosshair = GetCrosshairRef) && rCrosshair.GetIsItem && !GetCrosshairWater
+		Call (CompileScript "ItemCards\stUDFItemCardsMain.gek") rCrosshair
 
-		; Pass container ref to JLM function
-		elseif GetUIFloatAlt "HUDMainMenu\JLM\_JLMVisible" > 0
-			Call (CompileScript "ItemCards\stUDFItemCardsJLM.gek") (GetRefVariable "rContainer" (Goo1.AuxVarGetRef "*JLMQuest"))
-		endif
+	; Pass container ref to JLM function
+	elseif GetUIFloatAlt "HUDMainMenu\JLM\_JLMVisible" > 0
+		Call (CompileScript "ItemCards\stUDFItemCardsJLM.gek") (GetRefVariable "rContainer" (Goo1.AuxVarGetRef "*JLMQuest"))
 	endif
 
 end

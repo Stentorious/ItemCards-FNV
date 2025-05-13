@@ -1,16 +1,17 @@
 ref	rCrosshair
 
 float fAlpha
-float fSec
+float fTime
 
 begin Function {rCrosshair}
 
 	; Hide item card on crosshair selection end
-	fAlpha = GetUIFloatAlt "HUDMainMenu\IC\_alpha"
-	if eval fAlpha > 0 && IsFormValid rCrosshair && GetUIFloatAlt "HUDMainMenu\IC\_B42" == 0
-		fSec = (fAlpha / 255) * 0.20
-		SetUIFloatGradual "HUDMainMenu\IC\_alpha" fAlpha 0 fSec
-		SetUIFloatGradual "HUDMainMenu\IC\CleanBackground\alpha" fAlpha 0 fSec
+	if eval IsFormValid rCrosshair == 0 || GetUIFloatAlt "HUDMainMenu\IC\_B42" || (fAlpha = GetUIFloatAlt "HUDMainMenu\IC\_alpha") == 0
+		return
 	endif
+
+	fTime = (fAlpha / 255) * 0.20
+	SetUIFloatGradual "HUDMainMenu\IC\_alpha" fAlpha 0 fTime
+	SetUIFloatGradual "HUDMainMenu\IC\CleanBackground\alpha" fAlpha 0 fTime
 
 end

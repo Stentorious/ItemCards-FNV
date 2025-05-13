@@ -12,7 +12,7 @@ begin Function {}
 				SetUIFloatAlt "HUDMainMenu\B42InsText\visible" 0
 				SetUIFloatAlt "HUDMainMenu\IC\_B42" 1
 				rCrosshair = Player.GetEquippedWeaponRef
-				if eval IsFormValid rCrosshair && IsReference rCrosshair
+				if eval IsReference rCrosshair
 					Call (CompileScript "ItemCards\stUDFItemCardsMain.gek") rCrosshair
 				endif
 			endif
