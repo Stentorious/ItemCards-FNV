@@ -19,9 +19,8 @@ endif
 Goo1.AuxVarSetFlt "*ItemCard_Init" 1
 
 ; Check for requirements
-if GetNVSEVersion > 5 && GetNVSERevision > 2 && GetNVSEBeta > 9
-else
-   MessageBoxEx "Item Cards missing requirement!%rInstall xNVSE 6.3.10+."
+if eval GetNVSEVersion < 6 || (GetNVSEVersion == 6 && GetNVSERevision < 4)
+   MessageBoxEx "Item Cards missing requirement!%rInstall xNVSE 6.4.0+."
    return
 endif
 if GetPluginVersion "JohnnyGuitarNVSE" < 200
