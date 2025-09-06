@@ -12,13 +12,13 @@ begin Function {rCrosshair}
 
 	; Pass crosshair ref to main function
 	if eval rCrosshair.GetIsItem
-		Call (CompileScript "ItemCards\stUDFItemCardsMain.gek") rCrosshair
+		Call (CompileScript "ItemCards\Main.gek") rCrosshair
 
 	; Pass container ref to JLM function
 	elseif eval (iType = rCrosshair.GetType) == 21 || iType == 27 || iType == 42 || iType == 43
 		CallAfterFrames 2 (begin function {}
 			if eval (rContainer = GetRefVariable "rContainer" (Goo1.AuxVarGetRef "*JLMQuest"))
-				Call (CompileScript "ItemCards\stUDFItemCardsJLM.gek") rContainer
+				Call (CompileScript "ItemCards\JLM.gek") rContainer
 			endif
 		end)
 	endif

@@ -49,7 +49,7 @@ Goo1.AuxVarSetFlt "*ItemCard_INI" (GetINIFloat_Cached "General:bShowAlways" "Ste
 ; B42 Inspect compatibility
 if eval IsModLoaded "B42Inspect.esp" && GetINIFloat_Cached "General:bB42Inspect" "Stentorious\ItemCards.ini"
 	Goo1.AuxVarSetRef "*B42IQuest" (EditorIDToFormID "B42InspectQ")
-	SetGameMainLoopCallBack (CompileScript "ItemCards\stUDFItemCardsB42Callback.gek") 1 1 1
+	SetGameMainLoopCallBack (CompileScript "ItemCards\B42Callback.gek") 1 1 1
 endif
 
 ; lStewieAl's Tweaks Auxiliary-Variables
@@ -171,24 +171,24 @@ CloseFileSO "Stentorious\ItemCards.ini" 0
 CloseFileSO "Stentorious\PipBoyUITweaks.ini" 0
 
 ; Item card update event handlers
-SetEventHandler "OnCrosshairOn" (CompileScript "ItemCards\stUDFItemCardsOnCrosshairOn.gek")
-SetEventHandler "OnCrosshairOff" (CompileScript "ItemCards\stUDFItemCardsOnCrosshairOff.gek")
-SetEventHandler "ShowOff:OnAdd" (CompileScript "ItemCards\stUDFItemCardsOnAdd.gek") "second"::player
+SetEventHandler "OnCrosshairOn" (CompileScript "ItemCards\OnCrosshairOn.gek")
+SetEventHandler "OnCrosshairOff" (CompileScript "ItemCards\OnCrosshairOff.gek")
+SetEventHandler "ShowOff:OnAdd" (CompileScript "ItemCards\OnAdd.gek") "second"::player
 if eval Goo1.AuxVarGetFlt "*ItemCard_INI" 4 != 1
-	SetOnKeyDownEventHandler (CompileScript "ItemCards\stUDFItemCardsOnKeyDown42.gek") 1 (Goo1.AuxVarGetFlt "*ItemCard_INI" 0)
-	SetOnKeyUpEventHandler (CompileScript "ItemCards\stUDFItemCardsOnKeyUp42.gek") 1 (Goo1.AuxVarGetFlt "*ItemCard_INI" 0)
+	SetOnKeyDownEventHandler (CompileScript "ItemCards\OnKeyDown42.gek") 1 (Goo1.AuxVarGetFlt "*ItemCard_INI" 0)
+	SetOnKeyUpEventHandler (CompileScript "ItemCards\OnKeyUp42.gek") 1 (Goo1.AuxVarGetFlt "*ItemCard_INI" 0)
 endif
 
 ; JLM support
 if eval IsModLoaded "JustAssortedMods.esp" || IsModLoaded "JustLootMenu.esp"
 	Goo1.AuxVarSetRef "*JLMQuest" (EditorIDToFormID "JLM")
-	SetOnKeyDownEventHandler (CompileScript "ItemCards\stUDFItemCardsOnKeyDown264265.gek") 1 264
-	SetOnKeyDownEventHandler (CompileScript "ItemCards\stUDFItemCardsOnKeyDown264265.gek") 1 265
-	SetEventHandler "OnButtonDown:3" (CompileScript "ItemCards\stUDFItemCardsOnKeyDown264265.gek")
+	SetOnKeyDownEventHandler (CompileScript "ItemCards\OnKeyDown264265.gek") 1 264
+	SetOnKeyDownEventHandler (CompileScript "ItemCards\OnKeyDown264265.gek") 1 265
+	SetEventHandler "OnButtonDown:3" (CompileScript "ItemCards\OnKeyDown264265.gek")
 endif
 
 ; MAPMO Support
 if eval IsModLoaded "Main And Pause Menus Overhaul.esm"
 	Goo1.AuxVarSetRef "*MAPMOQuest" (EditorIDToFormID "MAPMOMainQUEST")
-	SetGameMainLoopCallBack (CompileScript "ItemCards\stUDFItemCardsMAPMOCallback.gek") 1 1 1
+	SetGameMainLoopCallBack (CompileScript "ItemCards\MAPMOCallback.gek") 1 1 1
 endif

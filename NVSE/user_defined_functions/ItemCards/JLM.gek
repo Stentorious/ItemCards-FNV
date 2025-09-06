@@ -18,7 +18,7 @@ begin Function {rContainer}
 	; Dropped refs
 	aDropped = GetArrayVar "aDropped" (Goo1.AuxVarGetRef "*JLMQuest")
 	if eval ((Ar_Find rItem aDropped) != Ar_BadNumericIndex)
-		Call (CompileScript "ItemCards\stUDFItemCardsMain.gek") rItem
+		Call (CompileScript "ItemCards\Main.gek") rItem
 
 	; Container refs
 	else
@@ -28,7 +28,7 @@ begin Function {rContainer}
 			while (iSize -= 1) > -1
 				rItem = aRefs[iSize]
 				if fItemCND == rItem.GetCurrentHealth
-					Call (CompileScript "ItemCards\stUDFItemCardsMain.gek") rItem
+					Call (CompileScript "ItemCards\Main.gek") rItem
 					break
 				endif
 			loop

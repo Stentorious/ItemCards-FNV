@@ -15,6 +15,6 @@ begin Function {}
 		SetUIFloatGradual "HUDMainMenu\IC\_alpha" fAlpha 0 fTime
 		SetUIFloatGradual "HUDMainMenu\IC\CleanBackground\alpha" fAlpha 0 fTime
 	endif
-	Call (CompileScript "ItemCards\stUDFItemCardsJLM.gek") (GetRefVariable "rContainer" (Goo1.AuxVarGetRef "*JLMQuest"))
+	Call (CompileScript "ItemCards\JLM.gek") (GetRefVariable "rContainer" (Goo1.AuxVarGetRef "*JLMQuest"))
 
 end

@@ -65,10 +65,10 @@ begin Function {rItem}
 		endif
 
 		; Display DR
-		Call (CompileScript "ItemCards\stUDFItemCardsStat.gek") (rItem.GetArmorEffectiveDR) (rEquipped.GetArmorEffectiveDR) "HUDMainMenu\IC\DR\" 0
+		Call (CompileScript "ItemCards\Stat.gek") (rItem.GetArmorEffectiveDR) (rEquipped.GetArmorEffectiveDR) "HUDMainMenu\IC\DR\" 0
 
 		; Display DT
-		Call (CompileScript "ItemCards\stUDFItemCardsStat.gek") (rItem.GetArmorEffectiveDT) (rEquipped.GetArmorEffectiveDT) "HUDMainMenu\IC\DT\" 0
+		Call (CompileScript "ItemCards\Stat.gek") (rItem.GetArmorEffectiveDT) (rEquipped.GetArmorEffectiveDT) "HUDMainMenu\IC\DT\" 0
 
 		; Display condition
 		SetUIFloatAlt "HUDMainMenu\IC\CND\ConditionMeter\_value" (rItem.GetItemRefCurrentHealth 1)
@@ -207,9 +207,9 @@ begin Function {rItem}
 				fItemStat = #(GetUIString "HUDMainMenu\Info\justify_right_text:0\string")
 			endif
 			if rItem == rEquipped
-				Call (CompileScript "ItemCards\stUDFItemCardsStat.gek") fItemStat fItemStat "HUDMainMenu\IC\DPS\" 0
+				Call (CompileScript "ItemCards\Stat.gek") fItemStat fItemStat "HUDMainMenu\IC\DPS\" 0
 			else
-				Call (CompileScript "ItemCards\stUDFItemCardsStat.gek") fItemStat (rEquipped.GetCalculatedWeaponDPS) "HUDMainMenu\IC\DPS\" 0
+				Call (CompileScript "ItemCards\Stat.gek") fItemStat (rEquipped.GetCalculatedWeaponDPS) "HUDMainMenu\IC\DPS\" 0
 			endif
 		endif
 
@@ -234,7 +234,7 @@ begin Function {rItem}
 			endif
 			SetUIFloatAlt "HUDMainMenu\IC\DAM\CI_ValueText\systemcolor" iColor
 		else
-			Call (CompileScript "ItemCards\stUDFItemCardsStat.gek") fItemStat fEquipStat "HUDMainMenu\IC\DAM\" 0
+			Call (CompileScript "ItemCards\Stat.gek") fItemStat fEquipStat "HUDMainMenu\IC\DAM\" 0
 		endif
 
 		; Display critical hit damage
@@ -270,7 +270,7 @@ begin Function {rItem}
 			SetUIFloatAlt "HUDMainMenu\IC\STR\CI_TitleText\brightness" 255
 			SetUIFloatAlt "HUDMainMenu\IC\STR\CI_ValueText\brightness" 255
 		endif
-		Call (CompileScript "ItemCards\stUDFItemCardsStat.gek") fItemStat (GetMaxOf 0 ((rEquipped.GetReqStr) - (Player.GetPerkModifier 53 0 rEquipped))) "HUDMainMenu\IC\STR\" 0
+		Call (CompileScript "ItemCards\Stat.gek") fItemStat (GetMaxOf 0 ((rEquipped.GetReqStr) - (Player.GetPerkModifier 53 0 rEquipped))) "HUDMainMenu\IC\STR\" 0
 
 		; Display skill requirement
 		aTemp = Ar_Map 33::"big_guns", 34::"energy", 35::"explosives", 38::"melee", 41::"sm_arms", 45::"unarmed"
@@ -364,7 +364,7 @@ begin Function {rItem}
 
 		; Set value
 		fItemVal = rItem.GetCalculatedItemValue
-		Call (CompileScript "ItemCards\stUDFItemCardsStat.gek") fItemVal (rEquipped.GetCalculatedItemValue) "HUDMainMenu\IC\VAL\" 0
+		Call (CompileScript "ItemCards\Stat.gek") fItemVal (rEquipped.GetCalculatedItemValue) "HUDMainMenu\IC\VAL\" 0
 
 		; "bWeightlessItems" lStewieAl Tweak
 		if eval Goo1.AuxVarGetFlt "*_Tweaks:bWeightlessItems" 0

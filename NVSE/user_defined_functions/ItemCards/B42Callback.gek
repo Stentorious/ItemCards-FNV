@@ -13,7 +13,7 @@ begin Function {}
 				SetUIFloatAlt "HUDMainMenu\IC\_B42" 1
 				rCrosshair = Player.GetEquippedWeaponRef
 				if eval IsReference rCrosshair
-					Call (CompileScript "ItemCards\stUDFItemCardsMain.gek") rCrosshair
+					Call (CompileScript "ItemCards\Main.gek") rCrosshair
 				endif
 			endif
 			fAlpha = GetVariable "fAlpha" rQuest
@@ -25,7 +25,7 @@ begin Function {}
 		SetUIFloatAlt "HUDMainMenu\IC\_B42" 0
 		SetUIFloatAlt "HUDMainMenu\IC\_alpha" 0
 		SetUIFloatAlt "HUDMainMenu\IC\CleanBackground\alpha" 0
-		Call (CompileScript "ItemCards\stUDFItemCardsOnCrosshairOn.gek") (GetCrosshairRef)
+		Call (CompileScript "ItemCards\OnCrosshairOn.gek") (GetCrosshairRef)
 	endif
 
 end
