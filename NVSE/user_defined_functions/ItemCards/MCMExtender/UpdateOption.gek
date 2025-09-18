@@ -1,0 +1,41 @@
+float fValue
+int iMenu
+int iSubmenu
+int iOption
+array_var aJSON
+
+int iKeybind
+
+Begin Function {fValue, iMenu, iSubmenu, iOption, aJSON}
+
+	; Keybind
+	if eval iOption == 3
+
+		if eval (iKeybind = Goo1.AuxVarGetFlt "*ItemCard_INI" 0) != fValue
+			if eval iKeybind > 0
+				SetOnKeyDownEventHandler (CompileScript "ItemCards\OnKeyDown.gek") 0 iKeybind
+				SetOnKeyUpEventHandler (CompileScript "ItemCards\OnKeyUp.gek") 0 iKeybind
+			endif
+			if eval fValue > 0
+				SetOnKeyDownEventHandler (CompileScript "ItemCards\OnKeyDown.gek") 1 fValue
+				SetOnKeyUpEventHandler (CompileScript "ItemCards\OnKeyUp.gek") 1 fValue
+			endif
+			Goo1.AuxVarSetFlt "*ItemCard_INI" fValue 0
+		endif
+
+	; B42 Inspect
+	elseif eval iOption == 12 && Goo1.AuxVarGetFlt "*_B42Inspect.esp"
+		if eval fValue == 1
+			SetGameMainLoopCallBack (CompileScript "ItemCards\B42Callback.gek") 1 1 1
+		else
+			SetGameMainLoopCallBack (CompileScript "ItemCards\B42Callback.gek") 0
+			SetUIFloatAlt "HUDMainMenu\B42InsText\visible" 1
+			SetUIFloatAlt "HUDMainMenu\IC\_B42" 0
+			SetUIFloatAlt "HUDMainMenu\IC\_alpha" 0
+			SetUIFloatAlt "HUDMainMenu\IC\CleanBackground\alpha" 0
+		endif
+	endif
+
+	aJSON = ar_Null
+
+End

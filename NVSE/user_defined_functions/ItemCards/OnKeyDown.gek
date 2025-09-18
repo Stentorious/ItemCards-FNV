@@ -4,7 +4,7 @@ ref rCrosshair
 begin Function {iKeyID}
 
 	; Not in inspect animation
-	if eval GetUIFloatAlt "HUDMainMenu\IC\_B42"
+	if eval Goo1.AuxVarGetFlt "*ItemCard_INI" 4 || GetUIFloatAlt "HUDMainMenu\IC\_B42"
 		return
 	endif
 

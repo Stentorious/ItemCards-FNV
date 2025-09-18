@@ -1,0 +1,119 @@
+{
+	"modName": "ItemCards",
+	"displayName": "$modDisplayName",
+	"description": "$modDescription",
+	"saveFile": "Stentorious/ItemCards.ini",
+	"minMCMVersion": 1.00,
+	"minModVersion": 1.00,
+	"requirements": [
+		{ "type": "file", "file": "NVSE/plugins/scripts/ln_ItemCards.txt" }
+	],
+	"submenus": {
+		"0": {
+			"listTitle": "$modDisplayName",
+			"pageTitle": "$modDisplayName",
+			"active": 1,
+			"columns": 2,
+			"enable": 1,
+			"options": {
+				"1": {
+					"title": "$General",
+					"enable": 1,
+					"type": 0
+				},
+				"3": {
+					"title": "$Keybind",
+					"state": { "form": "Goo1", "auxVar": "*ItemCard_INI", "key": 4, "value": 0, "disable": 1 },
+					"type": 3,
+					"mouse": "$KeybindMouse",
+					"vars": [{ "configINI": "General:iKeybind", "default": 42 }],
+					"call": { "type": "file", "value": "ItemCards/MCMExtender/UpdateOption.gek" }
+				},
+				"5": {
+					"title": "$ShowAlways",
+					"enable": 1,
+					"type": 5,
+					"mouse": "$ShowAlwaysMouse",
+					"vars": [{ "form": "Goo1", "auxVar": "*ItemCard_INI", "key": 4, "configINI": "General:bShowAlways", "default": 0 }]
+				},
+				"7": {
+					"title": "$ExtraWeaponStats",
+					"enable": 1,
+					"type": 5,
+					"mouse": "$ExtraWeaponStatsMouse",
+					"vars": [{ "uiTrait": "HUDMainMenu/IC/_ExtraStats", "configINI": "General:bExtraWeaponStats", "default": 1 }]
+				},
+				"9": {
+					"title": "$ArmorEffects",
+					"enable": 1,
+					"type": 5,
+					"mouse": "$ArmorEffectsMouse",
+					"vars": [{ "form": "Goo1", "auxVar": "*ItemCard_INI", "key": 1, "configINI": "General:bArmorEffects", "default": 1 }]
+				},
+				"11": {
+					"title": "$Ammo",
+					"enable": 1,
+					"type": 5,
+					"mouse": "$AmmoMouse",
+					"vars": [{ "form": "Goo1", "auxVar": "*ItemCard_INI", "key": 2, "configINI": "General:bAmmoItemCards", "default": 1 }]
+				},
+				"13": {
+					"title": "$WeaponMods",
+					"enable": 1,
+					"type": 5,
+					"mouse": "$WeaponModsMouse",
+					"vars": [{ "form": "Goo1", "auxVar": "*ItemCard_INI", "key": 3, "configINI": "General:bWeaponModItemCards", "default": 1 }]
+				},
+				"2": {
+					"title": "$Interface",
+					"enable": 1,
+					"type": 0
+				},
+				"4": {
+					"title": "$Position",
+					"enable": 1,
+					"type": 8,
+					"mouse": "$PositionMouse",
+					"vars": [
+						{ "uiTrait": "HUDMainMenu/IC/_OffsetX", "configINI": "Interface:fPosOffsetX", "default": 0 },
+						{ "uiTrait": "HUDMainMenu/IC/_OffsetY", "configINI": "Interface:fPosOffsetY", "default": 0 }
+					],
+					"scale": {
+						"setting1": "X:",
+						"setting2": "Y:",
+						"value1Decimal": 0,
+						"value2Decimal": 0,
+						"value1Increment": 10,
+						"value2Increment": 10,
+						"value1Min": -1000,
+						"value2Min": -1000,
+						"value1Max": 1000,
+						"value2Max": 1000
+					}
+				},
+				"6": {
+					"title": "$Opacity",
+					"enable": 1,
+					"type": 2,
+					"mouse": "$OpacityMouse",
+					"suffix": "%",
+					"vars": [{ "uiTrait": "HUDMainMenu/IC/_BGAlpha", "configINI": "Interface:fBackgroundOpacity", "default": 70 }],
+					"scale": { "valueDecimal": 0, "valueIncrement": 1, "valueMin": 0, "valueMax": 100, "suffix": "%" }
+				},
+				"10": {
+					"title": "$ModSupport",
+					"state": { "form": "Goo1", "auxVar": "*_B42Inspect.esp", "key": 0, "value": 1, "disable": 0 },
+					"type": 0
+				},
+				"12": {
+					"title": "$B42Inspect",
+					"state": { "form": "Goo1", "auxVar": "*_B42Inspect.esp", "key": 0, "value": 1, "disable": 0 },
+					"type": 5,
+					"mouse": "$B42InspectMouse",
+					"vars": [{ "form": "Goo1", "auxVar": "*ItemCard_INI", "key": 5, "configINI": "ModSupport:bB42Inspect", "default": 1 }],
+					"call": { "type": "file", "value": "ItemCards/MCMExtender/UpdateOption.gek" }
+				}
+			}
+		}
+	}
+}

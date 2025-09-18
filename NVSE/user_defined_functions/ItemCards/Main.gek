@@ -198,19 +198,11 @@ begin Function {rItem}
 		endif
 
 		; Display damage per second
-		if eval (Goo1.AuxVarGetFlt "*ItemCard_INI" 0 == 42 && Goo1.AuxVarGetFlt "*ItemCard_INI" 4 != 1)
-			if eval GetUIFloatAlt "HUDMainMenu\IC\_B42"
-				fItemStat = rEquipped.GetCalculatedWeaponDPS
-			elseif GetUIFloatAlt "HUDMainMenu\InfoWrap\visible" != -999
-				fItemStat = #(GetUIString "HUDMainMenu\InfoWrap\Info\justify_right_text:0\string")
-			else
-				fItemStat = #(GetUIString "HUDMainMenu\Info\justify_right_text:0\string")
-			endif
-			if rItem == rEquipped
-				Call (CompileScript "ItemCards\Stat.gek") fItemStat fItemStat "HUDMainMenu\IC\DPS\" 0
-			else
-				Call (CompileScript "ItemCards\Stat.gek") fItemStat (rEquipped.GetCalculatedWeaponDPS) "HUDMainMenu\IC\DPS\" 0
-			endif
+		fItemStat = rItem.GetCalculatedWeaponDPS
+		if rItem == rEquipped
+			Call (CompileScript "ItemCards\Stat.gek") fItemStat fItemStat "HUDMainMenu\IC\DPS\" 0
+		else
+			Call (CompileScript "ItemCards\Stat.gek") fItemStat (rEquipped.GetCalculatedWeaponDPS) "HUDMainMenu\IC\DPS\" 0
 		endif
 
 		; Display damage

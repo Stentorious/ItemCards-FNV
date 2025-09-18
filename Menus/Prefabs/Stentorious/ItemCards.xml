@@ -10,8 +10,22 @@
 	</visible>
 	<locus> 1 </locus>
 	<depth> 2 </depth>
-	<x> 250 </x>
-	<y> 458 </y>
+	<x>
+		<!-- <copy> 250 </copy> -->
+		<copy src="screen()" trait="width" />
+		<div> 2 </div>
+		<sub src="me()" trait="width" />
+		<sub> 155 </sub>
+		<add src="me()" trait="_OffsetX" />
+	</x>
+	<y>
+		<!-- <copy> 458 </copy> -->
+		<copy src="screen()" trait="height" />
+		<sub src="me()" trait="height" />
+		<div> 2 </div>
+		<add> 40.5 </add>
+		<add src="me()" trait="_OffsetY" />
+	</y>
 	<width> 530 </width>
 	<height> 120 </height>
 	<font>
@@ -32,6 +46,9 @@
 	<_ModOffset> 8 </_ModOffset>
 	<_B42> 0 </_B42>
 	<_alpha> 0 </_alpha>
+	<_OffsetX> 0 </_OffsetX>
+	<_OffsetY> 0 </_OffsetY>
+	<_ExtraStats> 0 </_ExtraStats>
 
 	<_y>
 		<copy src="child(VW)" trait="y" />
@@ -93,7 +110,10 @@
 
 	<rect name="CHD">
 		<include src="card_info.xml" />
-		<visible> <copy src="sibling(DAM)" trait="visible" /> </visible>
+		<visible>
+			<copy src="sibling(DAM)" trait="visible" />
+			<and src="parent()" trait="_ExtraStats" />
+		</visible>
 		<alpha> <copy src="parent()" trait="_alpha" /> </alpha>
 		<_line_alpha> <copy src="parent()" trait="_alpha" /> </_line_alpha>
 		<y>
@@ -503,6 +523,7 @@
 		<alpha>
 			<copy src="parent()" trait="_alpha" />
 			<mul src="parent()" trait="_BGAlpha" />
+			<div> 100 </div>
 		</alpha>
 		<depth> -1 </depth>
 		<x> -164 </x>

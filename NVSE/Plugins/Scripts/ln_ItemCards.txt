@@ -23,7 +23,7 @@ if eval GetNVSEVersion < 6 || (GetNVSEVersion == 6 && GetNVSERevision < 4)
    MessageBoxEx "Item Cards missing requirement!%rInstall xNVSE 6.4.0+."
    return
 endif
-if GetPluginVersion "JohnnyGuitarNVSE" < 200
+if GetPluginVersion "JohnnyGuitarNVSE" < 519
 	MessageBoxEx "Item Cards missing requirement!%rInstall latest JohnnyGuitar NVSE plugin."
 	return
 endif
@@ -40,16 +40,20 @@ if eval GetPluginVersion "yUI" >= 140 && FileExists "menus\ySI\ySI.xml"
 endif
 
 ; Load INI config
-Goo1.AuxVarSetFlt "*ItemCard_INI" (GetINIFloat_Cached "General:iKeybind" "Stentorious\ItemCards.ini") 0
-Goo1.AuxVarSetFlt "*ItemCard_INI" (GetINIFloat_Cached "General:bRebuildArmorEffects" "Stentorious\ItemCards.ini") 1
-Goo1.AuxVarSetFlt "*ItemCard_INI" (GetINIFloat_Cached "General:bAmmoItemCards" "Stentorious\ItemCards.ini") 2
-Goo1.AuxVarSetFlt "*ItemCard_INI" (GetINIFloat_Cached "General:bWeaponModItemCards" "Stentorious\ItemCards.ini") 3
-Goo1.AuxVarSetFlt "*ItemCard_INI" (GetINIFloat_Cached "General:bShowAlways" "Stentorious\ItemCards.ini") 4
+Goo1.AuxVarSetFlt "*ItemCard_INI" (GetMaxOf 0 (GetINIFloat_Cached "General:iKeybind" "Stentorious\ItemCards.ini" 42)) 0
+Goo1.AuxVarSetFlt "*ItemCard_INI" (eval GetINIFloat_Cached "General:bArmorEffects" "Stentorious\ItemCards.ini" 1) 1
+Goo1.AuxVarSetFlt "*ItemCard_INI" (eval GetINIFloat_Cached "General:bAmmoItemCards" "Stentorious\ItemCards.ini" 1) 2
+Goo1.AuxVarSetFlt "*ItemCard_INI" (eval GetINIFloat_Cached "General:bWeaponModItemCards" "Stentorious\ItemCards.ini" 1) 3
+Goo1.AuxVarSetFlt "*ItemCard_INI" (eval GetINIFloat_Cached "General:bShowAlways" "Stentorious\ItemCards.ini" 0) 4
+Goo1.AuxVarSetFlt "*ItemCard_INI" (eval GetINIFloat_Cached "ModSupport:bB42Inspect" "Stentorious\ItemCards.ini" 1) 5
 
 ; B42 Inspect compatibility
-if eval IsModLoaded "B42Inspect.esp" && GetINIFloat_Cached "General:bB42Inspect" "Stentorious\ItemCards.ini"
+Goo1.AuxVarSetFlt "*_B42Inspect.esp" (eval IsModLoaded "B42Inspect.esp")
+if eval Goo1.AuxVarGetFlt "*_B42Inspect.esp"
 	Goo1.AuxVarSetRef "*B42IQuest" (EditorIDToFormID "B42InspectQ")
-	SetGameMainLoopCallBack (CompileScript "ItemCards\B42Callback.gek") 1 1 1
+	if eval Goo1.AuxVarGetFlt "*ItemCard_INI" 5
+		SetGameMainLoopCallBack (CompileScript "ItemCards\B42Callback.gek") 1 1 1
+	endif
 endif
 
 ; lStewieAl's Tweaks Auxiliary-Variables
@@ -82,9 +86,9 @@ endif
 
 ; Inject item card
 InjectUIXML "HUDMainMenu" "data\menus\prefabs\Stentorious\ItemCards.xml"
-SetUIFloatAlt "HUDMainMenu\IC\x" (GetINIFloat_Cached "Interface:fCardPosHorizontal" "Stentorious\ItemCards.ini")
-SetUIFloatAlt "HUDMainMenu\IC\y" (GetINIFloat_Cached "Interface:fCardPosVertical" "Stentorious\ItemCards.ini")
-SetUIFloatAlt "HUDMainMenu\IC\_BGAlpha" (GetMaxOf 0 (GetMinOf 1 (GetINIFloat_Cached "Interface:fBackgroundOpacity" "Stentorious\ItemCards.ini")))
+SetUIFloatAlt "HUDMainMenu\IC\_OffsetX" (GetINIFloat_Cached "Interface:fPosOffsetX" "Stentorious\ItemCards.ini" 0)
+SetUIFloatAlt "HUDMainMenu\IC\_OffsetY" (GetINIFloat_Cached "Interface:fPosOffsetY" "Stentorious\ItemCards.ini" 0)
+SetUIFloatAlt "HUDMainMenu\IC\_BGAlpha" (Clamp (GetINIFloat_Cached "Interface:fBackgroundOpacity" "Stentorious\ItemCards.ini" 70) 0 100)
 SetUIFloatAlt "HUDMainMenu\IC\width" (GetUIFloatAlt "InventoryMenu\GLOW_BRANCH\IM_MainRect\IM_ItemInfoRect\width")
 SetUIFloatAlt "HUDMainMenu\IC\height" (GetUIFloatAlt "InventoryMenu\GLOW_BRANCH\IM_MainRect\IM_ItemInfoRect\height")
 SetUIFloatAlt "HUDMainMenu\IC\MI1\y" (GetUIFloatAlt "HUDMainMenu\IC\CND\y" * 2)
@@ -130,9 +134,7 @@ else
 endif
 
 ; Enable extra weapon stat info
-if eval (GetINIFloat_Cached "General:bExtraWeaponStats" "Stentorious\ItemCards.ini") != 1
-	SetUIFloatAlt "HUDMainMenu\IC\CHD\visible" 0
-endif
+SetUIFloatAlt "HUDMainMenu\IC\_ExtraStats" (eval GetINIFloat_Cached "General:bExtraWeaponStats" "Stentorious\ItemCards.ini" 1)
 
 ; Enable colorful CND
 if eval (GetINIFloat_Cached "Color:iCNDMeter" "Stentorious\PipBoyUITweaks.ini") > 0
@@ -174,9 +176,9 @@ CloseFileSO "Stentorious\PipBoyUITweaks.ini" 0
 SetEventHandler "OnCrosshairOn" (CompileScript "ItemCards\OnCrosshairOn.gek")
 SetEventHandler "OnCrosshairOff" (CompileScript "ItemCards\OnCrosshairOff.gek")
 SetEventHandler "ShowOff:OnAdd" (CompileScript "ItemCards\OnAdd.gek") "second"::player
-if eval Goo1.AuxVarGetFlt "*ItemCard_INI" 4 != 1
-	SetOnKeyDownEventHandler (CompileScript "ItemCards\OnKeyDown42.gek") 1 (Goo1.AuxVarGetFlt "*ItemCard_INI" 0)
-	SetOnKeyUpEventHandler (CompileScript "ItemCards\OnKeyUp42.gek") 1 (Goo1.AuxVarGetFlt "*ItemCard_INI" 0)
+if eval (int iKeyID = Goo1.AuxVarGetFlt "*ItemCard_INI" 0) > 0
+	SetOnKeyDownEventHandler (CompileScript "ItemCards\OnKeyDown.gek") 1 iKeyID
+	SetOnKeyUpEventHandler (CompileScript "ItemCards\OnKeyUp.gek") 1 iKeyID
 endif
 
 ; JLM support
