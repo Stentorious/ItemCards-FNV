@@ -7,3 +7,5 @@ true
 Stentorious\ItemCards\InjectTrait\CardInfoTextDarn.xml::@Prefabs\card_info.xml::CI_TitleText
 darnui
 true
+Stentorious\ItemCards.xml::HUDMainMenu
+true

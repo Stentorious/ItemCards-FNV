@@ -85,7 +85,6 @@ if eval StewVal "bWeightlessItems:Tweaks"
 endif
 
 ; Inject item card
-InjectUIXML "HUDMainMenu" "data\menus\prefabs\Stentorious\ItemCards.xml"
 SetUIFloatAlt "HUDMainMenu\IC\_OffsetX" (GetINIFloat_Cached "Interface:fPosOffsetX" "Stentorious\ItemCards.ini" 0)
 SetUIFloatAlt "HUDMainMenu\IC\_OffsetY" (GetINIFloat_Cached "Interface:fPosOffsetY" "Stentorious\ItemCards.ini" 0)
 SetUIFloatAlt "HUDMainMenu\IC\_BGAlpha" (Clamp (GetINIFloat_Cached "Interface:fBackgroundOpacity" "Stentorious\ItemCards.ini" 70) 0 100)

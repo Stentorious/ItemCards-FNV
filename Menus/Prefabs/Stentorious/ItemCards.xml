@@ -286,7 +286,7 @@
 			<y> 11.25 </y>
 		</rect>
 
-		<image name="CNDArrows">
+		<image name="CNDArrowsClone">
 			<visible> 1 </visible>
 			<alpha> <copy src="parent()" trait="alpha" /> </alpha>
 			<locus> 1 </locus>
