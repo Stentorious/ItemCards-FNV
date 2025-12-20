@@ -110,8 +110,8 @@ if eval IsModLoaded "DarNifiedUINV.esp"
 	SetUIFloatAlt "HUDMainMenu\IC\_BGOffset" 0
 	SetUIFloatAlt "HUDMainMenu\IC\_ModOffset" 24
 	SetUIFloatAlt "HUDMainMenu\IC\CND\ConditionMeter\height" 15
-	SetUIFloatAlt "HUDMainMenu\IC\CND\CNDArrows\height" 15
-	SetUIFloatAlt "HUDMainMenu\IC\CND\CNDArrows\width" 15
+	SetUIFloatAlt "HUDMainMenu\IC\CND\CNDArrowsClone\height" 15
+	SetUIFloatAlt "HUDMainMenu\IC\CND\CNDArrowsClone\width" 15
 	SetUIFloatAlt "HUDMainMenu\IC\EI\CI_ValueText\y" 9.5
 elseif eval IsModLoaded "Vanilla UI Plus.esp"
 	SetUIFloatAlt "HUDMainMenu\IC\DAM\_VUI+NoLabel" 1
@@ -121,8 +121,8 @@ elseif eval IsModLoaded "Vanilla UI Plus.esp"
 		SetUIFloatAlt "HUDMainMenu\IC\_BGOffset" -2
 		SetUIFloatAlt "HUDMainMenu\IC\_ModOffset" 24
 		SetUIFloatAlt "HUDMainMenu\IC\CND\ConditionMeter\height" 16
-		SetUIFloatAlt "HUDMainMenu\IC\CND\CNDArrows\width" 15
-		SetUIFloatAlt "HUDMainMenu\IC\CND\CNDArrows\height" 16
+		SetUIFloatAlt "HUDMainMenu\IC\CND\CNDArrowsClone\width" 15
+		SetUIFloatAlt "HUDMainMenu\IC\CND\CNDArrowsClone\height" 16
 		ModUIFloat "HUDMainMenu\IC\CND\ConditionMeter\y" -2.25
 	endif
 else
@@ -135,41 +135,8 @@ endif
 ; Enable extra weapon stat info
 SetUIFloatAlt "HUDMainMenu\IC\_ExtraStats" (eval GetINIFloat_Cached "General:bExtraWeaponStats" "Stentorious\ItemCards.ini" 1)
 
-; Enable colorful CND
-if eval (GetINIFloat_Cached "Color:iCNDMeter" "Stentorious\PipBoyUITweaks.ini") > 0
-	InjectUIXML "HUDMainMenu\IC\CND\ConditionMeter" "data\menus\prefabs\Stentorious\PipBoyUITweaks\ColorCNDMeterIC.xml"
-	SetUIFloatAlt "HUDMainMenu\IC\CND\ConditionMeter\MeterImage\visible" 0
-endif
-
-; ySI - Sorting Icons support
-if eval Goo1.AuxVarGetFlt "*_ySI-SortingIcons"
-
-	; Enable ySI icons (WeightInfo)
-	if eval GetINIFloat_Cached "ySI:bWeightInfoIcon" "Stentorious\PipBoyUITweaks.ini"
-		InjectUIXML "HUDMainMenu\IC\WG" "data\menus\prefabs\Stentorious\ySICapIcon.xml"
-		SetUIFloatAlt "HUDMainMenu\IC\WG\CI_TitleText\visible" 0
-		SetUIFloatAlt "HUDMainMenu\IC\WG\ySIImage\x" (GetUIFloatAlt "HUDMainMenu\IC\WG\CI_TitleText\x")
-		SetUIStringAlt "HUDMainMenu\IC\WG\ySIImage\filename" "interface\icons\Apparel_Other_Backpack.dds"
-	endif
-
-	; Enable ySI icons (ValueInfo)
-	if eval GetINIFloat_Cached "ySI:bValueInfoIcon" "Stentorious\PipBoyUITweaks.ini"
-		InjectUIXML "HUDMainMenu\IC\VAL" "data\menus\prefabs\Stentorious\ySICapIcon.xml"
-		SetUIFloatAlt "HUDMainMenu\IC\VAL\CI_TitleText\visible" 0
-		SetUIFloatAlt "HUDMainMenu\IC\VAL\ySIImage\x" (GetUIFloatAlt "HUDMainMenu\IC\VAL\CI_TitleText\x")
-	endif
-
-	; Enable ySI icons (AmmoInfo)
-	if eval GetINIFloat_Cached "ySI:bAmmoInfoIcon" "Stentorious\PipBoyUITweaks.ini"
-		InjectUIXML "HUDMainMenu\IC\AMMO" "data\menus\prefabs\Stentorious\ySIAmmoIcon.xml"
-		ModUIFloat "HUDMainMenu\IC\AMMO\CI_TitleText\x" ((GetUIFloatAlt "HUDMainMenu\IC\AMMO\ySIImage\width") + 8)
-	endif
-
-endif
-
 ; Clear INI cache
 CloseFileSO "Stentorious\ItemCards.ini" 0
-CloseFileSO "Stentorious\PipBoyUITweaks.ini" 0
 
 ; Item card update event handlers
 SetEventHandler "OnCrosshairOn" (CompileScript "ItemCards\OnCrosshairOn.gek")
