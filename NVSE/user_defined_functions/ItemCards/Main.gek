@@ -37,7 +37,7 @@ begin Function {rItem}
 	iModLight = Player.GetPerkModifier 55 0
 
 	; Armor
-	if iType == 24
+	if eval iType == 24
 
 		; Get armor ref to be compared
 		iBitMask = rItem.GetESM
@@ -72,6 +72,13 @@ begin Function {rItem}
 
 		; Display condition
 		SetUIFloatAlt "HUDMainMenu\IC\CND\ConditionMeter\_value" (rItem.GetItemRefCurrentHealth 1)
+		if eval (iColor = GetUIFloatAlt "HUDMainMenu\_PipTweaks+NumericCND") > 0
+			if eval iColor == 1
+				SetUIStringAlt "HUDMainMenu\IC\CND\ConditionMeter\Numeric_Value\string" "%.0f" (rItem.GetItemRefCurrentHealth 0)
+			elseif eval iColor == 2
+				SetUIStringAlt "HUDMainMenu\IC\CND\ConditionMeter\Numeric_Value\string" "%.0f%%" ((rItem.GetItemRefCurrentHealth 1) * 100)
+			endif
+		endif
 
 		; Display armor class string/icon
 		iArmorClass = GetAC (rItem.GBO)
@@ -119,7 +126,7 @@ begin Function {rItem}
 		iShowCard = 1
 
 	; Weapon
-	elseif iType == 40
+	elseif eval iType == 40
 
 		; Get weapon ref to be compared
 		rEquipped = Player.GetEquippedItemRef 5
@@ -299,6 +306,13 @@ begin Function {rItem}
 
 		; Display condition
 		SetUIFloatAlt "HUDMainMenu\IC\CND\ConditionMeter\_value" (rItem.GetItemRefCurrentHealth 1)
+		if eval (iColor = GetUIFloatAlt "HUDMainMenu\_PipTweaks+NumericCND") > 0
+			if eval iColor == 1
+				SetUIStringAlt "HUDMainMenu\IC\CND\ConditionMeter\Numeric_Value\string" "%.0f" (rItem.GetItemRefCurrentHealth 0)
+			elseif eval iColor == 2
+				SetUIStringAlt "HUDMainMenu\IC\CND\ConditionMeter\Numeric_Value\string" "%.0f%%" ((rItem.GetItemRefCurrentHealth 1) * 100)
+			endif
+		endif
 
 		iShowCard = 1
 
