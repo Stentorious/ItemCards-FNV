@@ -411,7 +411,7 @@ begin Function {rItem}
 		endif
 
 		; Show item card
-		SetUIFloatAlt "HUDMainMenu\_IC+M" iType
+		SetUIFloatAlt "HUDMainMenu\IC\_ItemType" iType
 		SetUIFloatAlt "HUDMainMenu\IC\EI\visible" iEI
 		SetUIFloatAlt "HUDMainMenu\IC\MI1\visible" iMI1
 		SetUIFloatAlt "HUDMainMenu\IC\MI2\visible" iMI2

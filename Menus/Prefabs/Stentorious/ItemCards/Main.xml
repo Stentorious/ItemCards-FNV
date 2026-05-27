@@ -1,6 +1,6 @@
-<_IC+M> 0 </_IC+M>
-
 <rect name="IC">
+
+	<_ItemType> 0 </_ItemType>
 
 	<visible>
 		<copy src="ReticleCenter" trait="visible" />
@@ -62,7 +62,7 @@
 		<add>
 			<copy src="child(VAL)" trait="height" />
 			<onlyif>
-				<copy src="io()" trait="_IC+M" />
+				<copy src="me()" trait="_ItemType" />
 				<gt> 40 </gt>
 			</onlyif>
 		</add>
@@ -167,7 +167,7 @@
 
 	<rect name="DAM">
 		<include src="card_info.xml" />
-		<visible> <copy src="io()" trait="_IC+M" /> <eq> 40 </eq> </visible>
+		<visible> <copy src="parent()" trait="_ItemType" /> <eq> 40 </eq> </visible>
 		<alpha> <copy src="parent()" trait="_alpha" /> </alpha>
 		<_line_alpha> <copy src="parent()" trait="_alpha" /> </_line_alpha>
 		<width> <copy src="parent()" trait="user0" /> </width>
@@ -196,7 +196,7 @@
 
 	<rect name="DT">
 		<include src="card_info.xml" />
-		<visible> <copy src="io()" trait="_IC+M" /> <eq> 24 </eq> </visible>
+		<visible> <copy src="parent()" trait="_ItemType" /> <eq> 24 </eq> </visible>
 		<alpha> <copy src="parent()" trait="_alpha" /> </alpha>
 		<_line_alpha> <copy src="parent()" trait="_alpha" /> </_line_alpha>
 		<width> <copy src="parent()" trait="user0" /> </width>
@@ -219,7 +219,7 @@
 			<copy> 0 </copy>
 			<sub src="parent()" trait="user1" />
 			<onlyif>
-				<copy src="io()" trait="_IC+M" />
+				<copy src="parent()" trait="_ItemType" />
 				<gt> 40 </gt>
 			</onlyif>
 		</y>
@@ -244,7 +244,7 @@
 			<copy> 0 </copy>
 			<sub src="parent()" trait="user1" />
 			<onlyif>
-				<copy src="io()" trait="_IC+M" />
+				<copy src="parent()" trait="_ItemType" />
 				<gt> 40 </gt>
 			</onlyif>
 		</y>
@@ -259,7 +259,7 @@
 
 		<include src="card_info.xml" />
 		<visible>
-			<copy src="io()" trait="_IC+M" />
+			<copy src="parent()" trait="_ItemType" />
 			<lte> 40 </lte>
 		</visible>
 		<alpha> <copy src="parent()" trait="_alpha" /> </alpha>
@@ -347,7 +347,7 @@
 				<copy src="parent()" trait="user1" />
 				<add src="me()" trait="height" />
 				<onlyif>
-					<copy src="io()" trait="_IC+M" />
+					<copy src="parent()" trait="_ItemType" />
 					<lte> 40 </lte>
 				</onlyif>
 			</add>
@@ -467,14 +467,14 @@
 			<add>
 				<copy src="sibling(WG)" trait="x" />
 				<onlyif>
-					<copy src="io()" trait="_IC+M" />
+					<copy src="parent()" trait="_ItemType" />
 					<lte> 40 </lte>
 				</onlyif>
 			</add>
 			<add>
 				<copy src="sibling(DAM)" trait="x" />
 				<onlyif>
-					<copy src="io()" trait="_IC+M" />
+					<copy src="parent()" trait="_ItemType" />
 					<gt> 40 </gt>
 				</onlyif>
 			</add>
@@ -534,7 +534,7 @@
 				<onlyif>
 					<copy src="sibling(EI)" trait="visible" />
 					<and>
-						<copy src="io()" trait="_IC+M" />
+						<copy src="parent()" trait="_ItemType" />
 						<lte> 40 </lte>
 					</and>
 				</onlyif>
@@ -589,7 +589,7 @@
 				<onlyif>
 					<copy src="sibling(EI)" trait="visible" />
 					<and>
-						<copy src="io()" trait="_IC+M" />
+						<copy src="parent()" trait="_ItemType" />
 						<gt> 40 </gt>
 					</and>
 				</onlyif>
