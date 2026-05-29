@@ -168,12 +168,9 @@
 			<add> 10 </add>
 		</x>
 		<y>
-			<copy src="sibling(DAMInfo)" trait="y" />
-			<onlyif src="sibling(DAMInfo)" trait="visible" />
-			<add>
-				<copy src="sibling(DamageThresholdInfo)" trait="y" />
-				<onlyif src="sibling(DamageThresholdInfo)" trait="visible" />
-			</add>
+			<copy src="sibling(DamageThresholdInfo)" trait="y" />
+			<onlyif src="sibling(DamageThresholdInfo)" trait="visible" />
+			<add src="sibling(DAMInfo)" trait="y" />
 		</y>
 		<width> <copy src="parent()" trait="user0" /> </width>
 		<height> <copy src="parent()" trait="user1" /> </height>
@@ -240,16 +237,14 @@
 			<locus> 1 </locus>
 			<depth> 10 </depth>
 			<x>
-				<copy src="sibling(ConditionMeter)" trait="x" />
+				<copy src="sibling(ConditionMeter)" trait="width" />
+				<div> 4 </div>
+				<onlyif src="parent()" trait="user6" />
+				<add src="sibling(ConditionMeter)" trait="x" />
 				<sub>
 					<copy src="sibling(ConditionMeter)" trait="width" />
 					<div> 2 </div>
 				</sub>
-				<add>
-					<copy src="sibling(ConditionMeter)" trait="width" />
-					<div> 4 </div>
-					<onlyif src="parent()" trait="user6" />
-				</add>
 				<sub>
 					<copy src="me()" trait="width" />
 					<mul> 0.2 </mul>
@@ -290,12 +285,10 @@
 		<alpha> <copy src="parent()" trait="_alpha" /> </alpha>
 		<_line_alpha> <copy src="parent()" trait="_alpha" /> </_line_alpha>
 		<y>
-			<copy src="sibling(WeightInfo)" trait="y" />
+			<copy src="sibling(ConditionInfo)" trait="height" />
+			<onlyif src="sibling(ConditionInfo)" trait="visible" />
+			<add src="sibling(WeightInfo)" trait="y" />
 			<add src="sibling(WeightInfo)" trait="height" />
-			<add>
-				<copy src="sibling(ConditionInfo)" trait="height" />
-				<onlyif src="sibling(ConditionInfo)" trait="visible" />
-			</add>
 		</y>
 		<width>
 			<copy src="parent()" trait="user0" />
@@ -395,14 +388,11 @@
 		<alpha> <copy src="parent()" trait="_alpha" /> </alpha>
 		<_line_alpha> <copy src="parent()" trait="_alpha" /> </_line_alpha>
 		<x>
-			<copy> 0 </copy>
-			<add>
-				<copy src="sibling(WeightInfo)" trait="x" />
-				<onlyif>
-					<copy src="parent()" trait="_ItemType" />
-					<lte> 40 </lte>
-				</onlyif>
-			</add>
+			<copy src="sibling(WeightInfo)" trait="x" />
+			<onlyif>
+				<copy src="parent()" trait="_ItemType" />
+				<lte> 40 </lte>
+			</onlyif>
 			<add>
 				<copy src="sibling(DAMInfo)" trait="x" />
 				<onlyif>
