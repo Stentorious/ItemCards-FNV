@@ -46,6 +46,7 @@ Goo1.AuxVarSetFlt "*ItemCard_INI" (eval GetINIFloat_Cached "General:bAmmo" "Sten
 Goo1.AuxVarSetFlt "*ItemCard_INI" (eval GetINIFloat_Cached "General:bWeaponMods" "Stentorious\ItemCards.ini" 1) 3
 Goo1.AuxVarSetFlt "*ItemCard_INI" (eval GetINIFloat_Cached "General:bShowAlways" "Stentorious\ItemCards.ini" 0) 4
 Goo1.AuxVarSetFlt "*ItemCard_INI" (eval GetINIFloat_Cached "ModSupport:bB42Inspect" "Stentorious\ItemCards.ini" 1) 5
+Goo1.AuxVarSetFlt "*ItemCard_INI" (eval GetINIFloat_Cached "ModSupport:bItemInspectMenu" "Stentorious\ItemCards.ini" 1) 6
 
 ; B42 Inspect compatibility
 Goo1.AuxVarSetFlt "*_B42Inspect.esp" (eval IsModLoaded "B42Inspect.esp")

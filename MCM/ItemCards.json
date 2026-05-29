@@ -102,16 +102,23 @@
 				},
 				"10": {
 					"title": "$ModSupport",
-					"state": { "form": "Goo1", "auxVar": "*_B42Inspect.esp", "key": 0, "value": 1, "disable": 0 },
+					"enable": 1,
 					"type": 0
 				},
 				"12": {
 					"title": "$B42Inspect",
-					"state": { "form": "Goo1", "auxVar": "*_B42Inspect.esp", "key": 0, "value": 1, "disable": 0 },
+					"state": { "form": "Goo1", "auxVar": "*_B42Inspect.esp", "key": 0, "value": 1, "disable": 1 },
 					"type": 5,
 					"mouse": "$B42InspectMouse",
 					"vars": [{ "form": "Goo1", "auxVar": "*ItemCard_INI", "key": 5, "configINI": "ModSupport:bB42Inspect", "default": 1 }],
 					"call": { "type": "file", "value": "ItemCards/MCMExtender/UpdateOption.gek" }
+				},
+				"14": {
+					"title": "$ItemInspectMenu",
+					"state": { "uiTrait": "HUDMainMenu/_ItemInspectMenu+Installed", "value": 1, "disable": 1 },
+					"type": 5,
+					"mouse": "$ItemInspectMenuMouse",
+					"vars": [{ "form": "Goo1", "auxVar": "*ItemCard_INI", "key": 6, "configINI": "ModSupport:bB42Inspect", "default": 1 }]
 				}
 			}
 		}
