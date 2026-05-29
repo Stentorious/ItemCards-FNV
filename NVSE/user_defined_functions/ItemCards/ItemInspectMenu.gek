@@ -414,7 +414,7 @@ begin Function {rItem}
 
 		; Modded HUD support
 		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\EffectsInfo\CI_ValueText\y" (GetUIFloatAlt "HUDMainMenu\ItemCard\EffectsInfo\CI_ValueText\y")
-		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\ConditionInfo\ConditionMeter\Numeric_Value\y" (GetUIFloatAlt "HUDMainMenu\ItemCard\ConditionInfo\ConditionMeter\Numeric_Value\")
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\ConditionInfo\ConditionMeter\Numeric_Value\y" (GetUIFloatAlt "HUDMainMenu\ItemCard\ConditionInfo\ConditionMeter\Numeric_Value\y")
 		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\SkillInfo\Icon\y" (GetUIFloatAlt "HUDMainMenu\ItemCard\SkillInfo\Icon\y")
 
 		; Toggle visibility
