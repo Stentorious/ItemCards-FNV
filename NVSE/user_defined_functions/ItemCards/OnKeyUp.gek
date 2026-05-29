@@ -6,12 +6,12 @@ float fTime
 begin Function {iKeyID}
 
 	; Hide item card on key bind release
-	if eval Goo1.AuxVarGetFlt "*ItemCard_INI" 4 || GetUIFloatAlt "HUDMainMenu\IC\_B42" || (fAlpha = GetUIFloatAlt "HUDMainMenu\IC\_alpha") == 0
+	if eval Goo1.AuxVarGetFlt "*ItemCard_INI" 4 || GetUIFloatAlt "HUDMainMenu\ItemCard\_B42" || (fAlpha = GetUIFloatAlt "HUDMainMenu\ItemCard\_alpha") == 0
 		return
 	endif
 
 	fTime = (fAlpha / 255) * 0.20
-	SetUIFloatGradual "HUDMainMenu\IC\_alpha" fAlpha 0 fTime
-	SetUIFloatGradual "HUDMainMenu\IC\CleanBackground\alpha" fAlpha 0 fTime
+	SetUIFloatGradual "HUDMainMenu\ItemCard\_alpha" fAlpha 0 fTime
+	SetUIFloatGradual "HUDMainMenu\ItemCard\CleanBackground\alpha" fAlpha 0 fTime
 
 end

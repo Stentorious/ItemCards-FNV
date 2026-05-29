@@ -1,6 +1,9 @@
-<rect name="IC">
+<rect name="ItemCard">
 
+	<_BackgroundPad> 6 </_BackgroundPad>
 	<_ItemType> 0 </_ItemType>
+	<_B42> 0 </_B42>
+	<_alpha> 0 </_alpha>
 
 	<visible>
 		<copy src="ReticleCenter" trait="visible" />
@@ -11,20 +14,18 @@
 	<locus> 1 </locus>
 	<depth> 2 </depth>
 	<x>
-		<!-- <copy> 250 </copy> -->
 		<copy src="screen()" trait="width" />
 		<div> 2 </div>
 		<sub src="me()" trait="width" />
 		<sub> 155 </sub>
-		<add src="me()" trait="_OffsetX" />
+		<add src="me()" trait="_ItemCard+OffsetX" />
 	</x>
 	<y>
-		<!-- <copy> 458 </copy> -->
 		<copy src="screen()" trait="height" />
-		<sub src="me()" trait="height" />
+		<sub src="me()" trait="user1" />
 		<div> 2 </div>
-		<add> 40.5 </add>
-		<add src="me()" trait="_OffsetY" />
+		<sub src="child(WeightInfo)" trait="y" />
+		<add src="me()" trait="_ItemCard+OffsetY" />
 	</y>
 	<width> 530 </width>
 	<height> 120 </height>
@@ -41,93 +42,42 @@
 		<copy src="me()" trait="height" />
 		<div> 3 </div>
 	</user1>
-	<_BGOffset> 4 </_BGOffset>
-	<_BGAlpha> 1 </_BGAlpha>
-	<_ModOffset> 8 </_ModOffset>
-	<_B42> 0 </_B42>
-	<_alpha> 0 </_alpha>
-	<_OffsetX> 0 </_OffsetX>
-	<_OffsetY> 0 </_OffsetY>
-	<_ExtraStats> 0 </_ExtraStats>
 
-	<_y>
-		<copy src="child(VW)" trait="y" />
-		<sub>
-			<copy src="child(CHC)" trait="height" />
-			<onlyif src="child(CHC)" trait="visible" />
-		</sub>
-	</_y>
 	<_height>
-		<copy> 0 </copy>
-		<add>
-			<copy src="child(VAL)" trait="height" />
-			<onlyif>
-				<copy src="me()" trait="_ItemType" />
-				<gt> 40 </gt>
-			</onlyif>
-		</add>
-		<add>
-			<copy src="child(DPS)" trait="height" />
-			<onlyif src="child(DPS)" trait="visible" />
-		</add>
-		<add>
-			<copy src="child(DAM)" trait="height" />
-			<onlyif src="child(DAM)" trait="visible" />
-		</add>
-		<add>
-			<copy src="child(CHC)" trait="height" />
-			<onlyif src="child(CHC)" trait="visible" />
-		</add>
-		<add>
-			<copy src="child(DR)" trait="height" />
-			<onlyif src="child(DR)" trait="visible" />
-		</add>
-		<add>
-			<copy src="child(DT)" trait="height" />
-			<onlyif src="child(DT)" trait="visible" />
-		</add>
-		<add>
-			<copy src="child(CND)" trait="height" />
-			<onlyif src="child(CND)" trait="visible" />
-		</add>
-		<add>
-			<copy src="child(EI)" trait="_height" />
-			<onlyif src="child(EI)" trait="visible" />
-		</add>
-		<add>
-			<copy src="child(MI1)" trait="height" />
-			<onlyif src="child(MI1)" trait="visible" />
-		</add>
-		<add>
-			<copy src="child(MI2)" trait="height" />
-			<onlyif src="child(MI2)" trait="visible" />
-		</add>
-		<add>
-			<copy src="child(MI3)" trait="height" />
-			<onlyif src="child(MI3)" trait="visible" />
-		</add>
+		<copy src="child(ConditionInfo)" trait="y" />
+		<add src="child(ConditionInfo)" trait="height" />
+		<onlyif src="child(ConditionInfo)" trait="visible" />
+		<max>
+			<copy src="child(EffectsInfo)" trait="y" />
+			<add src="child(EffectsInfo)" trait="_height" />
+			<onlyif src="child(EffectsInfo)" trait="visible" />
+		</max>
+		<max>
+			<copy src="child(ModInfoOne)" trait="y" />
+			<add src="child(ModInfoOne)" trait="height" />
+			<onlyif src="child(ModInfoOne)" trait="visible" />
+		</max>
+		<max>
+			<copy src="child(ModInfoTwo)" trait="y" />
+			<add src="child(ModInfoTwo)" trait="height" />
+			<onlyif src="child(ModInfoTwo)" trait="visible" />
+		</max>
+		<max>
+			<copy src="child(ModInfoThree)" trait="y" />
+			<add src="child(ModInfoThree)" trait="height" />
+			<onlyif src="child(ModInfoThree)" trait="visible" />
+		</max>
 	</_height>
 
-	<rect name="CHD">
+	<rect name="CritDAMInfo">
 		<include src="card_info.xml" />
 		<visible>
-			<copy src="sibling(DAM)" trait="visible" />
-			<and src="parent()" trait="_ExtraStats" />
+			<copy src="sibling(DAMInfo)" trait="visible" />
+			<and src="io()" trait="_ItemCard+ExtraStats" />
 		</visible>
 		<alpha> <copy src="parent()" trait="_alpha" /> </alpha>
 		<_line_alpha> <copy src="parent()" trait="_alpha" /> </_line_alpha>
-		<y>
-			<copy> 0 <copy>
-			<add>
-				<copy src="sibling(DAM)" trait="y" />
-				<onlyifnot src="sibling(DPS)" trait="visible" />
-			</add>
-			<add>
-				<copy src="sibling(DPS)" trait="y" />
-				<onlyif src="sibling(DPS)" trait="visible" />
-			</add>
-			<sub src="sibling(DAM)" trait="height" />
-		</y>
+		<y> 0 </y>
 		<width> <copy src="parent()" trait="user0" /> </width>
 		<height> <copy src="parent()" trait="user1" /> </height>
 		<font> <copy src="parent()" trait="font" /> </font>
@@ -135,13 +85,13 @@
 		<_ICDarNFix> 0 </_ICDarNFix>
 	</rect>
 
-	<rect name="CHC">
+	<rect name="CritChanceInfo">
 		<include src="card_info.xml" />
-		<visible> <copy src="sibling(CHD)" trait="visible" /> </visible>
+		<visible> <copy src="sibling(CritDAMInfo)" trait="visible" /> </visible>
 		<alpha> <copy src="parent()" trait="_alpha" /> </alpha>
 		<_line_alpha> <copy src="parent()" trait="_alpha" /> </_line_alpha>
-		<x> <copy src="sibling(WG)" trait="x" /> </x>
-		<y> <copy src="sibling(CHD)" trait="y" /> </y>
+		<x> <copy src="sibling(WeightInfo)" trait="x" /> </x>
+		<y> <copy src="sibling(CritDAMInfo)" trait="y" /> </y>
 		<width> <copy src="parent()" trait="user0" /> </width>
 		<height> <copy src="parent()" trait="user1" /> </height>
 		<font> <copy src="parent()" trait="font" /> </font>
@@ -149,14 +99,15 @@
 		<_ICDarNFix> 0 </_ICDarNFix>
 	</rect>
 
-	<rect name="DPS">
+	<rect name="DPSInfo">
 		<include src="card_info.xml" />
-		<visible> <copy src="sibling(DAM)" trait="visible" /> </visible>
+		<visible> <copy src="sibling(DAMInfo)" trait="visible" /> </visible>
 		<alpha> <copy src="parent()" trait="_alpha" /> </alpha>
 		<_line_alpha> <copy src="parent()" trait="_alpha" /> </_line_alpha>
 		<y>
-			<copy src="sibling(DAM)" trait="y" />
-			<sub src="sibling(DAM)" trait="height" />
+			<copy src="sibling(CritDAMInfo)" trait="y" />
+			<add src="sibling(CritDAMInfo)" trait="height" />
+			<onlyif src="sibling(CritDAMInfo)" trait="visible" />
 		</y>
 		<width> <copy src="parent()" trait="user0" /> </width>
 		<height> <copy src="parent()" trait="user1" /> </height>
@@ -165,11 +116,15 @@
 		<_ICDarNFix> 0 </_ICDarNFix>
 	</rect>
 
-	<rect name="DAM">
+	<rect name="DAMInfo">
 		<include src="card_info.xml" />
 		<visible> <copy src="parent()" trait="_ItemType" /> <eq> 40 </eq> </visible>
 		<alpha> <copy src="parent()" trait="_alpha" /> </alpha>
 		<_line_alpha> <copy src="parent()" trait="_alpha" /> </_line_alpha>
+		<y>
+			<copy src="sibling(DPSInfo)" trait="y" />
+			<add src="sibling(DPSInfo)" trait="height" />
+		</y>
 		<width> <copy src="parent()" trait="user0" /> </width>
 		<height> <copy src="parent()" trait="user1" /> </height>
 		<font> <copy src="parent()" trait="font" /> </font>
@@ -177,16 +132,12 @@
 		<_ICDarNFix> 0 </_ICDarNFix>
 	</rect>
 
-	<rect name="DR">
+	<rect name="DamageResistInfo">
 		<include src="card_info.xml" />
-		<visible> <copy src="sibling(DT)" trait="visible" /> </visible>
+		<visible> <copy src="sibling(DamageThresholdInfo)" trait="visible" /> </visible>
 		<alpha> <copy src="parent()" trait="_alpha" /> </alpha>
 		<_line_alpha> <copy src="parent()" trait="_alpha" /> </_line_alpha>
-		<y>
-			<copy src="sibling(DT)" trait="y" />
-			<sub src="sibling(DT)" trait="height" />
-			<onlyif src="sibling(DT)" trait="visible" />
-		</y>
+		<y> 0 </y>
 		<width> <copy src="parent()" trait="user0" /> </width>
 		<height> <copy src="parent()" trait="user1" /> </height>
 		<font> <copy src="parent()" trait="font" /> </font>
@@ -194,11 +145,12 @@
 		<_ICDarNFix> 0 </_ICDarNFix>
 	</rect>
 
-	<rect name="DT">
+	<rect name="DamageThresholdInfo">
 		<include src="card_info.xml" />
 		<visible> <copy src="parent()" trait="_ItemType" /> <eq> 24 </eq> </visible>
 		<alpha> <copy src="parent()" trait="_alpha" /> </alpha>
 		<_line_alpha> <copy src="parent()" trait="_alpha" /> </_line_alpha>
+		<y> <copy src="sibling(DamageThresholdInfo)" trait="height" /> </y>
 		<width> <copy src="parent()" trait="user0" /> </width>
 		<height> <copy src="parent()" trait="user1" /> </height>
 		<font> <copy src="parent()" trait="font" /> </font>
@@ -206,7 +158,7 @@
 		<_ICDarNFix> 0 </_ICDarNFix>
 	</rect>
 
-	<rect name="WG">
+	<rect name="WeightInfo">
 		<include src="card_info.xml" />
 		<visible> 1 </visible>
 		<alpha> <copy src="parent()" trait="_alpha" /> </alpha>
@@ -216,12 +168,12 @@
 			<add> 10 </add>
 		</x>
 		<y>
-			<copy> 0 </copy>
-			<sub src="parent()" trait="user1" />
-			<onlyif>
-				<copy src="parent()" trait="_ItemType" />
-				<gt> 40 </gt>
-			</onlyif>
+			<copy src="sibling(DAMInfo)" trait="y" />
+			<onlyif src="sibling(DAMInfo)" trait="visible" />
+			<add>
+				<copy src="sibling(DamageThresholdInfo)" trait="y" />
+				<onlyif src="sibling(DamageThresholdInfo)" trait="visible" />
+			</add>
 		</y>
 		<width> <copy src="parent()" trait="user0" /> </width>
 		<height> <copy src="parent()" trait="user1" /> </height>
@@ -230,7 +182,7 @@
 		<_ICDarNFix> 0 </_ICDarNFix>
 	</rect>
 
-	<rect name="VAL">
+	<rect name="ValueInfo">
 		<include src="card_info.xml" />
 		<visible> 1 </visible>
 		<alpha> <copy src="parent()" trait="_alpha" /> </alpha>
@@ -240,14 +192,7 @@
 			<add> 10 </add>
 			<mul> 2 </mul>
 		</x>
-		<y>
-			<copy> 0 </copy>
-			<sub src="parent()" trait="user1" />
-			<onlyif>
-				<copy src="parent()" trait="_ItemType" />
-				<gt> 40 </gt>
-			</onlyif>
-		</y>
+		<y> <copy src="sibling(WeightInfo)" trait="y" /> </y>
 		<width> <copy src="parent()" trait="user0" /> </width>
 		<height> <copy src="parent()" trait="user1" /> </height>
 		<font> <copy src="parent()" trait="font" /> </font>
@@ -255,7 +200,7 @@
 		<_ICDarNFix> 0 </_ICDarNFix>
 	</rect>
 
-	<rect name="CND">
+	<rect name="ConditionInfo">
 
 		<include src="card_info.xml" />
 		<visible>
@@ -264,11 +209,14 @@
 		</visible>
 		<alpha> <copy src="parent()" trait="_alpha" /> </alpha>
 		<_line_alpha> <copy src="parent()" trait="_alpha" /> </_line_alpha>
-		<y> <copy src="parent()" trait="user1" /> </y>
+		<y>
+			<copy src="sibling(WeightInfo)" trait="y" />
+			<add src="sibling(WeightInfo)" trait="height" />
+		</y>
 		<width> <copy src="parent()" trait="user0" /> </width>
 		<height> <copy src="parent()" trait="user1" /> </height>
 		<font> <copy src="parent()" trait="font" /> </font>
-		<user6> <not src="sibling(DR)" trait="visible" /> </user6>
+		<user6> <not src="sibling(DamageResistInfo)" trait="visible" /> </user6>
 		<_title> &-sInventoryCondition; </_title>
 		<_ICDarNFix> 0 </_ICDarNFix>
 
@@ -316,16 +264,16 @@
 
 	</rect>
 
-	<rect name="AMMO">
+	<rect name="AmmoInfo">
 		<include src="card_info.xml" />
-		<visible> <copy src="sibling(CND)" trait="visible" /> </visible>
+		<visible> <copy src="sibling(ConditionInfo)" trait="visible" /> </visible>
 		<alpha> <copy src="parent()" trait="_alpha" /> </alpha>
 		<_line_alpha> <copy src="parent()" trait="_alpha" /> </_line_alpha>
 		<x>
 			<copy src="parent()" trait="user0" />
 			<add> 10 </add>
 		</x>
-		<y> <copy src="parent()" trait="user1" /> </y>
+		<y> <copy src="sibling(ConditionInfo)" trait="y" /> </y>
 		<width>
 			<copy src="parent()" trait="user0" />
 			<mul> 2 </mul>
@@ -336,20 +284,17 @@
 		<_ICDarNFix> 0 </_ICDarNFix>
 	</rect>
 
-	<rect name="EI">
+	<rect name="EffectsInfo">
 		<include src="card_info.xml" />
 		<visible> 0 </visible>
 		<alpha> <copy src="parent()" trait="_alpha" /> </alpha>
 		<_line_alpha> <copy src="parent()" trait="_alpha" /> </_line_alpha>
 		<y>
-			<copy> 0 </copy>
+			<copy src="sibling(WeightInfo)" trait="y" />
+			<add src="sibling(WeightInfo)" trait="height" />
 			<add>
-				<copy src="parent()" trait="user1" />
-				<add src="me()" trait="height" />
-				<onlyif>
-					<copy src="parent()" trait="_ItemType" />
-					<lte> 40 </lte>
-				</onlyif>
+				<copy src="sibling(ConditionInfo)" trait="height" />
+				<onlyif src="sibling(ConditionInfo)" trait="visible" />
 			</add>
 		</y>
 		<width>
@@ -360,25 +305,20 @@
 		<height> <copy src="parent()" trait="user1" /> </height>
 		<font> <copy src="parent()" trait="font" /> </font>
 		<_title> &-sInventoryEffects; </_title>
-		<_h>
+		<_height>
 			<copy src="me()" trait="height" />
 			<add src="child(CI_ValueText)" trait="height" />
 			<sub src="child(CI_TitleText)" trait="height" />
-			<add src="parent()" trait="_BGOffset" />
-		</_h>
-		<_height>
-			<copy src="me()" trait="_h" />
-			<sub src="parent()" trait="_BGOffset" />
 		</_height>
 		<_ICDarNFix> 0 </_ICDarNFix>
 	</rect>
 
-	<rect name="MI1">
+	<rect name="ModInfoOne">
 		<include src="card_info.xml" />
 		<visible> 0 </visible>
 		<alpha> <copy src="parent()" trait="_alpha" /> </alpha>
 		<_line_alpha> <copy src="parent()" trait="_alpha" /> </_line_alpha>
-		<y> <copy src="parent()" trait="user1" /> </y>
+		<y> <copy src="sibling(EffectsInfo)" trait="y" /> </y>
 		<width>
 			<copy src="parent()" trait="user0" />
 			<mul> 3 </mul>
@@ -390,65 +330,57 @@
 		<_ICDarNFix> 0 </_ICDarNFix>
 	</rect>
 
-	<rect name="MI2">
+	<rect name="ModInfoTwo">
 		<include src="card_info.xml" />
 		<visible> 0 </visible>
 		<alpha> <copy src="parent()" trait="_alpha" /> </alpha>
 		<_line_alpha> <copy src="parent()" trait="_alpha" /> </_line_alpha>
-		<y> <copy src="parent()" trait="user1" /> </y>
-		<width>
-			<copy src="parent()" trait="user0" />
-			<mul> 3 </mul>
-			<add> 20 </add>
-		</width>
-		<height>
-			<copy src="parent()" trait="user1" />
-			<sub>
-				<copy src="parent()" trait="_ModOffset" />
-				<onlyif src="sibling(MI1)" trait="visible" />
-			</sub>
-		</height>
-		<font> <copy src="parent()" trait="font" /> </font>
-		<_title> </_title>
-		<_ICDarNFix> 0 </_ICDarNFix>
-	</rect>
-
-	<rect name="MI3">
-		<include src="card_info.xml" />
-		<visible> 0 </visible>
-		<alpha> <copy src="parent()" trait="_alpha" /> </alpha>
-		<_line_alpha> <copy src="parent()" trait="_alpha" /> </_line_alpha>
-		<y> <copy src="parent()" trait="user1" /> </y>
-		<width>
-			<copy src="parent()" trait="user0" />
-			<mul> 3 </mul>
-			<add> 20 </add>
-		</width>
-		<height>
-			<copy src="parent()" trait="user1" />
-			<sub>
-				<copy src="parent()" trait="_ModOffset" />
-				<onlyif src="sibling(MI1)" trait="visible" />
-			</sub>
-			<sub>
-				<copy src="parent()" trait="_ModOffset" />
-				<onlyif src="sibling(MI2)" trait="visible" />
-			</sub>
-		</height>
-		<font> <copy src="parent()" trait="font" /> </font>
-		<_title> </_title>
-		<_ICDarNFix> 0 </_ICDarNFix>
-	</rect>
-
-	<rect name="STR">
-		<include src="card_info.xml" />
-		<visible> <copy src="sibling(DAM)" trait="visible" /> </visible>
-		<alpha> <copy src="parent()" trait="_alpha" /> </alpha>
-		<_line_alpha> <copy src="parent()" trait="_alpha" /> </_line_alpha>
-		<x> <copy src="sibling(VAL)" trait="x" /> </x>
 		<y>
-			<copy src="sibling(DAM)" trait="y" />
-			<sub src="sibling(DAM)" trait="height" />
+			<copy src="sibling(ModInfoOne)" trait="y" />
+			<add src="sibling(ModInfoOne)" trait="height" />
+			<sub> 3 </sub>
+		</y>
+		<width>
+			<copy src="parent()" trait="user0" />
+			<mul> 3 </mul>
+			<add> 20 </add>
+		</width>
+		<height> <copy src="parent()" trait="user1" /> </height>
+		<font> <copy src="parent()" trait="font" /> </font>
+		<_title> </_title>
+		<_ICDarNFix> 0 </_ICDarNFix>
+	</rect>
+
+	<rect name="ModInfoThree">
+		<include src="card_info.xml" />
+		<visible> 0 </visible>
+		<alpha> <copy src="parent()" trait="_alpha" /> </alpha>
+		<_line_alpha> <copy src="parent()" trait="_alpha" /> </_line_alpha>
+		<y>
+			<copy src="sibling(ModInfoTwo)" trait="y" />
+			<add src="sibling(ModInfoTwo)" trait="height" />
+			<sub> 3 </sub>
+		</y>
+		<width>
+			<copy src="parent()" trait="user0" />
+			<mul> 3 </mul>
+			<add> 20 </add>
+		</width>
+		<height> <copy src="parent()" trait="user1" /> </height>
+		<font> <copy src="parent()" trait="font" /> </font>
+		<_title> </_title>
+		<_ICDarNFix> 0 </_ICDarNFix>
+	</rect>
+
+	<rect name="StrengthReqInfo">
+		<include src="card_info.xml" />
+		<visible> <copy src="sibling(DAMInfo)" trait="visible" /> </visible>
+		<alpha> <copy src="parent()" trait="_alpha" /> </alpha>
+		<_line_alpha> <copy src="parent()" trait="_alpha" /> </_line_alpha>
+		<x> <copy src="sibling(ValueInfo)" trait="x" /> </x>
+		<y>
+			<copy src="sibling(DAMInfo)" trait="y" />
+			<sub src="sibling(DAMInfo)" trait="height" />
 		</y>
 		<width> <copy src="parent()" trait="user0" /> </width>
 		<height> <copy src="parent()" trait="user1" /> </height>
@@ -457,7 +389,7 @@
 		<_ICDarNFix> 0 </_ICDarNFix>
 	</rect>
 
-	<rect name="VW">
+	<rect name="ValWGInfo">
 		<include src="card_info.xml" />
 		<visible> 1 </visible>
 		<alpha> <copy src="parent()" trait="_alpha" /> </alpha>
@@ -465,21 +397,21 @@
 		<x>
 			<copy> 0 </copy>
 			<add>
-				<copy src="sibling(WG)" trait="x" />
+				<copy src="sibling(WeightInfo)" trait="x" />
 				<onlyif>
 					<copy src="parent()" trait="_ItemType" />
 					<lte> 40 </lte>
 				</onlyif>
 			</add>
 			<add>
-				<copy src="sibling(DAM)" trait="x" />
+				<copy src="sibling(DAMInfo)" trait="x" />
 				<onlyif>
 					<copy src="parent()" trait="_ItemType" />
 					<gt> 40 </gt>
 				</onlyif>
 			</add>
 		</x>
-		<y> <copy src="sibling(STR)" trait="y" /> </y>
+		<y> <copy src="sibling(StrengthReqInfo)" trait="y" /> </y>
 		<width> <copy src="parent()" trait="user0" /> </width>
 		<height> <copy src="parent()" trait="user1" /> </height>
 		<font> <copy src="parent()" trait="font" /> </font>
@@ -487,16 +419,16 @@
 		<_ICDarNFix> 0 </_ICDarNFix>
 	</rect>
 
-	<rect name="SKL">
+	<rect name="SkillInfo">
 
 		<include src="card_info.xml" />
-		<visible> <copy src="sibling(CHD)" trait="visible" /> </visible>
+		<visible> <copy src="sibling(CritDAMInfo)" trait="visible" /> </visible>
 		<alpha> <copy src="parent()" trait="_alpha" /> </alpha>
 		<_line_alpha> <copy src="parent()" trait="_alpha" /> </_line_alpha>
-		<x> <copy src="sibling(STR)" trait="x" /> </x>
+		<x> <copy src="sibling(StrengthReqInfo)" trait="x" /> </x>
 		<y>
-			<copy src="sibling(STR)" trait="y" />
-			<sub src="sibling(STR)" trait="height" />
+			<copy src="sibling(StrengthReqInfo)" trait="y" />
+			<sub src="sibling(StrengthReqInfo)" trait="height" />
 		</y>
 		<width> <copy src="parent()" trait="user0" /> </width>
 		<height> <copy src="parent()" trait="user1" /> </height>
@@ -518,90 +450,54 @@
 
 	</rect>
 
-	<image name="BG">
+	<image name="BackgroundInner">
+		<visible> <copy src="sibling(Background)" trait="visible" /> </visible>
+		<alpha>
+			<copy src="sibling(Background)" trait="alpha" />
+			<mul> 0.1714 </mul>
+		</alpha>
+		<depth> -1 </depth>
+		<x> 0 </x>
+		<y> 0 </y>
+		<width>
+			<copy src="sibling(ValueInfo)" trait="x" />
+			<add src="sibling(ValueInfo)" trait="width" />
+		</width>
+		<height> <copy src="parent()" trait="_height" /> </height>
+		<zoom> &scale; </zoom>
+		<filename> Interface\Shared\solid.dds </filename>
+	</image>
+
+	<image name="Background">
 		<visible> 1 </visible>
 		<alpha>
 			<copy src="parent()" trait="_alpha" />
-			<mul src="parent()" trait="_BGAlpha" />
+			<mul src="io()" trait="_ItemCard+BackgroundAlpha" />
 			<div> 100 </div>
 		</alpha>
-		<depth> -1 </depth>
-		<x> -164 </x>
-		<y>
-			<copy> -70 </copy>
-			<sub>
-				<copy> 4 </copy>
-				<onlyif>
-					<copy src="sibling(EI)" trait="visible" />
-					<and>
-						<copy src="parent()" trait="_ItemType" />
-						<lte> 40 </lte>
-					</and>
-				</onlyif>
-			</sub>
-			<sub>
-				<copy src="me()" trait="_h" />
-				<onlyif src="sibling(CHD)" trait="visible" />
-			</sub>
-			<sub>
-				<copy> 4 </copy>
-				<onlyif src="sibling(MI1)" trait="visible" />
-			</sub>
-			<sub>
-				<copy> 4 </copy>
-				<onlyif src="sibling(MI2)" trait="visible" />
-			</sub>
-			<sub>
-				<copy> 4 </copy>
-				<onlyif src="sibling(MI3)" trait="visible" />
-			</sub>
-		</y>
+		<depth> -2 </depth>
+		<x>
+			<copy> 0 </copy>
+			<sub src="parent()" trait="_BackgroundPad" />
+		</x>
+		<y> <copy src="me()" trait="x" /> </y>
 		<width>
-			<copy src="parent()" trait="width" />
-			<add> 350 </add>
+			<copy src="sibling(ValueInfo)" trait="x" />
+			<add src="sibling(ValueInfo)" trait="width" />
+			<add src="parent()" trait="_BackgroundPad" />
+			<add src="parent()" trait="_BackgroundPad" />
 		</width>
 		<height>
-			<copy src="parent()" trait="height" />
-			<add> 50 </add>
-			<add>
-				<copy src="me()" trait="_h" />
-				<onlyif src="sibling(CHD)" trait="visible" />
-			</add>
-			<add>
-				<copy src="sibling(EI)" trait="_h" />
-				<onlyif src="sibling(EI)" trait="visible" />
-			</add>
-			<add>
-				<copy src="me()" trait="_h" />
-				<onlyif src="sibling(MI1)" trait="visible" />
-			</add>
-			<add>
-				<copy src="me()" trait="_h" />
-				<onlyif src="sibling(MI2)" trait="visible" />
-			</add>
-			<add>
-				<copy src="me()" trait="_h" />
-				<onlyif src="sibling(MI3)" trait="visible" />
-			</add>
-			<sub>
-				<copy src="me()" trait="_h" />
-				<mul> 2 </mul>
-				<onlyif>
-					<copy src="sibling(EI)" trait="visible" />
-					<and>
-						<copy src="parent()" trait="_ItemType" />
-						<gt> 40 </gt>
-					</and>
-				</onlyif>
-			</sub>
+			<copy src="parent()" trait="_height" />
+			<add src="parent()" trait="_BackgroundPad" />
+			<add src="parent()" trait="_BackgroundPad" />
 		</height>
 		<zoom> &scale; </zoom>
-		<brightness> 128 </brightness>
-		<filename> Stentorious\Interface\ItemCard\solid_black.dds </filename>
-		<_h>
-			<copy src="sibling(EI)" trait="height" />
-			<add src="parent()" trait="_BGOffset" />
-		</_h>
+		<systemcolor> 0 </systemcolor>
+		<red> 0 </red>
+		<green> 0 </green>
+		<blue> 0 </blue>
+		<filename> Interface\Shared\solid.dds </filename>
 	</image>
 
 </rect>

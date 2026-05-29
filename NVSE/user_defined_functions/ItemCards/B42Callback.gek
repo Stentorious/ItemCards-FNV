@@ -8,23 +8,23 @@ begin Function {}
 	rQuest = Goo1.AuxVarGetRef "*B42IQuest"
 	if eval GetVariable "fTimeline" rQuest > 0
 		if eval GetVariable "iAction" rQuest == 2 && GetVariable "iImmersive" rQuest == 0
-			if GetUIFloatAlt "HUDMainMenu\IC\_B42" == 0
+			if GetUIFloatAlt "HUDMainMenu\ItemCard\_B42" == 0
 				SetUIFloatAlt "HUDMainMenu\B42InsText\visible" 0
-				SetUIFloatAlt "HUDMainMenu\IC\_B42" 1
+				SetUIFloatAlt "HUDMainMenu\ItemCard\_B42" 1
 				rCrosshair = Player.GetEquippedWeaponRef
 				if eval IsReference rCrosshair
 					Call (CompileScript "ItemCards\Main.gek") rCrosshair
 				endif
 			endif
 			fAlpha = GetVariable "fAlpha" rQuest
-			SetUIFloatAlt "HUDMainMenu\IC\_alpha" fAlpha
-			SetUIFloatAlt "HUDMainMenu\IC\CleanBackground\alpha" fAlpha
+			SetUIFloatAlt "HUDMainMenu\ItemCard\_alpha" fAlpha
+			SetUIFloatAlt "HUDMainMenu\ItemCard\CleanBackground\alpha" fAlpha
 		endif
-	elseif eval GetUIFloatAlt "HUDMainMenu\IC\_B42"
+	elseif eval GetUIFloatAlt "HUDMainMenu\ItemCard\_B42"
 		SetUIFloatAlt "HUDMainMenu\B42InsText\visible" 1
-		SetUIFloatAlt "HUDMainMenu\IC\_B42" 0
-		SetUIFloatAlt "HUDMainMenu\IC\_alpha" 0
-		SetUIFloatAlt "HUDMainMenu\IC\CleanBackground\alpha" 0
+		SetUIFloatAlt "HUDMainMenu\ItemCard\_B42" 0
+		SetUIFloatAlt "HUDMainMenu\ItemCard\_alpha" 0
+		SetUIFloatAlt "HUDMainMenu\ItemCard\CleanBackground\alpha" 0
 		Call (CompileScript "ItemCards\OnCrosshairOn.gek") (GetCrosshairRef)
 	endif
 

@@ -30,9 +30,9 @@ Begin Function {fValue, iMenu, iSubmenu, iOption, aJSON}
 		else
 			SetGameMainLoopCallBack (CompileScript "ItemCards\B42Callback.gek") 0
 			SetUIFloatAlt "HUDMainMenu\B42InsText\visible" 1
-			SetUIFloatAlt "HUDMainMenu\IC\_B42" 0
-			SetUIFloatAlt "HUDMainMenu\IC\_alpha" 0
-			SetUIFloatAlt "HUDMainMenu\IC\CleanBackground\alpha" 0
+			SetUIFloatAlt "HUDMainMenu\ItemCard\_B42" 0
+			SetUIFloatAlt "HUDMainMenu\ItemCard\_alpha" 0
+			SetUIFloatAlt "HUDMainMenu\ItemCard\CleanBackground\alpha" 0
 		endif
 	endif
 

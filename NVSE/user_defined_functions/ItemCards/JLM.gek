@@ -35,7 +35,7 @@ begin Function {rContainer}
 		endif
 	endif
 
-	SetUIFloatAlt "HUDMainMenu\IC\DPS\CI_ValueText\systemcolor" 1
+	SetUIFloatAlt "HUDMainMenu\ItemCard\DPSInfo\CI_ValueText\systemcolor" 1
 
 	aDropped = aRefs = ar_null
 

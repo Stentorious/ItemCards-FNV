@@ -1,0 +1,449 @@
+ref	rItem
+
+int iModLight
+int iBitMask
+int iArmorClass
+int iType
+int iModType
+int iIndex
+int iCount
+int iColor
+int iShowCard
+int iEI
+int iMI1
+int iMI2
+int iMI3
+float LineThickness
+float fItemWg
+float fItemVal
+float fItemPrj
+float fItemRof
+float fItemAmmo
+float fItemStat
+float fEquipWg
+float fEquipStat
+ref	rEquipped
+ref rAmmo
+ref rObjectEffect
+ref rBaseEffect
+array_var aTemp
+array_var aOperation
+string_var sSign
+string_var sEffect
+
+begin Function {rItem}
+
+	; Default traits
+	SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\DPSInfo\_value" "--"
+
+	iType = rItem.GetType
+	iModLight = Player.GetPerkModifier 55 0
+
+	; Armor
+	if eval iType == 24
+
+		; Get armor ref to be compared
+		iBitMask = rItem.GetESM
+		if eval GetBit iBitMask 2
+			rEquipped = Player.GetEquippedItemRef 2
+		elseif iBitMask == 18432
+			rEquipped = Player.GetEquippedItemRef 11
+		elseif rItem.GetEquipType == 8
+			rEquipped = Player.GetEquippedItemRef 10
+		endif
+
+		; Get item weights
+		fItemWg = rItem.GetWeight
+		if eval fItemWg <= 2 && iModLight
+			fItemWg /= 2
+		endif
+		if eval IsFormValid rEquipped != 1
+			rEquipped = rItem
+			fEquipWg = fItemWg
+		else
+			fEquipWg = rEquipped.GetWeight
+			if eval fEquipWg <= 2 && iModLight
+				fEquipWg /= 2
+			endif
+		endif
+
+		; Display DR
+		Call (CompileScript "ItemCards\Stat.gek") (rItem.GetArmorEffectiveDR) (rEquipped.GetArmorEffectiveDR) "TutorialMenu\ItemInspectMenu\ItemCard\DamageResistInfo\" 0
+
+		; Display DT
+		Call (CompileScript "ItemCards\Stat.gek") (rItem.GetArmorEffectiveDT) (rEquipped.GetArmorEffectiveDT) "TutorialMenu\ItemInspectMenu\ItemCard\DamageThresholdInfo\" 0
+
+		; Display condition
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\ConditionInfo\ConditionMeter\_value" (rItem.GetItemRefCurrentHealth 1)
+		if eval (iColor = GetUIFloatAlt "HUDMainMenu\_PipTweaks+NumericCND") > 0
+			if eval iColor == 1
+				SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\ConditionInfo\ConditionMeter\Numeric_Value\string" "%.0f" (rItem.GetItemRefCurrentHealth 0)
+			elseif eval iColor == 2
+				SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\ConditionInfo\ConditionMeter\Numeric_Value\string" "%.0f%%" ((rItem.GetItemRefCurrentHealth 1) * 100)
+			endif
+		endif
+
+		; Display armor class string/icon
+		iArmorClass = GetAC (rItem.GBO)
+		if eval rItem.IsPA
+			SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\AmmoInfo\_title" (GetStringSetting "sKBPower")
+			SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\AmmoInfo\ySIImage\filename" "interface\icons\Apparel_ArmorD_Power.dds"
+		elseif iArmorClass == 1
+			SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\AmmoInfo\_title" (GetStringSetting "sArmorWeightLight")
+			SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\AmmoInfo\ySIImage\filename" "interface\icons\Apparel_ArmorA_Light.dds"
+		elseif iArmorClass == 2
+			SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\AmmoInfo\_title" (GetStringSetting "sArmorWeightMedium")
+			SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\AmmoInfo\ySIImage\filename" "interface\icons\Apparel_ArmorB_Medium.dds"
+		elseif iArmorClass == 3
+			SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\AmmoInfo\_title" (GetStringSetting "sArmorWeightHeavy")
+			SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\AmmoInfo\ySIImage\filename" "interface\icons\Apparel_ArmorC_Heavy.dds"
+		endif
+
+		; Display armor effect string
+		sEffect = rItem.GetItemEffectString
+		if Sv_Length sEffect > 0
+			SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\EffectsInfo\_value" "%z" (sEffect)
+			iEI = 1
+		endif
+
+		iShowCard = 1
+
+	; Weapon
+	elseif eval iType == 40
+
+		; Get weapon ref to be compared
+		rEquipped = Player.GetEquippedItemRef 5
+
+		; Get item weights
+		fItemWg = rItem.GetWeight
+		fItemRof = rItem.GetFireRate
+
+		; Display weapon mod names
+		iBitMask = rItem.GetWeaponRefModFlags
+		if iBitMask > 0
+			iCount = 0
+			iIndex = 0
+			while 4 > (iIndex += 1)
+				if eval GetBit iBitMask (iIndex - 1)
+					iCount += 1
+					if iCount == 1
+						SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\ModInfoOne\_value" (LNGetName (rItem.GetWeaponItemMod iIndex))
+						iMI1 = 1
+					elseif iCount == 2
+						SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\ModInfoTwo\_value" (LNGetName (rItem.GetWeaponItemMod iIndex))
+						iMI2 = 1
+					else
+						SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\ModInfoThree\_value" (LNGetName (rItem.GetWeaponItemMod iIndex))
+						iMI3 = 1
+					endif
+					iModType = rItem.GetWeaponItemModEffect iIndex
+					if iModType == 2
+						fItemAmmo += rItem.GetWeaponItemModValue1 iIndex
+					elseif iModType == 4
+						fItemWg -= rItem.GetWeaponItemModValue1 iIndex
+					elseif iModType == 8
+						fItemRof *= (1 + (rItem.GetWeaponItemModValue1 iIndex))
+					elseif iModType == 12
+						fItemPrj += rItem.GetWeaponItemModValue1 iIndex
+					endif
+				endif
+			loop
+
+		; Display weapon effect string
+		else
+			sEffect = rItem.GetItemEffectString
+			if Sv_Length sEffect > 0
+				SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\EffectsInfo\_value" "%z" (sEffect)
+				iEI = 1
+			endif
+		endif
+
+		; "Adjust Heavy Weapon Weight" perk modifier
+		if eval fItemWg >= 10
+			fItemWg = Player.GetPerkModifier 73 fItemWg
+		endif
+
+		; "Modify Light Items" perk modifier
+		if eval fItemWg <= 2 && iModLight
+			fItemWg /= 2
+		endif
+
+		if eval IsFormValid rEquipped != 1
+			rEquipped = rItem
+			fEquipWg = fItemWg
+		else
+			fEquipWg = Player.GetCalculatedEquippedWeight 0 32
+		endif
+
+		; Display damage per second
+		fItemStat = rItem.GetCalculatedWeaponDPS
+		if rItem == rEquipped
+			Call (CompileScript "ItemCards\Stat.gek") fItemStat fItemStat "TutorialMenu\ItemInspectMenu\ItemCard\DPSInfo\" 0
+		else
+			Call (CompileScript "ItemCards\Stat.gek") fItemStat (rEquipped.GetCalculatedWeaponDPS) "TutorialMenu\ItemInspectMenu\ItemCard\DPSInfo\" 0
+		endif
+
+		; Display damage
+		fItemPrj += rItem.GetNumProj
+		fItemStat = rItem.GetCalculatedWeaponDamage
+		fEquipStat = rEquipped.GetCalculatedWeaponDamage
+		sSign = ""
+		if fItemPrj > 1
+			iColor = 1
+			if fItemStat > fEquipStat
+				iColor = 3
+				sSign = "+"
+			elseif fItemStat < fEquipStat
+				iColor = 2
+				sSign = "-"
+			endif
+			if fItemStat > 0
+				SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\DAMInfo\_value" "%.1fx%g%z" (fItemStat / fItemPrj) fItemPrj sSign
+			else
+				SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\DAMInfo\_value" "--"
+			endif
+			SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\DAMInfo\CI_ValueText\systemcolor" iColor
+		else
+			Call (CompileScript "ItemCards\Stat.gek") fItemStat fEquipStat "TutorialMenu\ItemInspectMenu\ItemCard\DAMInfo\" 0
+		endif
+
+		; Display critical hit damage
+		if fItemStat > 0
+			fItemStat += Player.GetPerkModifier 2 (rItem.GetCritDam * Goo1.AuxVarGetFlt "*_Tweaks:bScaleCriticalDamage" 1) rItem Player
+			if fItemPrj > 1
+				SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\CritDAMInfo\_Value" "%.1fx%g" (fItemStat / fItemPrj) fItemPrj
+			else
+				SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\CritDAMInfo\_Value" "%.0f" fItemStat
+			endif
+		else
+			SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\CritDAMInfo\_Value" "--"
+		endif
+
+		; Display critical hit chance
+		fItemStat = Flr (Player.GetAV CritChance)
+		if eval rItem.GetIsAutomatic && Goo1.AuxVarGetFlt "*_Tweaks:bCritChanceIgnoresFireRate" == 0
+			fItemStat /= fItemRof
+		endif
+		fItemStat *= rItem.GetCritPerc
+		fItemStat = GetMaxOf 0 (GetMinOf 100 (Player.GetPerkModifier 1 fItemStat rItem Goo1))
+		SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\CritChanceInfo\_Value" "%.2f%%" fItemStat
+		if fItemStat == 0
+			SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\CritDAMInfo\_Value" "--"
+		endif
+
+		; Display strength requirement
+		fItemStat = GetMaxOf 0 ((rItem.GetReqStr) - (Player.GetPerkModifier 53 0 rItem))
+		if fItemStat > (Player.GetAV Strength)
+			SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\StrengthReqInfo\CI_TitleText\brightness" 128
+			SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\StrengthReqInfo\CI_ValueText\brightness" 128
+		else
+			SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\StrengthReqInfo\CI_TitleText\brightness" 255
+			SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\StrengthReqInfo\CI_ValueText\brightness" 255
+		endif
+		Call (CompileScript "ItemCards\Stat.gek") fItemStat (GetMaxOf 0 ((rEquipped.GetReqStr) - (Player.GetPerkModifier 53 0 rEquipped))) "TutorialMenu\ItemInspectMenu\ItemCard\StrengthReqInfo\" 0
+
+		; Display skill requirement
+		aTemp = Ar_Map 33::"big_guns", 34::"energy", 35::"explosives", 38::"melee", 41::"sm_arms", 45::"unarmed"
+		iCount = rItem.GetReqSkill
+		fItemStat = rItem.GetWeaponSkill
+		if Player.GetAV (fItemStat) < iCount
+			SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\SkillInfo\CI_ValueText\brightness" 128
+		else
+			SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\SkillInfo\CI_ValueText\brightness" 255
+		endif
+		SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\SkillInfo\Icon\filename" "Interface\Icons\TypeIcons\weap_skill_icon_%z.dds" (aTemp[fItemStat])
+		SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\SkillInfo\_value" "%g" iCount
+
+		; Display ammo name
+		rAmmo = rItem.GetWeaponAmmo
+		if eval IsFormValid rAmmo && rAmmo != RockItLauncherAmmo
+			if GetType rAmmo == 85
+				rAmmo = ListGetNthForm rAmmo 0
+			endif
+			fItemAmmo += rItem.GetClipSize
+			iCount = Player.GetItemCount rAmmo
+			if eval GetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\_B42"
+				SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\AmmoInfo\_title" "%z (%g/%g)" (GetAmmoName 1 rAmmo) (Player.GetPlayerCurrentAmmoRounds) (GetMaxOf 0 (iCount - fItemAmmo))
+			else
+				SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\AmmoInfo\_title" "%z (%g/%g)" (GetAmmoName 1 rAmmo) (GetMinOf fItemAmmo iCount) (GetMaxOf 0 (iCount - fItemAmmo))
+			endif
+		else
+			rAmmo = rItem.GBO
+			SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\AmmoInfo\_title" "--"
+		endif
+		if eval Goo1.AuxVarGetFlt "*_ySI-SortingIcons"
+			RunScriptSnippet 0 "SetUIStringAlt %qTutorialMenu\ItemInspectMenu\ItemCard\AmmoInfo\ySIImage\filename%q (ySIGetTrait %qicon%q %q%i%q)" rAmmo
+		endif
+
+		; Display condition
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\ConditionInfo\ConditionMeter\_value" (rItem.GetItemRefCurrentHealth 1)
+		if eval (iColor = GetUIFloatAlt "HUDMainMenu\_PipTweaks+NumericCND") > 0
+			if eval iColor == 1
+				SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\ConditionInfo\ConditionMeter\Numeric_Value\string" "%.0f" (rItem.GetItemRefCurrentHealth 0)
+			elseif eval iColor == 2
+				SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\ConditionInfo\ConditionMeter\Numeric_Value\string" "%.0f%%" ((rItem.GetItemRefCurrentHealth 1) * 100)
+			endif
+		endif
+
+		iShowCard = 1
+
+	; Ingestibles
+	elseif eval iType == 47 && Goo1.AuxVarGetFlt "*ItemCard_INI" 1
+
+		rEquipped = rItem
+		fItemWg = fEquipWg = rItem.GetWeight
+		if eval fItemWg <= 2 && iModLight
+			fEquipWg = fItemWg /= 2
+		endif
+
+		; Effect string
+		sEffect = rItem.GetItemEffectString
+		if Sv_Length sEffect > 0
+			SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\EffectsInfo\_value" "%z" (sEffect)
+			iEI = 1
+			iShowCard = 1
+		endif
+
+	; Ammo
+	elseif eval iType == 41 && Goo1.AuxVarGetFlt "*ItemCard_INI" 2
+
+		rEquipped = rItem
+		fItemWg = fEquipWg = rItem.GetWeight
+		if eval fItemWg <= 2 && iModLight
+			fEquipWg = fItemWg /= 2
+		endif
+
+		; Hardcore ammo weight
+		if eval Player.IsHardcore == 0 && Goo1.AuxVarGetFlt "*_Tweaks:bHardcoreTweaks" 1 == 0
+			fEquipWg = fItemWg = 0
+		endif
+
+		; Effect string
+		sEffect = rItem.GetItemEffectString
+		if Sv_Length sEffect > 0
+			SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\EffectsInfo\_value" "%z" (sEffect)
+			iEI = 1
+			iShowCard = 1
+		endif
+
+	; Weapon mod
+	elseif eval iType == 103 && Goo1.AuxVarGetFlt "*ItemCard_INI" 3
+
+		rEquipped = rItem
+		fItemWg = fEquipWg = rItem.GetWeight
+		if eval fItemWg <= 2 && iModLight
+			fEquipWg = fItemWg /= 2
+		endif
+
+		; Get weapon mod description
+		SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\EffectsInfo\_value" "%z" (rItem.GetItemEffectString)
+		iEI = 1
+		iShowCard = 1
+
+	endif
+
+	if eval iShowCard
+
+		; Set value
+		fItemVal = rItem.GetCalculatedItemValue
+		Call (CompileScript "ItemCards\Stat.gek") fItemVal (rEquipped.GetCalculatedItemValue) "TutorialMenu\ItemInspectMenu\ItemCard\ValueInfo\" 0
+
+		; "bWeightlessItems" lStewieAl Tweak
+		if eval Goo1.AuxVarGetFlt "*_Tweaks:bWeightlessItems" 0
+			if eval iType == 40 ; Weapon
+				fItemWg *= Goo1.AuxVarGetFlt "*_Tweaks:bWeightlessItems" 5
+				fEquipWg *= Goo1.AuxVarGetFlt "*_Tweaks:bWeightlessItems" 5
+			elseif eval iType == 47 ; Ingestible
+				fEquipWg = fItemWg *= Goo1.AuxVarGetFlt "*_Tweaks:bWeightlessItems" 1
+			elseif eval iType == 41 ; Ammo
+				fEquipWg = fItemWg *= Goo1.AuxVarGetFlt "*_Tweaks:bWeightlessItems" 2
+			elseif eval iType == 24 ; Armor
+				fItemWg *= Goo1.AuxVarGetFlt "*_Tweaks:bWeightlessItems" 3
+				fEquipWg *= Goo1.AuxVarGetFlt "*_Tweaks:bWeightlessItems" 3
+			elseif eval iType == 103 ; WeaponMods
+				fEquipWg = fItemWg *= Goo1.AuxVarGetFlt "*_Tweaks:bWeightlessItems" 4
+			endif
+		endif
+
+		iColor = 1
+		sSign = ""
+		if fItemWg < fEquipWg
+			iColor = 3
+			sSign = "+"
+		elseif fItemWg > fEquipWg
+			iColor = 2
+			sSign = "-"
+		endif
+		if fItemWg > 0
+			SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\WeightInfo\_value" "%.2f%z" fItemWg sSign
+		else
+			SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\WeightInfo\_value" "--"
+		endif
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\WeightInfo\CI_ValueText\systemcolor" iColor
+
+		; Set value/weight
+		if fItemWg > 0
+			SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\ValWGInfo\_value" "%.1f" (fItemVal / fItemWg)
+		else
+			SetUIStringAlt "TutorialMenu\ItemInspectMenu\ItemCard\ValWGInfo\_value" "--"
+		endif
+
+		; Show item card
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\_ItemType" iType
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\EffectsInfo\visible" iEI
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\ModInfoOne\visible" iMI1
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\ModInfoTwo\visible" iMI2
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\ModInfoThree\visible" iMI3
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\x" 50
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\width" (GetUIFloatAlt "HUDMainMenu\ItemCard\width")
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\height" (GetUIFloatAlt "HUDMainMenu\ItemCard\height")
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\font" (GetUIFloatAlt "HUDMainMenu\ItemCard\font")
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\ConditionInfo\ConditionMeter\y" (GetUIFloatAlt "HUDMainMenu\ItemCard\ConditionInfo\ConditionMeter\y")
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\ConditionInfo\ConditionMeter\height" (GetUIFloatAlt "HUDMainMenu\ItemCard\ConditionInfo\ConditionMeter\height")
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\ConditionInfo\CNDArrowsClone\height" (GetUIFloatAlt "HUDMainMenu\ItemCard\ConditionInfo\CNDArrowsClone\height")
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\ConditionInfo\CNDArrowsClone\width" (GetUIFloatAlt "HUDMainMenu\ItemCard\ConditionInfo\CNDArrowsClone\width")
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\DAMInfo\CI_ValueText\wrapwidth" 100
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CritDAMInfo\CI_ValueText\wrapwidth" 100
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CritChanceInfo\CI_ValueText\wrapwidth" 100
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\ModInfoOne\CI_ValueText\wrapwidth" (GetUIFloatAlt "HUDMainMenu\ItemCard\ModInfoOne\CI_ValueText\wrapwidth")
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\ModInfoTwo\CI_ValueText\wrapwidth" 500
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\ModInfoThree\CI_ValueText\wrapwidth" 500
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\ModInfoTwo\CI_TopLine\visible" 0
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\ModInfoThree\CI_TopLine\visible" 0
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\ModInfoTwo\CI_RightVert\visible" 0
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\ModInfoThree\CI_RightVert\visible" 0
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\DAMInfo\_VUI+NoLabel" 1
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\ModInfoOne\_VUI+NoLabel" 1
+
+		; Modded HUD support
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\EffectsInfo\CI_ValueText\y" (GetUIFloatAlt "HUDMainMenu\ItemCard\EffectsInfo\CI_ValueText\y")
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\ConditionInfo\ConditionMeter\Numeric_Value\y" (GetUIFloatAlt "HUDMainMenu\ItemCard\ConditionInfo\ConditionMeter\Numeric_Value\")
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\SkillInfo\Icon\y" (GetUIFloatAlt "HUDMainMenu\ItemCard\SkillInfo\Icon\y")
+
+		; Toggle visibility
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\y" ((GetUIFloatInherited "TutorialMenu\ItemInspectMenu\Controls\WindowBackground\y") + (GetUIFloatAlt "TutorialMenu\ItemInspectMenu\Controls\WindowBackground\height") - (GetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\Background\height") + (GetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\_BackgroundPad"))
+		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\_alpha" 255
+
+		; MAPMO support
+		if eval Goo1.AuxVarType "*MAPMOQuest" == 2 && GetVariable "ShowUITweaks" (Goo1.AuxVarGetRef "*MAPMOQuest") == 1 && GetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CleanBackground\visible" == -999 && FileExists "menus\prefabs\mapmo\clean_background.xml" > 0
+			InjectUIXML "TutorialMenu\ItemInspectMenu\ItemCard" "data\menus\prefabs\mapmo\clean_background.xml"
+			SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CleanBackground\LineT1\systemcolor" 1
+			SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CleanBackground\alpha" 0
+			LineThickness = GetUIFloatAlt "HUDMainMenu\_MAPMOLineThickness"
+			SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\Background\visible" 0
+			SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CleanBackground\visible" 1
+			SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CleanBackground\_colorized" (GetUIFloatAlt "HUDMainMenu\_MAPMOCleanMenuBackgroundsColorized")
+			SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CleanBackground\_faded" (GetUIFloatAlt "HUDMainMenu\_MAPMOUITweaksFadedEdges")
+			SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CleanBackground\x" LineThickness
+			SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CleanBackground\y" LineThickness
+			SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CleanBackground\width" (((GetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\ValueInfo\x") + (GetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\ValueInfo\width")) - (LineThickness * 2))
+			SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CleanBackground\height" ((GetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\_height") - (LineThickness * 2))
+			SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CleanBackground\alpha" 255
+		endif
+
+	endIf
+
+	aTemp = aOperation = Ar_Null
+	Sv_Destruct sSign sEffect
+
+end

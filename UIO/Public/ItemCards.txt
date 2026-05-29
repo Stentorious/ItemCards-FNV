@@ -1,8 +1,16 @@
+Stentorious\ItemCards\HUDMainMenu\_Root.xml::HUDMainMenu
+true
+Stentorious\ItemCards\Main.xml::HUDMainMenu
+true
 Stentorious\ItemCards\InjectTrait\CardInfoDarn.xml::@Prefabs\card_info.xml
 darnui
 Stentorious\ItemCards\InjectTrait\CardInfoTextDarn.xml::@Prefabs\card_info.xml::CI_ValueText
 darnui
 Stentorious\ItemCards\InjectTrait\CardInfoTextDarn.xml::@Prefabs\card_info.xml::CI_TitleText
 darnui
-Stentorious\ItemCards\Main.xml::HUDMainMenu
-true
+
+; Item Inspect Menu support
+Stentorious\ItemCards\Main.xml::@Prefabs\Stentorious\ItemInspectMenu\TutorialMenu\Main.xml::ItemInspectMenu
+#Stentorious\ItemInspectMenu\TutorialMenu\Main.xml
+Stentorious\ItemCards\TutorialMenu\_Root.xml::TutorialMenu
+#Stentorious\ItemInspectMenu\TutorialMenu\Main.xml

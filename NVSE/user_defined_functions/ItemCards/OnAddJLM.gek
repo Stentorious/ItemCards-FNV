@@ -4,16 +4,16 @@ float fTime
 begin Function {}
 
 	; Not in inspect animation
-	if eval GetUIFloatAlt "HUDMainMenu\IC\_B42"
+	if eval GetUIFloatAlt "HUDMainMenu\ItemCard\_B42"
 		return
 	endif
 
 	; Update item card on JLM item take
-	fAlpha = GetUIFloatAlt "HUDMainMenu\IC\_alpha"
+	fAlpha = GetUIFloatAlt "HUDMainMenu\ItemCard\_alpha"
 	if eval fAlpha > 0
 		fTime = (fAlpha / 255) * 0.20
-		SetUIFloatGradual "HUDMainMenu\IC\_alpha" fAlpha 0 fTime
-		SetUIFloatGradual "HUDMainMenu\IC\CleanBackground\alpha" fAlpha 0 fTime
+		SetUIFloatGradual "HUDMainMenu\ItemCard\_alpha" fAlpha 0 fTime
+		SetUIFloatGradual "HUDMainMenu\ItemCard\CleanBackground\alpha" fAlpha 0 fTime
 	endif
 	Call (CompileScript "ItemCards\JLM.gek") (GetRefVariable "rContainer" (Goo1.AuxVarGetRef "*JLMQuest"))
 

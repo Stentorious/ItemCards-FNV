@@ -1,0 +1,4 @@
+<_ItemCard+BackgroundAlpha> <copy src="sibling(HUDMainMenu)" trait="_ItemCard+BackgroundAlpha" /> </_ItemCard+BackgroundAlpha>
+<_ItemCard+OffsetX> <copy src="sibling(HUDMainMenu)" trait="_ItemCard+OffsetX" /> </_ItemCard+OffsetX>
+<_ItemCard+OffsetY> <copy src="sibling(HUDMainMenu)" trait="_ItemCard+OffsetY" /> </_ItemCard+OffsetY>
+<_ItemCard+ExtraStats> <copy src="sibling(HUDMainMenu)" trait="_ItemCard+ExtraStats" /> </_ItemCard+ExtraStats>
