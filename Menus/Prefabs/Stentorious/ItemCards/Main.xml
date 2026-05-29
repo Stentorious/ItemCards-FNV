@@ -168,9 +168,12 @@
 			<add> 10 </add>
 		</x>
 		<y>
-			<copy src="sibling(DamageThresholdInfo)" trait="y" />
-			<onlyif src="sibling(DamageThresholdInfo)" trait="visible" />
-			<add src="sibling(DAMInfo)" trait="y" />
+			<copy src="sibling(DAMInfo)" trait="y" />
+			<onlyif src="sibling(DAMInfo)" trait="visible" />
+			<add>
+				<copy src="sibling(DamageThresholdInfo)" trait="y" />
+				<onlyif src="sibling(DamageThresholdInfo)" trait="visible" />
+			</add>
 		</y>
 		<width> <copy src="parent()" trait="user0" /> </width>
 		<height> <copy src="parent()" trait="user1" /> </height>
