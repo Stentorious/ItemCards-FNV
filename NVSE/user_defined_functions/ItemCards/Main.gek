@@ -24,10 +24,7 @@ float fEquipWg
 float fEquipStat
 ref	rEquipped
 ref rAmmo
-ref rObjectEffect
-ref rBaseEffect
 array_var aTemp
-array_var aOperation
 string_var sSign
 string_var sEffect
 
@@ -400,7 +397,7 @@ begin Function {rItem}
 
 	endIf
 
-	aTemp = aOperation = Ar_Null
+	aTemp = Ar_Null
 	Sv_Destruct sSign sEffect
 
 end

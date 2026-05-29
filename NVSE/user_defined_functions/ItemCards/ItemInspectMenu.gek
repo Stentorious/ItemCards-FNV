@@ -24,10 +24,7 @@ float fEquipWg
 float fEquipStat
 ref	rEquipped
 ref rAmmo
-ref rObjectEffect
-ref rBaseEffect
 array_var aTemp
-array_var aOperation
 string_var sSign
 string_var sEffect
 
@@ -421,29 +418,31 @@ begin Function {rItem}
 		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\SkillInfo\Icon\y" (GetUIFloatAlt "HUDMainMenu\ItemCard\SkillInfo\Icon\y")
 
 		; Toggle visibility
-		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\y" ((GetUIFloatInherited "TutorialMenu\ItemInspectMenu\Controls\WindowBackground\y") + (GetUIFloatAlt "TutorialMenu\ItemInspectMenu\Controls\WindowBackground\height") - (GetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\Background\height") + (GetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\_BackgroundPad"))
-		SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\_alpha" 255
+		CallAfterFrames 2 (begin function {}
+			SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\y" ((GetUIFloatInherited "TutorialMenu\ItemInspectMenu\Controls\WindowBackground\y") + (GetUIFloatAlt "TutorialMenu\ItemInspectMenu\Controls\WindowBackground\height") - (GetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\Background\height") + (GetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\_BackgroundPad"))
+			SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\_alpha" 255
+		end) 1
 
 		; MAPMO support
-		if eval Goo1.AuxVarType "*MAPMOQuest" == 2 && GetVariable "ShowUITweaks" (Goo1.AuxVarGetRef "*MAPMOQuest") == 1 && GetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CleanBackground\visible" == -999 && FileExists "menus\prefabs\mapmo\clean_background.xml" > 0
-			InjectUIXML "TutorialMenu\ItemInspectMenu\ItemCard" "data\menus\prefabs\mapmo\clean_background.xml"
-			SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CleanBackground\LineT1\systemcolor" 1
-			SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CleanBackground\alpha" 0
-			LineThickness = GetUIFloatAlt "HUDMainMenu\_MAPMOLineThickness"
-			SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\Background\visible" 0
-			SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CleanBackground\visible" 1
-			SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CleanBackground\_colorized" (GetUIFloatAlt "HUDMainMenu\_MAPMOCleanMenuBackgroundsColorized")
-			SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CleanBackground\_faded" (GetUIFloatAlt "HUDMainMenu\_MAPMOUITweaksFadedEdges")
-			SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CleanBackground\x" LineThickness
-			SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CleanBackground\y" LineThickness
-			SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CleanBackground\width" (((GetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\ValueInfo\x") + (GetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\ValueInfo\width")) - (LineThickness * 2))
-			SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CleanBackground\height" ((GetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\_height") - (LineThickness * 2))
-			SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CleanBackground\alpha" 255
-		endif
+		;if eval Goo1.AuxVarType "*MAPMOQuest" == 2 && GetVariable "ShowUITweaks" (Goo1.AuxVarGetRef "*MAPMOQuest") == 1 && GetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CleanBackground\visible" == -999 && FileExists "menus\prefabs\mapmo\clean_background.xml" > 0
+		;	InjectUIXML "TutorialMenu\ItemInspectMenu\ItemCard" "data\menus\prefabs\mapmo\clean_background.xml"
+		;	SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CleanBackground\LineT1\systemcolor" 1
+		;	SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CleanBackground\alpha" 0
+		;	LineThickness = GetUIFloatAlt "HUDMainMenu\_MAPMOLineThickness"
+		;	SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\Background\visible" 0
+		;	SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CleanBackground\visible" 1
+		;	SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CleanBackground\_colorized" (GetUIFloatAlt "HUDMainMenu\_MAPMOCleanMenuBackgroundsColorized")
+		;	SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CleanBackground\_faded" (GetUIFloatAlt "HUDMainMenu\_MAPMOUITweaksFadedEdges")
+		;	SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CleanBackground\x" LineThickness
+		;	SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CleanBackground\y" LineThickness
+		;	SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CleanBackground\width" (((GetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\ValueInfo\x") + (GetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\ValueInfo\width")) - (LineThickness * 2))
+		;	SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CleanBackground\height" ((GetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\_height") - (LineThickness * 2))
+		;	SetUIFloatAlt "TutorialMenu\ItemInspectMenu\ItemCard\CleanBackground\alpha" 255
+		;endif
 
 	endIf
 
-	aTemp = aOperation = Ar_Null
+	aTemp = Ar_Null
 	Sv_Destruct sSign sEffect
 
 end
