@@ -37,32 +37,32 @@
 					"vars": [{ "form": "Goo1", "auxVar": "*ItemCard_INI", "key": 4, "configINI": "General:bShowAlways", "default": 0 }]
 				},
 				"7": {
-					"title": "$ExtraWeaponStats",
-					"enable": 1,
-					"type": 5,
-					"mouse": "$ExtraWeaponStatsMouse",
-					"vars": [{ "uiTrait": "HUDMainMenu/_ItemCard+ExtraStats", "configINI": "General:bExtraWeaponStats", "default": 1 }]
-				},
-				"9": {
 					"title": "$Ingestibles",
 					"enable": 1,
 					"type": 5,
 					"mouse": "$IngestiblesMouse",
 					"vars": [{ "form": "Goo1", "auxVar": "*ItemCard_INI", "key": 1, "configINI": "General:bIngestibles", "default": 1 }]
 				},
-				"11": {
+				"9": {
 					"title": "$Ammo",
 					"enable": 1,
 					"type": 5,
 					"mouse": "$AmmoMouse",
-					"vars": [{ "form": "Goo1", "auxVar": "*ItemCard_INI", "key": 2, "configINI": "General:bAmmoItemCards", "default": 1 }]
+					"vars": [{ "form": "Goo1", "auxVar": "*ItemCard_INI", "key": 2, "configINI": "General:bAmmo", "default": 1 }]
 				},
-				"13": {
+				"11": {
 					"title": "$WeaponMods",
 					"enable": 1,
 					"type": 5,
 					"mouse": "$WeaponModsMouse",
-					"vars": [{ "form": "Goo1", "auxVar": "*ItemCard_INI", "key": 3, "configINI": "General:bWeaponModItemCards", "default": 1 }]
+					"vars": [{ "form": "Goo1", "auxVar": "*ItemCard_INI", "key": 3, "configINI": "General:bWeaponMods", "default": 1 }]
+				},
+				"13": {
+					"title": "$ExtraWeaponStats",
+					"enable": 1,
+					"type": 5,
+					"mouse": "$ExtraWeaponStatsMouse",
+					"vars": [{ "uiTrait": "HUDMainMenu/_ItemCard+ExtraStats", "configINI": "General:bExtraWeaponStats", "default": 1 }]
 				},
 				"2": {
 					"title": "$Interface",
