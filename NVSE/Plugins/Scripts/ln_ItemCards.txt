@@ -23,8 +23,8 @@ if eval GetNVSEVersionFull < 6.48
    MessageBoxEx "Item Cards missing requirement!%rInstall xNVSE 6.4.8+."
    return
 endif
-if GetPluginVersion "JohnnyGuitarNVSE" < 527
-	MessageBoxEx "Item Cards missing requirement!%rInstall latest JohnnyGuitar NVSE plugin."
+if GetPluginVersion "JohnnyGuitarNVSE" < 528
+	MessageBoxEx "Item Cards missing requirement!%rInstall JohnnyGuitar NVSE 5.28+."
 	return
 endif
 if GetPluginVersion "ShowOffNVSE Plugin" < 145
