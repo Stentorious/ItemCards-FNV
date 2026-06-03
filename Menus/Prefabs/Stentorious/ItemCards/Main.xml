@@ -44,9 +44,14 @@
 	</user1>
 
 	<_height>
-		<copy src="child(ConditionInfo)" trait="y" />
-		<add src="child(ConditionInfo)" trait="height" />
-		<onlyif src="child(ConditionInfo)" trait="visible" />
+		<copy src="child(WeightInfo)" trait="y" />
+		<add src="child(WeightInfo)" trait="height" />
+		<onlyif src="child(WeightInfo)" trait="visible" />
+		<max>
+			<copy src="child(ConditionInfo)" trait="y" />
+			<add src="child(ConditionInfo)" trait="height" />
+			<onlyif src="child(ConditionInfo)" trait="visible" />
+		</max>
 		<max>
 			<copy src="child(EffectsInfo)" trait="y" />
 			<add src="child(EffectsInfo)" trait="_height" />
@@ -68,6 +73,14 @@
 			<onlyif src="child(ModInfoThree)" trait="visible" />
 		</max>
 	</_height>
+	<_HasCondition>
+		<copy src="me()" trait="_ItemType" />
+		<eq> 24 </eq>
+		<or>
+			<copy src="me()" trait="_ItemType" />
+			<eq> 40 </eq>
+		</or>
+	</_HasCondition>
 
 	<rect name="CritDAMInfo">
 		<include src="card_info.xml" />
@@ -203,10 +216,7 @@
 	<rect name="ConditionInfo">
 
 		<include src="card_info.xml" />
-		<visible>
-			<copy src="parent()" trait="_ItemType" />
-			<lte> 40 </lte>
-		</visible>
+		<visible> <copy src="parent()" trait="_HasCondition" /> </visible>
 		<alpha> <copy src="parent()" trait="_alpha" /> </alpha>
 		<_line_alpha> <copy src="parent()" trait="_alpha" /> </_line_alpha>
 		<y>
@@ -392,16 +402,10 @@
 		<_line_alpha> <copy src="parent()" trait="_alpha" /> </_line_alpha>
 		<x>
 			<copy src="sibling(WeightInfo)" trait="x" />
-			<onlyif>
-				<copy src="parent()" trait="_ItemType" />
-				<lte> 40 </lte>
-			</onlyif>
+			<onlyif src="parent()" trait="_HasCondition" />
 			<add>
 				<copy src="sibling(DAMInfo)" trait="x" />
-				<onlyif>
-					<copy src="parent()" trait="_ItemType" />
-					<gt> 40 </gt>
-				</onlyif>
+				<onlyifnot src="parent()" trait="_HasCondition" />
 			</add>
 		</x>
 		<y> <copy src="sibling(StrengthReqInfo)" trait="y" /> </y>
