@@ -7,7 +7,7 @@ begin Function {}
 		return
 	endif
 
-	if eval GetVariable "ShowUITweaks" (Goo1.AuxVarGetRef "*MAPMOQuest") == 0
+	if eval GetVariable "ShowUITweaks" (AuxStringMapGetRef "*ReqCheck_Form" "MAPMOMainQUEST") == 0
 		SetUIFloatAlt "HUDMainMenu\ItemCard\Background\visible" 1
 		SetUIFloatAlt "HUDMainMenu\ItemCard\CleanBackground\visible" 0
 		return

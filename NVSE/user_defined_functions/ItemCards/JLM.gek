@@ -1,12 +1,17 @@
-ref	rContainer
-
 int iSize
 float fItemCND
+ref	rContainer
 ref rItem
 array_var aDropped
 array_var aRefs
 
-begin Function {rContainer}
+begin Function {}
+
+	if eval AuxStringMapGetFlt "*ReqCheck_dll" "JustLootMenuNVSE" > -1
+		rContainer = Player.AuxVarGetRef "*_JAMCurrentItem" 6
+	else
+		rContainer = GetRefVariable "rContainer" (Goo1.AuxVarGetRef "*JLMQuest")
+	endif
 
 	if eval IsFormValid rContainer == 0
 		return

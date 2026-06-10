@@ -124,7 +124,8 @@ if eval (int iKeyID = Goo1.AuxVarGetFlt "*ItemCard_INI" 0) > 0
 endif
 
 ; JLM support
-if eval IsModLoaded "JustAssortedMods.esp" || IsModLoaded "JustLootMenu.esp"
+AuxStringMapSetFlt "*ReqCheck_dll" "JustLootMenuNVSE" (GetPluginVersion "JustLootMenuNVSE")
+if eval IsModLoaded "JustAssortedMods.esp" || IsModLoaded "JustLootMenu.esp" || AuxStringMapGetFlt "*ReqCheck_dll" "JustLootMenuNVSE" > -1
 	Goo1.AuxVarSetRef "*JLMQuest" (EditorIDToFormID "JLM")
 	SetOnKeyDownEventHandler (CompileScript "ItemCards\OnKeyDown264265.gek") 1 264
 	SetOnKeyDownEventHandler (CompileScript "ItemCards\OnKeyDown264265.gek") 1 265
@@ -132,7 +133,8 @@ if eval IsModLoaded "JustAssortedMods.esp" || IsModLoaded "JustLootMenu.esp"
 endif
 
 ; MAPMO Support
-if eval IsModLoaded "Main And Pause Menus Overhaul.esm"
-	Goo1.AuxVarSetRef "*MAPMOQuest" (EditorIDToFormID "MAPMOMainQUEST")
+AuxStringMapSetFlt "*ReqCheck_Mod" "Main And Pause Menus Overhaul.esm" (IsModLoaded "Main And Pause Menus Overhaul.esm")
+if eval AuxStringMapGetFlt "*ReqCheck_Mod" "Main And Pause Menus Overhaul.esm"
+	AuxStringMapSetRef "*ReqCheck_Form" "MAPMOMainQUEST" (EditorIDToFormID "MAPMOMainQUEST")
 	SetGameMainLoopCallBack (CompileScript "ItemCards\MAPMOCallback.gek") 1 1 1
 endif
