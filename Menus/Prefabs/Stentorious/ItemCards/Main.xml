@@ -18,14 +18,14 @@
 		<div> 2 </div>
 		<sub src="me()" trait="width" />
 		<sub> 155 </sub>
-		<add src="me()" trait="_ItemCard+OffsetX" />
+		<add src="io()" trait="_ItemCard+OffsetX" />
 	</x>
 	<y>
 		<copy src="screen()" trait="height" />
 		<sub src="me()" trait="user1" />
 		<div> 2 </div>
 		<sub src="child(WeightInfo)" trait="y" />
-		<add src="me()" trait="_ItemCard+OffsetY" />
+		<add src="io()" trait="_ItemCard+OffsetY" />
 	</y>
 	<width> 530 </width>
 	<height> 120 </height>
